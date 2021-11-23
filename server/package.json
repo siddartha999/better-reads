@@ -1,0 +1,20 @@
+{
+  "name": "better-reads",
+  "version": "1.0.0",
+  "description": "An social network for Bookworms",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
+  },
+  "author": "Siddartha Tummala",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
