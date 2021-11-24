@@ -10,7 +10,9 @@
   "author": "Siddartha Tummala",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.1",
+    "googleapis": "^91.0.0",
     "mongoose": "^6.0.13"
   },
   "devDependencies": {

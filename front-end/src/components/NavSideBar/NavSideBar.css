@@ -1,0 +1,7 @@
+.NavSideBar-item {
+    text-decoration: none;
+}
+
+.NavSideBar-item.active > div {
+    background-color: lightyellow;
+}
