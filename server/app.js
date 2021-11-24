@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const cors=require("cors");
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true});
 const db = mongoose.connection;
@@ -13,13 +14,21 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 //app.use(cookieParser());
 
+
+//Enable the service for CORS.
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+}
+app.use(cors(corsOptions))
+
 //Create Routing
 const userProfileRouter = require('./routes/userProfile');
 app.use('/user', userProfileRouter);
 
-const googleOauthRoute = require('./routes/getGoogleOauthUrlRoute');
-const cookieParser = require('cookie-parser');
-app.use('auth/google/url', googleOauthRoute);
+const oauthRoute = require('./routes/auth');
+app.use('/api/login', oauthRoute);
 
 app.listen(PORT, () => console.log("Server is up & running!"));
 

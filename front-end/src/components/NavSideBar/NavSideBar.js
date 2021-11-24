@@ -33,7 +33,7 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <List>
-          <NavLink to="/" exact className="NavSideBar-item"> 
+          <NavLink exact to="/" className="NavSideBar-item"> 
             <ListItem button key="Home"> 
                 <ListItemIcon>
                     <HomeIcon />
@@ -42,7 +42,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </NavLink>
 
-        <NavLink to="/profile" exact className="NavSideBar-item">
+        <NavLink exact to="/profile" className="NavSideBar-item">
             <ListItem button key="Profile"> 
                 <ListItemIcon>
                     <PersonIcon />
@@ -51,7 +51,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink to="/mybooks" exact className="NavSideBar-item"> 
+        <NavLink exact to="/mybooks" className="NavSideBar-item"> 
             <ListItem button key="My Books"> 
                 <ListItemIcon>
                     <BookIcon />
@@ -61,7 +61,7 @@ function ResponsiveDrawer(props) {
         </NavLink>
         
 
-        <NavLink to="/friends" exact className="NavSideBar-item">
+        <NavLink exact to="/friends" className="NavSideBar-item">
             <ListItem button key="Friends"> 
                 <ListItemIcon>
                     <GroupIcon />
@@ -70,7 +70,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink to="/groups" exact className="NavSideBar-item">
+        <NavLink exact to="/groups" className="NavSideBar-item">
             <ListItem button key="Groups"> 
                 <ListItemIcon>
                     <GroupsIcon />

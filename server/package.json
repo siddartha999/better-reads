@@ -11,8 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "google-auth-library": "^7.10.2",
     "googleapis": "^91.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13"
   },
   "devDependencies": {
