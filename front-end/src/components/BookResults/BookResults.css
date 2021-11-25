@@ -1,0 +1,64 @@
+.BookResults {
+    overflow: hidden;
+    height: 100%;
+}
+
+.BookResults-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 90%;
+    overflow: auto;
+}
+
+.BookResults-pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}
+
+.BookResults-result-card {
+    width: 25%;
+    height: 60%;
+    transition: 0.3s;
+    padding: 1rem;
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.BookResults-result-card.mobile {
+    width: 80%;
+}
+
+.BookResults-result-card.tablet {
+    width: 50%;
+}
+
+.BookResults-result-card > .MuiPaper-root {
+    width: 100%;
+    height: 100%;
+}
+
+.BookResults-result-card > .MuiPaper-root > img {
+    height: 75%;
+    width: 75%;
+    position: relative;
+    left: 12.5%;
+}
+
+.BookResults-result-card-details-wrapper {
+    height: 25%;
+}
+
+.BookResults-result-card-details-wrapper > .MuiCardContent-root > .MuiTypography-h6 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+}
+
+.BookResults-no-results {
+    position: relative;
+    top: 50%;
+}
