@@ -1,0 +1,52 @@
+.Login {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.Login-header {
+    width: 100%;
+}
+
+.Login-header-title-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Login-header-title-wrapper > img {
+    width: 125px;
+    height: 125px;
+}
+
+.Login-header-title {
+    display: inline;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.Login-header-caption {
+    font-family: ui-monospace;
+    font-size: 1.25rem;
+}
+
+.Login-wrapper {
+    width: 75%;
+    height: 50%;
+    transition: 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+}
+
+.Login-google {
+    position: relative;
+    top: 25%;
+}
+
+.Login-google > button {
+    background-color: blueviolet !important;
+    color: whitesmoke !important;
+}

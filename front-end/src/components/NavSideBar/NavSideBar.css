@@ -13,9 +13,17 @@
 .NavSideBar-user-profile-wrapper {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     line-height: 1rem;
+}
+
+.NavSideBar-user-profile-info-wrapper {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .NavSideBar-user-profile-pic-wrapper {
@@ -42,4 +50,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.NavSideBar-logo {
+    width: 70px;
 }

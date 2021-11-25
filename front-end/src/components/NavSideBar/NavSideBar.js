@@ -110,11 +110,18 @@ function ResponsiveDrawer(props) {
           </IconButton>
           
           <div className="NavSideBar-user-profile-wrapper">
-            <div className="NavSideBar-user-profile-pic-wrapper">
-                <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} className="NavSideBar-user-profile-pic" />
+
+          <div className="NavSideBar-logo-wrapper">
+              <img src={process.env.PUBLIC_URL + "/Logo.png"} className="NavSideBar-logo" />
             </div>
-            <div className="NavSideBar-user-profile-name-wrapper">
-                <p  className="NavSideBar-user-profile-name">{user.profile.name}</p>
+
+            <div className="NavSideBar-user-profile-info-wrapper"> 
+              <div className="NavSideBar-user-profile-pic-wrapper">
+                  <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} className="NavSideBar-user-profile-pic" />
+              </div>
+              <div className="NavSideBar-user-profile-name-wrapper">
+                  <p  className="NavSideBar-user-profile-name">{user.profile.name}</p>
+              </div>
             </div>
           </div>
 

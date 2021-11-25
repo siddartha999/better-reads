@@ -19,7 +19,7 @@ const Profile = () => {
 
     return (
         <div className={`Profile ${width.current < 600 ? 'mobile' : ''}`}>
-            <div className="Profile-details-wrapper">
+            <div className={`Profile-details-wrapper ${width.current < 600 ? 'mobile' : ''}`}>
                 <div className="Profile-image-wrapper">
                     <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} 
                     className="Profile-user-pic" />
