@@ -37,6 +37,18 @@ body {
   color: #61dafb;
 }
 
+.App-body-wrapper {
+  width: calc(100% - 240px);
+  position: absolute;
+  left: 240px;
+  height: 90%;
+}
+
+.App-body-wrapper.mobile {
+  width: 100%;
+  left: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

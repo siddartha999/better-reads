@@ -1,0 +1,10 @@
+.Home-SearchBar-wrapper {
+    width: 100%;
+}
+
+.Home-SearchBar {
+    width: 90% !important;
+    left: 5%;
+    position: relative;
+    border-radius: 1.5rem !important;
+}
