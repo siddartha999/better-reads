@@ -1,7 +1,45 @@
+.NavSideBar {
+    height: 10%;
+}
+
 .NavSideBar-item {
     text-decoration: none;
 }
 
 .NavSideBar-item.active > div {
     background-color: lightyellow;
+}
+
+.NavSideBar-user-profile-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    line-height: 1rem;
+}
+
+.NavSideBar-user-profile-pic-wrapper {
+    margin-right: 0.5rem;
+}
+
+.NavSideBar-user-profile-pic {
+    height: 40px;
+    width: 40px;
+    border-width: 1px;
+    border-radius: 9999px;
+    border-color: rgba(0, 0, 0, 0.04);
+    outline-style: none;
+    box-shadow: rgb(0 0 0 / 2%) 0px 0px 2px inset;
+}
+
+.NavSideBar-user-profile-name-wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.NavSideBar-user-profile-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

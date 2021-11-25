@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import './NavSideBar.css';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -18,12 +18,15 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import { NavLink } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const {user} = useContext(UserContext);
+  const profilePicUrl = user.profile.profilePicUrl;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -34,7 +37,7 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <List>
           <NavLink exact to="/" className="NavSideBar-item"> 
-            <ListItem button key="Home"> 
+            <ListItem button key="Home" onClick={handleDrawerToggle}> 
                 <ListItemIcon>
                     <HomeIcon />
                 </ListItemIcon>
@@ -42,7 +45,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </NavLink>
 
-        <NavLink exact to="/profile" className="NavSideBar-item">
+        <NavLink exact to="/profile" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Profile"> 
                 <ListItemIcon>
                     <PersonIcon />
@@ -51,7 +54,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink exact to="/mybooks" className="NavSideBar-item"> 
+        <NavLink exact to="/mybooks" className="NavSideBar-item" onClick={handleDrawerToggle}> 
             <ListItem button key="My Books"> 
                 <ListItemIcon>
                     <BookIcon />
@@ -61,7 +64,7 @@ function ResponsiveDrawer(props) {
         </NavLink>
         
 
-        <NavLink exact to="/friends" className="NavSideBar-item">
+        <NavLink exact to="/friends" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Friends"> 
                 <ListItemIcon>
                     <GroupIcon />
@@ -70,7 +73,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink exact to="/groups" className="NavSideBar-item">
+        <NavLink exact to="/groups" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Groups"> 
                 <ListItemIcon>
                     <GroupsIcon />
@@ -86,7 +89,7 @@ function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} className="NavSideBar">
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -105,6 +108,16 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
+          
+          <div className="NavSideBar-user-profile-wrapper">
+            <div className="NavSideBar-user-profile-pic-wrapper">
+                <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} className="NavSideBar-user-profile-pic" />
+            </div>
+            <div className="NavSideBar-user-profile-name-wrapper">
+                <p  className="NavSideBar-user-profile-name">{user.profile.name}</p>
+            </div>
+          </div>
+
         </Toolbar>
       </AppBar>
       <Box

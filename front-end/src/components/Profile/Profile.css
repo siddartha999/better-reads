@@ -1,0 +1,38 @@
+.Profile {
+    height: 90%;
+    width: calc(100% - 240px);
+    position: absolute;
+    left: 240px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Profile.mobile {
+    width: 100%;
+    left:0;
+}
+
+.Profile-details-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 25%;
+}
+
+.Profile-user-pic {
+    width: 125px;
+    height: 125px;
+    border-width: 1px;
+    border-radius: 9999px;
+    border-color: rgba(0, 0, 0, 0.04);
+    outline-style: none;
+    box-shadow: rgb(0 0 0 / 2%) 0px 0px 2px inset;
+}
+
+.Profile-name {
+    font-family: Bookman;
+    font-size: 1.25rem;
+    font-weight: bolder;
+}

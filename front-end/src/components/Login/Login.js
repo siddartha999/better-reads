@@ -6,7 +6,6 @@ import { UserContext } from '../../contexts/UserContext';
 function Login() {
     const {user, setUser} = useContext(UserContext);
     const responseGoogle = (res) => {
-        console.log(res);
         axios({
             method: "POST",
             url: process.env.REACT_APP_SERVER_URL + "/api/login/googlelogin",
@@ -16,8 +15,6 @@ function Login() {
                 alert(response.data.error);
             }
             else {
-                console.log('Google Login success');
-                console.log(response);
                 const userObj = {
                     token: response.data.token,
                     profile: response.data.user
