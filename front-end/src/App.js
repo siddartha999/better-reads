@@ -10,6 +10,7 @@ import { ScreenWidthContext } from './contexts/ScreenWidthContext';
 import Profile from './components/Profile/Profile';
 import SnackBar from './components/Snackbar/Snackbar';
 import BookResults from './components/BookResults/BookResults';
+import Book from './components/Book/Book';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -32,9 +33,10 @@ function App() {
       <NavSidebar />
       <div className={`App-body-wrapper ${width < 600 ? 'mobile' : ''}`}>
         <Routes>
-            <Route exact path='/' element={<Home />} />
-            <Route exact path='/profile' element={<Profile />} />
-            <Route exact path='/bookresults' element={<BookResults />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/bookresults' element={<BookResults />} />
+            <Route path='/book/:bookId' element={<Book />} />
         </Routes>
       </div>
     </>

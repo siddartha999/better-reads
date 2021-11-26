@@ -38,6 +38,12 @@
 .BookResults-result-card > .MuiPaper-root {
     width: 100%;
     height: 100%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.BookResults-result-card > .MuiPaper-root:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .BookResults-result-card > .MuiPaper-root > img {
@@ -45,6 +51,7 @@
     width: 75%;
     position: relative;
     left: 12.5%;
+    object-fit: fill;
 }
 
 .BookResults-result-card-details-wrapper {

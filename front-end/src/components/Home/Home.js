@@ -4,7 +4,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import axios from 'axios';
 import './Home.css';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 const CONST_SEARCH_TYPES_OBJ = {
     BOOK: 'Book',
     AUTHOR: 'Author'

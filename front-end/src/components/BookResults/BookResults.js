@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
+import { useNavigate } from 'react-router-dom';
 
 const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
@@ -18,12 +19,23 @@ const BookResults = (props) => {
     const paginationCount = Math.ceil(data.length / 10);
     const [paginationIndex, setPaginationIndex] = useState(1);
     const width = useContext(ScreenWidthContext);
+    const navigate = useNavigate();
 
     /**
      * Function to handle the change in pagination index.
      */
     const handlePaginationChange = (event, value) => {
         setPaginationIndex(value);
+    };
+
+    /**
+     * This function redirects the user to the selected individual search result page.
+     */
+    const searchResultSelected = (event) => {
+        const worksId = event.currentTarget.getAttribute("itemid");
+        let id = worksId.split("/");
+        id = id.pop();
+        navigate(`/book/${id}`, {state: id});
     };
 
     const noResultsJSX = (
@@ -35,9 +47,9 @@ const BookResults = (props) => {
         <div className="BookResults-wrapper">
             {
                 data.slice(10 * (paginationIndex - 1), 10 * paginationIndex).map(obj => (
-                    <div key={obj.key} coverid={obj.cover_i} itemid={obj.key} 
+                    <div key={obj.key} coverid={obj.cover_i} itemID={obj.key} 
                         className={`BookResults-result-card ${width < 800 ? 'mobile' : width < 1000 ? 'tablet' : ''}`}>
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} itemID={obj.key} onClick={searchResultSelected}>
                             <CardMedia
                                 component="img"
                                 alt={ALT_IMAGE_PATH}

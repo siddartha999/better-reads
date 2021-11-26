@@ -1,0 +1,125 @@
+.Book {
+    height: 100%;
+    overflow: hidden;
+}
+
+.Book-header {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 50%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+}
+
+.Book-Thumbnail-section-wrapper {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.5rem
+}
+
+.Book-Thumbnail-section-wrapper.mobile {
+    width: 40%;
+}
+
+.Book-Thumbail-wrapper {
+    height: 75%;
+    width: 100%;
+}
+
+.Book-Thumbail-wrapper > img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.Book-details-section-wrapper {
+    width: 70%;
+    text-align: left;
+}
+
+.Book-details-section-wrapper.mobile {
+    width: 60%;
+}
+
+.Book-details-title-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 6rem;
+}
+
+.Book-details-title-wrapper > p {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    overflow: hidden;
+}
+
+.Book-details-author-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 3rem;
+    padding-top: 1rem;
+}
+
+.Book-details-author-wrapper > p {
+    display: inline;
+    font-size: 1rem;
+    font-weight: bolder;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.Book-details-description-wrapper {
+    height: calc(100% - 9.5rem);
+    overflow: hidden;
+}
+
+.Book-details-description-wrapper > p {
+    height: 100%;
+    text-align: justify;
+    margin-right: 0.5rem;
+    word-break: break-all;
+}
+
+.Book-extras {
+    height: 25%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+
+.Book-characters-wrapper > .MuiChip-root {
+    margin: 0.1rem;
+}
+
+.Book-characters-wrapper {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.Book-places-wrapper {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.Book-places-wrapper > .MuiChip-root {
+    margin: 0.1rem;
+}
