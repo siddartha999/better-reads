@@ -96,7 +96,8 @@
 }
 
 .Author-author-works-wrapper {
-    height: 40vh;
+    height: 20rem;
+    overflow-y: hidden;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -108,12 +109,13 @@
     margin-top: 1rem;
 }
 
-.Author-author-wroks-title-wrapper {
+.Author-author-works-title-wrapper {
+    height: 3rem;
     width: 100%;
     text-align: center;
 }
 
-.Author-author-wroks-title-wrapper > p {
+.Author-author-works-title-wrapper > p {
     font-family: cursive;
     color: black;
     font-variant: all-petite-caps;

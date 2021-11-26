@@ -67,7 +67,7 @@ const AuthorWorks = (props) => {
                             <div className="AuthorWorks-work-cover-wrapper" bookid={obj.key} onClick={navigationHandler}>
                                 <img alt={ALT_IMAGE_PATH} src={obj && obj.covers && obj.covers.length ? WORK_COVER_URL_PREFIX + obj.covers[0] + "-M.jpg" : ALT_IMAGE_PATH} />
                             </div>
-                            <div className="Authorworks-work-title-wrapper">
+                            <div className="Authorworks-work-title-wrapper" title={obj.title}>
                                 <p>{obj.title}</p>
                             </div>
                         </div>    

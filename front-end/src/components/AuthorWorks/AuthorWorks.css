@@ -1,17 +1,32 @@
 .AuthorWorks {
     display: flex;
+    align-items: center;
 }
 
 .AuthorWorks-work-wrapper {
     padding: 1rem;
+    height: 15rem;
+    width: 20rem;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .AuthorWorks-work-cover-wrapper {
     cursor: pointer;
+    height: 80%;
+    width: 80%;
 }
 
 .AuthorWorks-work-cover-wrapper > img {
     width: 10rem;
     height: 10rem;
     object-fit: contain;
+}
+
+.Authorworks-work-title-wrapper {
+    height: 20%;
+    width: 100%;
+    overflow: hidden;
 }

@@ -88,8 +88,8 @@ const Author = (props) => {
                 </div>
 
                 <div className="Author-author-works-wrapper">
-                    <div className="Author-author-wroks-title-wrapper">
-                        <p> Author Works </p>
+                    <div className="Author-author-works-title-wrapper">
+                        <p> Works By the Author </p>
                     </div>
                     <AuthorWorks id={author?.key} limit={30} />
                 </div>

@@ -23,10 +23,6 @@
     padding: 0 0.5rem
 }
 
-.Book-Thumbnail-section-wrapper.mobile {
-    width: 40%;
-}
-
 .Book-Thumbail-wrapper {
     height: 75%;
     width: 100%;
@@ -41,10 +37,6 @@
 .Book-details-section-wrapper {
     width: 70%;
     text-align: left;
-}
-
-.Book-details-section-wrapper.mobile {
-    width: 60%;
 }
 
 .Book-details-title-wrapper {
@@ -86,12 +78,14 @@
 .Book-details-description-wrapper > p {
     text-align: justify;
     margin-right: 0.5rem;
+    padding-right: 0.5rem;
     display: -webkit-box;
-    -webkit-line-clamp: 10;
-    overflow: hidden;
+    -webkit-line-clamp: 9;
     -webkit-box-orient: vertical;
     margin-top: 0;
     margin-bottom: 0;
+    max-height: 100%;
+    overflow: auto;
 }
 
 .Book-extras {
@@ -158,7 +152,8 @@
 }
 
 .Book-author-works-wrapper {
-    height: 40vh;
+    height: 20rem;
+    overflow-y: hidden;
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
@@ -170,11 +165,75 @@
     margin-top: 1rem;
 }
 
-.Book-author-wroks-title-wrapper {
+.Book-author-works-title-wrapper {
+    height: 3rem;
     width: 100%;
     text-align: center;
 }
 
+.Book-author-works-title-wrapper > p {
+    font-family: cursive;
+    color: black;
+    font-variant: all-petite-caps;
+}
+
 .Book-footer {
-    height: 10vh;
+    height: 25vh;
+}
+
+
+/* -------------------- Mobile Specific ------------------------------------ */
+
+.Book.mobile1200 > .Book-header {
+    display: block;
+    height: 80vh;
+}
+
+.Book.mobile1200 > .Book-header > .Book-Thumbnail-section-wrapper {
+    width: 100%;
+    height: 50%;
+}
+
+.Book.mobile1200 > .Book-header > .Book-Thumbnail-section-wrapper > .Book-Thumbail-wrapper {
+    height: 100%;
+}
+
+.Book.mobile1200 > .Book-header > .Book-Thumbnail-section-wrapper > .Book-Thumbail-wrapper > img {
+    height: 90%;
+    position: relative;
+    top: 5%;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper {
+    width: 100%;
+    height: 50%;
+    text-align: center;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-title-wrapper {
+    height: 5rem;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-title-wrapper > p {
+    font-size: 1.25rem;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-author-wrapper {
+    padding-top: 0.5rem;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-description-wrapper {
+    padding: 0.5rem;
+}
+
+.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-description-wrapper > p {
+    text-align: center;
+}
+
+.Book.mobile1200 > .Book-extras {
+    margin-top: 2rem;
+}
+
+.Book.mobile1200 > .Book-author-works-wrapper {
+    margin-top: 2rem;
 }

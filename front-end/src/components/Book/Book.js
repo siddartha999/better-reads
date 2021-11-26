@@ -24,7 +24,7 @@ const CHIP_STYLES = [
 
 const Book = () => {
     const state = useLocation();
-    const [bookId, setBookId] = useState(state?.state || "0000");
+    const bookId = state.pathname.split("/").pop();
     const [book, setBook] = useState(null);
     const [author, setAuthor] = useState(null);
     const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
@@ -45,7 +45,7 @@ const Book = () => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: BOOK_SEARCH_URL_PREFIX + (state? state.state : "0000") + ".json"
+            url: BOOK_SEARCH_URL_PREFIX + bookId + ".json"
         }).then(response => {
             if(response.status !== 200) {
                 raiseSnackbarError();
@@ -79,11 +79,11 @@ const Book = () => {
     );
 
     return (
-        <div className="Book">
+        <div className={`Book ${width < 1200 ? 'mobile1200' : ''}`}>
             { (!book || !book.title) ? noResultsJSX :
                 <> 
                     <div className="Book-header">
-                        <div className={`Book-Thumbnail-section-wrapper ${width <= 900 ? 'mobile' : ''}`}>
+                        <div className={`Book-Thumbnail-section-wrapper`}>
                             <div className="Book-Thumbail-wrapper">
                                 <img src={book && book.covers && book.covers.length ? BOOK_THUMBNAIL_URL_PRFEFIX + book?.covers[0] + "-M.jpg" : ALT_IMAGE_PATH} alt={ALT_IMAGE_PATH} />
                             </div>
@@ -117,8 +117,8 @@ const Book = () => {
                     }
 
                     <div className="Book-author-works-wrapper">
-                        <div className="Book-author-wroks-title-wrapper">
-                            <p> Author Works </p>
+                        <div className="Book-author-works-title-wrapper">
+                            <p> Works by the Author </p>
                         </div>
                         <AuthorWorks id={author?.key} limit={20} />
                     </div>
