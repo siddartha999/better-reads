@@ -5,13 +5,21 @@ import './Book.css';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import Chip from '@mui/material/Chip';
-import { color } from '@mui/system';
 import AuthorWorks from '../AuthorWorks/AuthorWoks';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
 const BOOK_THUMBNAIL_URL_PRFEFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
+
+const CHIP_STYLES = [
+    {backgroundColor: "wheat", color: "darkslategrey"},
+    {backgroundColor: "black", color: "white"},
+    {backgroundColor: "turquoise", color: "darkred"},
+    {backgroundColor: "chocolate", color: "cornsilk"},
+    {backgroundColor: "brown", color: "aliceblue"},
+    {backgroundColor: "rebeccapurple", color: "papayawhip"}
+];
 
 const Book = () => {
     const state = useLocation();
@@ -83,18 +91,20 @@ const Book = () => {
                         </div>
                     </div>
         
-                    <div className="Book-extras">
-                        <div className="Book-characters-wrapper">
-                            {book && book.subject_people && book.subject_people.filter((val, idx) => idx < 15).map(value => {
-                                return <Chip label={value} key={value} color="primary" />
-                            })}
+                    { book && (book.subject_people || book.subject_places) &&
+                         <div className="Book-extras">
+                            <div className={`Book-characters-wrapper ${width <= 850 ? 'mobile' : ''}`}>
+                                {book && book.subject_people && book.subject_people.filter((val, idx) => idx < 15).map((value, index) => {
+                                    return <Chip label={value} key={value} title={value} style={CHIP_STYLES[index % CHIP_STYLES.length]} />
+                                })}
+                            </div>
+                            <div className={`Book-places-wrapper ${width <= 850 ? 'mobile' : ''}`}>
+                                {book && book.subject_places && book.subject_places.filter((val, idx) => idx < 10).map((value, index) => {
+                                    return <Chip label={value} key={value} title={value} style={CHIP_STYLES[index % CHIP_STYLES.length]} color="primary" />
+                                })}
+                            </div>
                         </div>
-                        <div className="Book-places-wrapper">
-                            {book && book.subject_places && book.subject_places.filter((val, idx) => idx < 10).map(value => {
-                                return <Chip label={value} key={value} color="primary" />
-                            })}
-                        </div>
-                    </div>
+                    }
 
                     <div className="Book-author-works-wrapper">
                         <div className="Book-author-wroks-title-wrapper">
