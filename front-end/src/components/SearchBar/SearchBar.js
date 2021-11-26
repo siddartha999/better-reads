@@ -1,19 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import './SearchBar.css';
 
 const SearchBar = (props) => {
     const className = props.setClassName || "";
     const placeholder = props.setPlaceHolder || "Better Reads search...";
     const inputValue = useRef(null);
-    const [searchTypeValue, setSearchTypeValue] = useState(props.searchTypeDefault);
 
     /**
      * Function to call the parent's search submit function with the value entered in the search field.
@@ -23,15 +19,7 @@ const SearchBar = (props) => {
         event.preventDefault();
         props.searchSubmit({
             inputValue: inputValue.current.querySelector('input').value,
-            searchType: searchTypeValue
         });
-    };
-
-    /** 
-     * Function to keep track of the current search-type value.
-    */
-    const handleSearchTypeChange = (event) => {
-        setSearchTypeValue(event.target.value);
     };
 
   return (
@@ -48,20 +36,6 @@ const SearchBar = (props) => {
                 onSubmit={submitSearch}
                 ref = {inputValue}
             />
-
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
-                <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                onChange={handleSearchTypeChange}
-                value = {searchTypeValue}
-                label="Search"
-                >
-                    {props.searchTypes.map(value => <MenuItem value={value} key={value}> {value} </MenuItem>)}
-
-                </Select>
-            </FormControl>
 
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 

@@ -5,7 +5,7 @@ import './Book.css';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import Chip from '@mui/material/Chip';
-import AuthorWorks from '../AuthorWorks/AuthorWoks';
+import AuthorWorks from '../AuthorWorks/AuthorWorks';
 import { useNavigate } from 'react-router-dom';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
@@ -24,7 +24,6 @@ const CHIP_STYLES = [
 
 const Book = () => {
     const state = useLocation();
-    const bookId = state.pathname.split("/").pop();
     const [book, setBook] = useState(null);
     const [author, setAuthor] = useState(null);
     const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
@@ -45,7 +44,7 @@ const Book = () => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: BOOK_SEARCH_URL_PREFIX + bookId + ".json"
+            url: BOOK_SEARCH_URL_PREFIX + state.pathname.split("/").pop() + ".json"
         }).then(response => {
             if(response.status !== 200) {
                 raiseSnackbarError();

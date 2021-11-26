@@ -1,0 +1,7 @@
+.SearchBar {
+    padding-top: 1rem;
+}
+
+.SearchBar > form {
+    box-shadow: 0 8px 16px 0 lightsteelblue;
+}

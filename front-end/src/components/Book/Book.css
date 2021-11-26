@@ -1,5 +1,6 @@
 .Book {
     padding-bottom: 10rem;
+    min-height: 100vh;
 }
 
 .Book-header {

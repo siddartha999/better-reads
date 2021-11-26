@@ -3,7 +3,7 @@ import './Author.css';
 import { useLocation } from 'react-router';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
-import AuthorWorks from '../AuthorWorks/AuthorWoks';
+import AuthorWorks from '../AuthorWorks/AuthorWorks';
 import axios from 'axios';
 
 const AUHTOR_INFO_URL_PREFIX = "https://openlibrary.org/authors/";
