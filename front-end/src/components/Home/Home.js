@@ -36,12 +36,12 @@ function Home() {
 
     const onSubmitSearch = (searchObj) => {
         const query = searchObj.inputValue;
-        if(searchObj.searchType == CONST_SEARCH_TYPES_OBJ.BOOK) {
+        if(searchObj.searchType === CONST_SEARCH_TYPES_OBJ.BOOK) {
             axios({
                 method: "GET",
                 url: BOOK_SEARCH_URL_PREFIX + encodeURI(query)
             }).then(response => {
-                if(response.status !== 200 || response.data.numFound == 0) {
+                if(response.status !== 200 || response.data.numFound === 0) {
                     raiseSnackbarError();
                 }
                 else {
@@ -54,7 +54,7 @@ function Home() {
                 method: "GET",
                 url: AUTHOR_SEARCH_URL_PREFIX + encodeURI(query)
             }).then(response => {
-                if(response.status !== 200 || response.data.numFound == 0) {
+                if(response.status !== 200 || response.data.numFound === 0) {
                     raiseSnackbarError();
                 }
                 else {

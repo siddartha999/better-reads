@@ -1,0 +1,17 @@
+.AuthorWorks {
+    display: flex;
+}
+
+.AuthorWorks-work-wrapper {
+    padding: 1rem;
+}
+
+.AuthorWorks-work-cover-wrapper {
+    cursor: pointer;
+}
+
+.AuthorWorks-work-cover-wrapper > img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+}

@@ -1,13 +1,12 @@
 .Book {
-    height: 100%;
-    overflow: hidden;
+    padding-bottom: 10rem;
 }
 
 .Book-header {
     display: flex;
     justify-content: center;
     width: 90%;
-    height: 50%;
+    height: 50vh;
     position: relative;
     left: 5%;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -88,7 +87,7 @@
 }
 
 .Book-extras {
-    height: 25%;
+    height: 25vh;
     overflow: auto;
     display: flex;
     align-items: center;
@@ -106,6 +105,7 @@
 
 .Book-characters-wrapper {
     height: 100%;
+    width: 60%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -114,6 +114,7 @@
 
 .Book-places-wrapper {
     height: 100%;
+    width: 40%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -122,4 +123,26 @@
 
 .Book-places-wrapper > .MuiChip-root {
     margin: 0.1rem;
+}
+
+.Book-author-works-wrapper {
+    height: 40vh;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+
+.Book-author-wroks-title-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.Book-footer {
+    height: 10vh;
 }

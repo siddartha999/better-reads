@@ -36,7 +36,7 @@ function ResponsiveDrawer(props) {
     <div>
       <Toolbar />
       <List>
-          <NavLink exact to="/" className="NavSideBar-item"> 
+          <NavLink to="/" className="NavSideBar-item"> 
             <ListItem button key="Home" onClick={handleDrawerToggle}> 
                 <ListItemIcon>
                     <HomeIcon />
@@ -45,7 +45,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
           </NavLink>
 
-        <NavLink exact to="/profile" className="NavSideBar-item" onClick={handleDrawerToggle}>
+        <NavLink to="/profile" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Profile"> 
                 <ListItemIcon>
                     <PersonIcon />
@@ -54,7 +54,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink exact to="/mybooks" className="NavSideBar-item" onClick={handleDrawerToggle}> 
+        <NavLink to="/mybooks" className="NavSideBar-item" onClick={handleDrawerToggle}> 
             <ListItem button key="My Books"> 
                 <ListItemIcon>
                     <BookIcon />
@@ -64,7 +64,7 @@ function ResponsiveDrawer(props) {
         </NavLink>
         
 
-        <NavLink exact to="/friends" className="NavSideBar-item" onClick={handleDrawerToggle}>
+        <NavLink to="/friends" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Friends"> 
                 <ListItemIcon>
                     <GroupIcon />
@@ -73,7 +73,7 @@ function ResponsiveDrawer(props) {
             </ListItem>
         </NavLink>
 
-        <NavLink exact to="/groups" className="NavSideBar-item" onClick={handleDrawerToggle}>
+        <NavLink to="/groups" className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Groups"> 
                 <ListItemIcon>
                     <GroupsIcon />
@@ -112,7 +112,7 @@ function ResponsiveDrawer(props) {
           <div className="NavSideBar-user-profile-wrapper">
 
           <div className="NavSideBar-logo-wrapper">
-              <img src={process.env.PUBLIC_URL + "/Logo.png"} className="NavSideBar-logo" />
+              <img src={process.env.PUBLIC_URL + "/Logo.png"} alt={process.env.PUBLIC_URL + "/Logo.png"} className="NavSideBar-logo" />
             </div>
 
             <div className="NavSideBar-user-profile-info-wrapper"> 

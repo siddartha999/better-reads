@@ -30,15 +30,11 @@ function Login() {
         //alert('Unable to Login via Google OAUTH. Please try again!');
     };
 
-    const responseFacebook = (response) => {
-        console.log(response);
-    };
-
     return(
        <div className="Login">
            <div className="Login-header">
                <div className="Login-header-title-wrapper">
-                    <img src={process.env.PUBLIC_URL + "/Logo.png"} />
+                    <img src={process.env.PUBLIC_URL + "/Logo.png"} alt={process.env.PUBLIC_URL + "/Logo.png"} />
                     <p className="Login-header-title">Better Reads</p>
                </div>
                 <p className="Login-header-caption">A social network for Bookworms!</p>
