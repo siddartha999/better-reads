@@ -6,6 +6,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import Chip from '@mui/material/Chip';
 import AuthorWorks from '../AuthorWorks/AuthorWoks';
+import { useNavigate } from 'react-router-dom';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -28,6 +29,7 @@ const Book = () => {
     const [author, setAuthor] = useState(null);
     const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
     const width = useContext(ScreenWidthContext);
+    const navigate = useNavigate();
 
     /**
      * Function to display the error message when the query result isn't retrieved.
@@ -35,7 +37,7 @@ const Book = () => {
      const raiseSnackbarError = () => {
         snackbarObj.current = {}; 
         snackbarObj.current.severity = "error";
-        snackbarObj.current.message = "Unable to retrieve the book information. Please try again.";
+        snackbarObj.current.message = "Unable to retrieve the Book information. Please try again.";
         toggleSnackbar(true);
     };
 
@@ -61,6 +63,14 @@ const Book = () => {
             }
         });
     }, [state.pathname]);
+
+    /**
+     * Handler to navigate to the Author's view.
+     */
+    const authorNavigationHandler = (event) => {
+        const authorId = event.currentTarget.getAttribute("authorid").split("/").pop();
+        navigate(`/author/${authorId}`, {state: authorId});
+    };
     
     const noResultsJSX = (
         <div className="BookResults-no-results">
@@ -83,7 +93,7 @@ const Book = () => {
                                 <p>{book?.title}</p>
                             </div>
                             <div className="Book-details-author-wrapper" title={author?.name}>
-                                by <p> {author?.name} </p>
+                                by <p authorid={author?.key} onClick={authorNavigationHandler}> {author?.name} </p>
                             </div>
                             <div className="Book-details-description-wrapper" title={book && book.description ? book.description.value : ''}>
                                 <p>{book && book.description ? book.description.value : ''}</p>
@@ -100,7 +110,7 @@ const Book = () => {
                             </div>
                             <div className={`Book-places-wrapper ${width <= 850 ? 'mobile' : ''}`}>
                                 {book && book.subject_places && book.subject_places.filter((val, idx) => idx < 10).map((value, index) => {
-                                    return <Chip label={value} key={value} title={value} style={CHIP_STYLES[index % CHIP_STYLES.length]} color="primary" />
+                                    return <Chip label={value} key={value} title={value} style={CHIP_STYLES[(CHIP_STYLES.length - 1) - (index % CHIP_STYLES.length)]} color="primary" />
                                 })}
                             </div>
                         </div>

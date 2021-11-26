@@ -74,6 +74,10 @@
     cursor: pointer;
 }
 
+.Book-details-author-wrapper > p:hover {
+    text-decoration: underline;
+}
+
 .Book-details-description-wrapper {
     height: calc(100% - 9.5rem);
     overflow: hidden;
@@ -83,9 +87,11 @@
     text-align: justify;
     margin-right: 0.5rem;
     display: -webkit-box;
-    -webkit-line-clamp: 8;
+    -webkit-line-clamp: 10;
     overflow: hidden;
     -webkit-box-orient: vertical;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .Book-extras {
