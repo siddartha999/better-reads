@@ -7,6 +7,7 @@ import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import Chip from '@mui/material/Chip';
 import AuthorWorks from '../AuthorWorks/AuthorWorks';
 import { useNavigate } from 'react-router-dom';
+import UserBookStatus from '../UserBookStatus/UserBookStatus';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -97,6 +98,15 @@ const Book = () => {
                             <div className="Book-details-description-wrapper" title={book && book.description ? book.description.value : ''}>
                                 <p>{book && book.description ? book.description.value : ''}</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="Book-current-user-utils-wrapper">
+                        <div className="Book-current-user-status-wrapper">
+                            <UserBookStatus bookId={state.pathname.split("/").pop()} />
+                        </div>
+                        <div className="Book-current-user-stats-wrapper">
+
                         </div>
                     </div>
         
