@@ -42,6 +42,7 @@ body {
   position: absolute;
   left: 240px;
   height: 90%;
+  overflow-y: auto;
 }
 
 .App-body-wrapper.mobile {

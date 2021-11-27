@@ -23,15 +23,26 @@ const UserBookStatus = (props) => {
   const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
 
   /**
+     * Function to display the snackbar message.
+     */
+   const raiseSnackbarMessage = (message, severity) => {
+    snackbarObj.current = {}; 
+    snackbarObj.current.severity = severity;
+    snackbarObj.current.message = message;
+    toggleSnackbar(true);
+};
+
+  /**
    * Handler to modify the status of the book for the current user.
    */
   const handleChange = async (event) => {
+    const prevVal = status;
     const statusVal = event.target.value;
     setStatus(statusVal);
     const token = user?.token;
 
     if(!token) {
-        raiseSnackbarError('Unable to Authenticate the User. Please login again');
+        raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
         localStorage.setItem("betterreadsuserinfo", null);
         setUser(null);
     }
@@ -43,27 +54,20 @@ const UserBookStatus = (props) => {
             'Authorization': `Bearer ${token}`
         },
         data: {
-            status: statusVal
+            status: {
+                current: statusVal,
+                prev: prevVal
+            }
         }
     });
 
     if(response.status === 401) {
-        raiseSnackbarError(response.data.message);
+        raiseSnackbarMessage(response.data.message, 'error');
         localStorage.setItem("betterreadsuserinfo", null);
         setUser(null);
     }
 
   };
-
-   /**
-     * Function to display an error message
-     */
-    const raiseSnackbarError = (message) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = "error";
-        snackbarObj.current.message = message;
-        toggleSnackbar(true);
-    };
 
   return (
     <div className="UserBookStatus">
@@ -71,6 +75,7 @@ const UserBookStatus = (props) => {
         <InputLabel id="demo-simple-select-standard-label">Status</InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
+          inputProps={{MenuProps: {disableScrollLock: true}}}
           id="demo-simple-select-standard"
           value={status}
           onChange={handleChange}

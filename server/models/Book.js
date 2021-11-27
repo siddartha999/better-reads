@@ -3,39 +3,43 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
     BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
 
 const modelObj = {
-    name: {
+    _id: {
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
-    profilePicUrl: {
-        type: String,
-        required: false
-    },
-    activity: {
+    ratings: {
         type: Array,
-        default: [],
+        default: []
+    },
+    ratingDetails: {
+        type: Object,
+        default: {}
+    },
+    averageRating: {
+        type: Number,
+        default: 0
+    },
+    reviewCount: {
+        type: Number,
+        default: 0
     }
 };
 
 modelObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = {
-    type: Array,
-    default: []
+    type: Number,
+    default: 0
 };
 
 modelObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = {
-    type: Array,
-    default: []
+    type: Number,
+    default: 0
 };
 
 modelObj[BOOK_STATUS_CONSTANTS_READ] = {
-    type: Array,
-    default: []
+    type: Number,
+    default: 0
 };
 
-const userSchema = mongoose.Schema(modelObj);
+const bookSchema = mongoose.Schema(modelObj);
 
-module.exports = mongoose.model('User', userSchema); 
+module.exports = mongoose.model('Book', bookSchema);

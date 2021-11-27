@@ -11,8 +11,8 @@ const googleAuthController = (req, res) => {
         if(email_verified) {
             User.findOne({email}).exec((err, user) => {
                 if(err) {
-                    return res.status(400).json({
-                        error: "We're experiencing few issues with the Database. Please try again later."
+                    return res.status(500).json({
+                        message: "We're experiencing conenctivity issues with the Database. Please revisit later."
                     });
                 }
                 else {
@@ -30,7 +30,7 @@ const googleAuthController = (req, res) => {
                         newUser.save((err, data) => {
                             if(err) {
                                 return res.status(400).json({
-                                    error: "Error signing in the user. Please try again later"
+                                    message: "Error signing in the user. Please try again later"
                                 });
                             }
                             else {
@@ -49,7 +49,7 @@ const googleAuthController = (req, res) => {
         }
         else {
             return res.status(400).json({
-                error: "Invalid Google Token. Please try to login via Google Authentically."
+                message: "Invalid Google Token. Please try to login via Google Authentically."
             });
         }
     });
