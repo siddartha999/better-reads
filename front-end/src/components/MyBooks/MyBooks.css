@@ -44,12 +44,25 @@
 }
 
 .MyBooks-title-wrapper {
-    width: 100%;
+    width: 90%;
     text-align: center;
+    position: relative;
+    left: 5%;
 }
 
-.MyBooks-title-wrapper > p {
+.MyBooks-title-wrapper > span {
     font-family: cursive;
     color: black;
     font-variant: all-petite-caps;
+    display: inline-block;
+}
+
+.MyBooks-title {
+    width: 60%;
+}
+
+
+.Mybooks-show-more:hover {
+    color: palevioletred;
+    cursor: pointer;
 }

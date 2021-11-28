@@ -5,12 +5,14 @@ import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
+import { useNavigate } from 'react-router-dom';
 
 const MyBooks = () => {
     const {user, setUser} = useContext(UserContext);
     const width = useRef(window.innerWidth);
     const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
     const [myBooks, setMyBooks] = useState(null);
+    const navigate = useNavigate();
 
     //Load the books info for the user in the intital-setup.
     useEffect(async () => {
@@ -39,7 +41,6 @@ const MyBooks = () => {
             raiseSnackbarMessage(response.data.message, 'error');
             return;
         }
-        console.log(response.data);
         setMyBooks(response.data);
 
     }, []);
@@ -54,6 +55,16 @@ const MyBooks = () => {
         toggleSnackbar(true);
     };
 
+    /**
+     * Handler to navigate to the selected status page.
+     */
+    const handleNavigation = (event) => {
+        const type = event.currentTarget.getAttribute('type').trim();
+        console.log(type);
+        console.log(type.trim());
+        navigate(`${type}`, {state: myBooks[type]});
+    };
+
     return (
         <div className="MyBooks">
             {myBooks &&
@@ -63,7 +74,12 @@ const MyBooks = () => {
                         (
                         <>
                             <div className="MyBooks-title-wrapper">
-                            <   p>{USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING}</p>
+                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING}</span>
+                                {
+                                    myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING] && myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING].length > 10 ?
+                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING} onClick={handleNavigation}>Show more</span>
+                                    : null
+                                }
                             </div>    
                             <div className="MyBooks-currenty-reading-wrapper">
                                 <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING]} />
@@ -75,7 +91,12 @@ const MyBooks = () => {
                     myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ].length ?
                         (<>
                             <div className="MyBooks-title-wrapper">
-                                <p>{USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ}</p>
+                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ}</span>
+                                {
+                                    myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ] && myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ].length > 10 ?
+                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ} onClick={handleNavigation}>Show more</span>
+                                    : null
+                                }
                             </div>
                             <div className="MyBooks-want-to-read-wrapper">
                                 <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ]} />
@@ -87,7 +108,12 @@ const MyBooks = () => {
                     myBooks[USER_BOOK_STATUS_CONSTANTS.READ].length ? 
                         ( <>
                             <div className="MyBooks-title-wrapper">
-                                <p>{USER_BOOK_STATUS_CONSTANTS.READ}</p>
+                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.READ}</span>
+                                {
+                                    myBooks[USER_BOOK_STATUS_CONSTANTS.READ] && myBooks[USER_BOOK_STATUS_CONSTANTS.READ].length > 10 ?
+                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.READ} onClick={handleNavigation}>Show more</span>
+                                    : null
+                                }
                             </div>
                             <div className="MyBooks-read-wrapper">
                                 <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.READ]} />

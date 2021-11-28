@@ -55,7 +55,8 @@ const Book = () => {
             }
             else {
                 setBook(response.data);
-                const authorId = response.data.authors[0].author.key;
+                const authorId = response.data.authors && response.data.authors.length ? response.data.authors[0].author.key : null;
+                if(authorId === null) return;
                 //Get the Author info from the ID retrieved from the Book's response.
                 axios({
                     method: "GET",
@@ -113,9 +114,11 @@ const Book = () => {
                             <div className="Book-details-title-wrapper" title={book?.title}>
                                 <p>{book?.title}</p>
                             </div>
-                            <div className="Book-details-author-wrapper" title={author?.name}>
-                                by <p authorid={author?.key} onClick={authorNavigationHandler}> {author?.name} </p>
-                            </div>
+                            {author && author.name &&
+                                <div className="Book-details-author-wrapper" title={author?.name}>
+                                    by <p authorid={author?.key} onClick={authorNavigationHandler}> {author?.name} </p>
+                                </div>
+                            }
                             <div className="Book-details-description-wrapper" title={book && book.description ? book.description.value : ''}>
                                 <p>{book && book.description ? book.description.value : ''}</p>
                             </div>

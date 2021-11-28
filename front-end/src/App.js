@@ -13,6 +13,7 @@ import BookResults from './components/BookResults/BookResults';
 import Book from './components/Book/Book';
 import Author from './components/Author/Author';
 import MyBooks from './components/MyBooks/MyBooks';
+import MyBooksDetails from './components/MyBooksDetails/MyBooksDetails';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -41,6 +42,7 @@ function App() {
             <Route path='/book/:bookId' element={<Book />} />
             <Route path='/author/:authorId' element={<Author />} />
             <Route path='/mybooks' element={<MyBooks />} />
+            <Route path='/mybooks/:status' element={<MyBooksDetails />} />
         </Routes>
       </div>
     </>

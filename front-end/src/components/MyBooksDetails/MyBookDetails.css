@@ -1,0 +1,59 @@
+.MyBooksDetails {
+    overflow: hidden;
+    height: 100%;
+}
+
+.MyBooksDetails-results-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 90%;
+    overflow: auto;
+}
+
+.MyBooksDetails-result-card {
+    width: 25%;
+    height: 60%;
+    transition: 0.3s;
+    padding: 1rem;
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.MyBooksDetails-result-card.mobile {
+    width: 80%;
+}
+
+.MyBooksDetails-result-card > .MuiPaper-root > .MyBooksDetails-result-card-details-wrapper > .MuiCardContent-root > .MuiTypography-root {
+    font-family: ui-monospace;
+}
+
+.MyBooksDetails-result-card.mobile > .MuiPaper-root > .MyBooksDetails-result-card-details-wrapper > .MuiCardContent-root > .MuiTypography-root {
+    font-size: 0.75rem;
+}
+
+.MyBooksDetails-result-card > .MuiPaper-root {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.MyBooksDetails-result-card > .MuiPaper-root > img {
+    height: 85%;
+    width: 75%;
+    position: relative;
+    left: 12.5%;
+    object-fit: contain;
+}
+
+.MyBooksDetails-result-card-details-wrapper {
+    height: 15%;
+}
+
+.MyBooksDetails-pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}

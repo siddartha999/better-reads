@@ -67,10 +67,12 @@ const Author = (props) => {
                         <div className="Author-details-name-wrapper">
                             <p>{author?.name}</p>
                         </div>
-                        <div className="Author-details-birth-date-wrapper">
-                            <span>Birth Date: </span>
-                            <span className="Author-details-birth-date">{author?.birth_date}</span>
-                        </div>
+                        { author && author.birth_date &&
+                            <div className="Author-details-birth-date-wrapper">
+                                <span>Birth Date: </span>
+                                <span className="Author-details-birth-date">{author?.birth_date}</span>
+                            </div>
+                        }
                         <div className="Author-details-bio-wrapper">
                             <p>{author?.bio}</p>
                         </div>

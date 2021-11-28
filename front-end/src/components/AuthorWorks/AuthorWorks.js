@@ -53,7 +53,7 @@ const AuthorWorks = (props) => {
     }, [props.id]);
 
     const noResultsJSX = (
-        <div className="BookResults-no-results">
+        <div className="AuthorWorks-no-results">
             <p>No Author works to display.</p>
         </div>
     );

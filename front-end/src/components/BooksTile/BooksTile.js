@@ -19,7 +19,7 @@ const BooksTile = (props) => {
 
     return (
         <div className="BooksTile">
-            {books && books.map(obj => 
+            {books && books.filter((val, idx) => idx < 10).map(obj => 
                 <div className="BooksTile-book-wrapper" key={obj._id}>
                     <div className="BooksTile-cover-wrapper" onClick={navigationHandler} bookid={obj._id}>
                         <img src={obj.cover ? WORK_COVER_URL_PREFIX + obj.cover + '-M.jpg' : ALT_IMAGE_PATH} alt ={ALT_IMAGE_PATH} />
