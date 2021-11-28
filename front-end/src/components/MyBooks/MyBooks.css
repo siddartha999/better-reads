@@ -1,0 +1,55 @@
+.MyBooks-currenty-reading-wrapper {
+    height: 17rem;
+    overflow-y: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.MyBooks-want-to-read-wrapper {
+    height: 17rem;
+    overflow-y: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.MyBooks-read-wrapper {
+    height: 17rem;
+    overflow-y: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.MyBooks-title-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.MyBooks-title-wrapper > p {
+    font-family: cursive;
+    color: black;
+    font-variant: all-petite-caps;
+}

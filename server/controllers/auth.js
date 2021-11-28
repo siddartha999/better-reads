@@ -12,7 +12,7 @@ const googleAuthController = (req, res) => {
             User.findOne({email}).exec((err, user) => {
                 if(err) {
                     return res.status(500).json({
-                        message: "We're experiencing conenctivity issues with the Database. Please revisit later."
+                        message: "Experiencing connectivity issues with the Database. Please revisit later."
                     });
                 }
                 else {

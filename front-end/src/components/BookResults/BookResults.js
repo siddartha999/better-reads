@@ -15,7 +15,6 @@ const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 const BookResults = (props) => {
     const { state } = useLocation();
     const data = state?.docs || [];
-    console.log(data);
     const paginationCount = Math.ceil(data.length / 10);
     const [paginationIndex, setPaginationIndex] = useState(1);
     const width = useContext(ScreenWidthContext);

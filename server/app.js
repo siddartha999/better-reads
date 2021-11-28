@@ -34,5 +34,8 @@ app.use('/api/login', oauthRoute);
 const bookRoute = require('./routes/book');
 app.use('/api/book', bookRoute);
 
+const userBooksRoute = require('./routes/myBooks');
+app.use('/api/mybooks', userBooksRoute);
+
 app.listen(PORT, () => console.log("Server is up & running!"));
 

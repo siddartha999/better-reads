@@ -8,6 +8,7 @@ import Chip from '@mui/material/Chip';
 import AuthorWorks from '../AuthorWorks/AuthorWorks';
 import { useNavigate } from 'react-router-dom';
 import UserBookStatus from '../UserBookStatus/UserBookStatus';
+import { UserContext } from '../../contexts/UserContext';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -27,17 +28,19 @@ const Book = () => {
     const state = useLocation();
     const [book, setBook] = useState(null);
     const [author, setAuthor] = useState(null);
+    const [userBook, setUserBook] = useState(null);
     const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {user, setUser} = useContext(UserContext);
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
 
     /**
      * Function to display the error message when the query result isn't retrieved.
      */
-     const raiseSnackbarError = () => {
+     const raiseSnackbarError = (message) => {
         snackbarObj.current = {}; 
         snackbarObj.current.severity = "error";
-        snackbarObj.current.message = "Unable to retrieve the Book information. Please try again.";
+        snackbarObj.current.message = message || "Unable to retrieve the Book information. Please try again.";
         toggleSnackbar(true);
     };
 
@@ -62,6 +65,24 @@ const Book = () => {
                 });
             }
         });
+
+        //Fetch the User's status for the current book.
+        const token = user?.token;
+        axios({
+            method: "GET",
+            url: process.env.REACT_APP_SERVER_URL + `/api/book/` + state.pathname.split("/").pop(),
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            if(response.status === 500) {
+                raiseSnackbarError(response.data.message);
+            }
+            else {
+                setUserBook(response.data);
+            }
+        });
+
     }, [state.pathname]);
 
     /**
@@ -103,7 +124,8 @@ const Book = () => {
 
                     <div className="Book-current-user-utils-wrapper">
                         <div className="Book-current-user-status-wrapper">
-                            <UserBookStatus bookId={state.pathname.split("/").pop()} />
+                            <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
+                                status={userBook?.status} rating = {userBook?.rating} />
                         </div>
                         <div className="Book-current-user-stats-wrapper">
 
@@ -125,12 +147,14 @@ const Book = () => {
                         </div>
                     }
 
-                    <div className="Book-author-works-wrapper">
+                    <>
                         <div className="Book-author-works-title-wrapper">
                             <p> Works by the Author </p>
                         </div>
-                        <AuthorWorks id={author?.key} limit={20} />
-                    </div>
+                        <div className="Book-author-works-wrapper">
+                            <AuthorWorks id={author?.key} limit={20} />
+                        </div>
+                    </>
 
                     <div className="Book-footer">
                     </div>

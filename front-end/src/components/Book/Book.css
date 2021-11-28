@@ -172,7 +172,7 @@
 }
 
 .Book-author-works-wrapper {
-    height: 20rem;
+    height: 17rem;
     overflow-y: hidden;
     display: flex;
     flex-wrap: wrap;
@@ -186,7 +186,6 @@
 }
 
 .Book-author-works-title-wrapper {
-    height: 3rem;
     width: 100%;
     text-align: center;
 }

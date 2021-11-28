@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -6,19 +6,14 @@ import Select from '@mui/material/Select';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
+import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 
-const USER_BOOK_STATUS = {
-    WANT_TO_READ: 'Want to Read',
-    CURRENTLY_READING: 'Currently Reading',
-    READ: 'Read',
-    NONE: 'None'
-};
 
-const USER_BOOK_STATUS_LIST = [USER_BOOK_STATUS.NONE, USER_BOOK_STATUS.WANT_TO_READ, USER_BOOK_STATUS.CURRENTLY_READING, 
-                                USER_BOOK_STATUS.READ];
+const USER_BOOK_STATUS_LIST = [USER_BOOK_STATUS_CONSTANTS.NONE, USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ,
+   USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING, USER_BOOK_STATUS_CONSTANTS.READ];
 
 const UserBookStatus = (props) => {
-  const [status, setStatus] = useState(USER_BOOK_STATUS_LIST[0]);
+  const [status, setStatus] = useState(props.status ? props.status : USER_BOOK_STATUS_LIST[0]);
   const {user, setUser} = useContext(UserContext);
   const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
 
@@ -57,7 +52,9 @@ const UserBookStatus = (props) => {
             status: {
                 current: statusVal,
                 prev: prevVal
-            }
+            },
+            cover : props.cover,
+            name: props.name
         }
     });
 
@@ -68,6 +65,14 @@ const UserBookStatus = (props) => {
     }
 
   };
+
+  /**
+   * Due to the async nature of useState, the value of status isn't updated when navigating from the Authorworks.
+   * To make sure the component renders with the expected status value, setting the status again.
+   */
+  useEffect(() => {
+    setStatus(props.status ? props.status : USER_BOOK_STATUS_LIST[0]);
+  }, [props.status]);
 
   return (
     <div className="UserBookStatus">

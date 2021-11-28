@@ -81,7 +81,7 @@ const Author = (props) => {
                                 </div>
                             )}
                             <div className="Author-details-link">
-                                {author && author.wikipedia && <a href={author.wikipedia}>Wiki</a>}
+                                {author && author.wikipedia && <a href={author.wikipedia} target="_blank">Wiki</a>}
                             </div>
                         </div>
                     </div>

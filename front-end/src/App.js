@@ -12,6 +12,7 @@ import SnackBar from './components/Snackbar/Snackbar';
 import BookResults from './components/BookResults/BookResults';
 import Book from './components/Book/Book';
 import Author from './components/Author/Author';
+import MyBooks from './components/MyBooks/MyBooks';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -39,6 +40,7 @@ function App() {
             <Route path='/bookresults' element={<BookResults />} />
             <Route path='/book/:bookId' element={<Book />} />
             <Route path='/author/:authorId' element={<Author />} />
+            <Route path='/mybooks' element={<MyBooks />} />
         </Routes>
       </div>
     </>
