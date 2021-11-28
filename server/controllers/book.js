@@ -8,13 +8,16 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
  * Controller to update the details(status, rating, review etc..) of the book for the current User.
  */
 const updateUserBookDetails = (req, res) => {
-const userId = req.userId;
-const bookId = req.params.bookId;
-const data = req.body;
-//Update the Book status for the user.
-if(data.status) {
-    updateUserBookStatus(userId, bookId, data, req, res);
-}
+    const userId = req.userId;
+    const bookId = req.params.bookId;
+    const data = req.body;
+    //Update the Book status for the user.
+    if(data.status) {
+        updateUserBookStatus(userId, bookId, data, req, res);
+    }
+    else if(data.rating) {//Update the Book's rating for the current user.
+        updateUserBookRating(userId, bookId, data, req, res);
+    }
 };
 
 /**
@@ -75,7 +78,7 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
         User.findByIdAndUpdate(userId, updateObj, (err, doc) => {
             if(err) {
                 return res.status(500).json({
-                    message: "Unabel to modify the status. Please retry."
+                    message: "Unable to modify the status. Please retry."
                 });
             }
         });
@@ -85,7 +88,7 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
     UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userbook) => {
         if(err) {//Handle the error case.
             return res.status(500).json({
-                message: "We're experiencing conenctivity issues with the Database. Please revisit later."
+                message: "We're experiencing connectivity issues with the Database. Please revisit later."
             });
         }
 
@@ -100,7 +103,7 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
         newUserBook.save((err, data) => {
             if(err) {
                 return res.status(500).json({
-                    message: "We're experiencing conenctivity issues with the Database. Please revisit later."
+                    message: "We're experiencing connectivity issues with the Database. Please revisit later."
                 });
             }
             res.status(200).json({
@@ -139,5 +142,103 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
 };
 
 
+/**
+ * Function to update the book's rating for the current user in the User, UserBook, Book collections.
+ */
+const updateUserBookRating = async (userId, bookId, data, req, res) => {
+    const rating        = data.rating;
+    const bookCover     = data.cover;
+    const bookName      = data.name;
+
+    const $pull = {
+        rated: {
+            _id: bookId
+        }
+    };
+
+    //Update the User Collection.
+    //Pull out the existing record for the User assuming the book has already been rated.
+   const updated = await User.findByIdAndUpdate(userId, {$pull: $pull});
+
+    const $push = {
+        rated: {
+            _id: bookId,
+            cover: bookCover,
+            name: bookName,
+            rating: rating.current
+        }
+    }
+    console.log('to be pushed', $push);
+    User.findByIdAndUpdate(userId, {$push: $push}, (err, doc) => {
+        if(err) {
+            return res.status(500).json({
+                message: "Unable to modify the status. Please retry."
+            });
+        }
+    });
+
+    
+    //Update the UserBook collection
+    UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userBook) => {
+        if(err) {//Handle the error scenario.
+            return res.status(500).json({
+                message: "We're experiencing connectivity issues with the Database. Please revisit later."
+            });
+        }
+
+        let newUserBook = userBook;
+        if(userBook) { //User has already modified it's status before.
+            newUserBook.rating = rating.current;
+        }
+        else { //User is updating the status for the current book for the first time.
+            newUserBook = new UserBook({userId, bookId, rating: rating.current});
+        }
+
+        //Save the info.
+        newUserBook.save((err, data) => {
+            if(err) {
+                return res.status(500).json({
+                    message: "We're experiencing connectivity issues with the Database. Please revisit later."
+                });
+            }
+            res.status(200).json({
+                message: `Rating has been updated successfully for the book ${bookName}`
+            });
+        });
+    });
+
+    //Update the Book collection
+    Book.findById(bookId).exec((err, book) => {
+        if(err) { //Handle the error case
+            return;
+        }
+
+        let newBook = book;
+        if(!newBook) {
+            newBook = new Book({_id: bookId});
+        }
+
+        let averageRating = newBook.averageRating || 0;
+        let ratingCount = newBook.ratingCount;
+        if(rating.prev === 0 ) {
+            newBook.ratingCount = ratingCount + 1;
+            newBook.averageRating = (averageRating + rating.current) / (newBook.ratingCount);
+            newBook.ratings.push(userId);
+        }
+        else {
+            newBook.averageRating = ((averageRating * ratingCount) - rating.prev + rating.current) / ratingCount;
+        }
+
+        //Save the Updated info.
+        newBook.save((err, data) => {
+            if(err) {
+                console.log('Error updating Book status statistics');
+                return;
+            }
+        });
+    });
+
+};
+
 module.exports.updateUserBookDetails = updateUserBookDetails;
-module.exports.getUserBookInfo = getUserBookInfo
+module.exports.getUserBookInfo = getUserBookInfo;

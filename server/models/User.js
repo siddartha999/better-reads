@@ -18,6 +18,10 @@ const modelObj = {
     activity: {
         type: Array,
         default: [],
+    },
+    rated: {
+        type: Array,
+        default: []
     }
 };
 

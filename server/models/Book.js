@@ -22,6 +22,10 @@ const modelObj = {
     reviewCount: {
         type: Number,
         default: 0
+    },
+    ratingCount: {
+        type: Number,
+        default: 0
     }
 };
 

@@ -33,7 +33,6 @@ const retrieveUserBooks = (req, res) => {
 const retrieveUserBooksByType = (req, res) => {
     const userId = req.userId;
     const type = req.params.type;
-    console.log(type);
     User.findById(userId).exec((err, user) => {
         if(err) {
             return res.status(500).json({

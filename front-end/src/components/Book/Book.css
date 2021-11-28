@@ -196,6 +196,13 @@
     font-variant: all-petite-caps;
 }
 
+.Book-current-user-rating-wrapper {
+    width: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .Book-footer {
     height: 25vh;
 }

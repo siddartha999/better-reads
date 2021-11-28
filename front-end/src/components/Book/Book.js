@@ -9,6 +9,7 @@ import AuthorWorks from '../AuthorWorks/AuthorWorks';
 import { useNavigate } from 'react-router-dom';
 import UserBookStatus from '../UserBookStatus/UserBookStatus';
 import { UserContext } from '../../contexts/UserContext';
+import UserBookRating from '../UserBookRating/UserBookRating';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -79,7 +80,7 @@ const Book = () => {
             if(response.status === 500) {
                 raiseSnackbarError(response.data.message);
             }
-            else {
+            else {console.log(response.data);
                 setUserBook(response.data);
             }
         });
@@ -129,6 +130,10 @@ const Book = () => {
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
                                 status={userBook?.status} rating = {userBook?.rating} />
+                        </div>
+                        <div className="Book-current-user-rating-wrapper">
+                            <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 
+                            name={book?.title} status={userBook?.status} rating = {userBook?.rating}/>
                         </div>
                         <div className="Book-current-user-stats-wrapper">
 
