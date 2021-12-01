@@ -19,6 +19,7 @@ const retrieveUserBooks = (req, res) => {
             resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = user[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
             resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = user[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
             resObj[BOOK_STATUS_CONSTANTS_READ] = user[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
+            resObj['rated'] = user['rated'].slice(0, 11);
             res.status(200).json(resObj);
         }
 
@@ -27,8 +28,7 @@ const retrieveUserBooks = (req, res) => {
 
 
 /**
- * Controller to retrive the Books for the current user based on the type: {currently-reading, want-to-read, read}.
- * Starting Index & Limit are expexted
+ * Controller to retrieve the Books for the current user based on the type: {currently-reading, want-to-read, read}.
  */
 const retrieveUserBooksByType = (req, res) => {
     const userId = req.userId;
@@ -43,7 +43,12 @@ const retrieveUserBooksByType = (req, res) => {
         if(user) {
             const resObj = {};
             resObj[type] = user[type];
-            res.status(200).json(resObj);
+            return res.status(200).json(resObj);
+        }
+        else {
+            return res.status(500).json({
+                message: 'Unknown error.'
+            });
         }
 
     });

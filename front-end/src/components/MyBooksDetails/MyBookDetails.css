@@ -40,15 +40,19 @@
 }
 
 .MyBooksDetails-result-card > .MuiPaper-root > img {
-    height: 85%;
-    width: 75%;
+    height: 80%;
+    width: 80%;
     position: relative;
-    left: 12.5%;
+    left: 10%;
     object-fit: contain;
 }
 
 .MyBooksDetails-result-card-details-wrapper {
-    height: 15%;
+    height: 20%;
+}
+
+.MyBooksDetails-result-card-details-wrapper > p {
+    margin: 0.25rem;
 }
 
 .MyBooksDetails-pagination-wrapper {

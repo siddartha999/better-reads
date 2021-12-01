@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import Rating from '@mui/material/Rating';
 
 const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
@@ -27,9 +28,17 @@ const MyBookDetails = (props) => {
     const [paginationIndex, setPaginationIndex] = useState(1);
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
-    for(let key in USER_BOOK_STATUS_CONSTANTS) {
-        if(USER_BOOK_STATUS_CONSTANTS[key] === type) {
-            isValidPath = true;
+
+    //Verify whether the current route is valid.
+    if(type === 'rated') {
+        isValidPath = true;
+    }
+    else {
+        for(let key in USER_BOOK_STATUS_CONSTANTS) {
+            if(USER_BOOK_STATUS_CONSTANTS[key] === type) {
+                isValidPath = true;
+                break;
+            }
         }
     }
 
@@ -118,12 +127,13 @@ const MyBookDetails = (props) => {
                                         alt={ALT_IMAGE_PATH}
                                         image={obj.cover ? COVER_PIC_URL_PREFIX + obj.cover + "-M.jpg" : ALT_IMAGE_PATH}
                                     />
-                                    <div className="MyBooksDetails-result-card-details-wrapper">
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h6" component="div" title={obj.name}>
-                                                {obj.name}
-                                            </Typography>
-                                        </CardContent>
+                                    <div className="MyBooksDetails-result-card-details-wrapper" title={obj?.name}>
+                                        <p>{obj?.name}</p>
+                                        {type === 'rated' ? 
+                                            (obj && obj.rating ? 
+                                                <Rating value={obj.rating} precision={0.5} readOnly/>
+                                                : null) 
+                                        : null}
                                     </div>
                                 </Card>
                             </div>

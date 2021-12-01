@@ -1,6 +1,7 @@
 import React from 'react';
 import './BooksTile.css';
 import { useNavigate } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
 
 const WORK_COVER_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
@@ -26,6 +27,12 @@ const BooksTile = (props) => {
                     </div>
                     <div className="BooksTile-name-wrapper" title={obj.name}>
                         <p>{obj.name}</p>
+                        {props.displayRating ? 
+                            (obj && obj.rating ? 
+                                <Rating value={obj.rating} precision={0.5} readOnly/>
+                                : null) 
+                        
+                        : null}
                     </div>
                 </div>    
             )}

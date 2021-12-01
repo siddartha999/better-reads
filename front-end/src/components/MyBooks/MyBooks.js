@@ -4,7 +4,7 @@ import BooksTile from '../BooksTile/BooksTile';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
-import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
+import USER_BOOK_STATUS_CONSTANTS, { USER_BOOK_STATUS_CONSTANTS_LIST } from '../../utils/userBookStatusConstants';
 import { useNavigate } from 'react-router-dom';
 
 const MyBooks = () => {
@@ -69,54 +69,41 @@ const MyBooks = () => {
         <div className="MyBooks">
             {myBooks &&
             <>
+
                 {
-                    myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING].length ?
-                        (
-                        <>
-                            <div className="MyBooks-title-wrapper">
-                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING}</span>
-                                {
-                                    myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING] && myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING].length > 10 ?
-                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING} onClick={handleNavigation}>Show more</span>
-                                    : null
-                                }
-                            </div>    
-                            <div className="MyBooks-currenty-reading-wrapper">
-                                <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING]} />
-                            </div> 
-                        </>) : null
+                    USER_BOOK_STATUS_CONSTANTS_LIST && USER_BOOK_STATUS_CONSTANTS_LIST.length &&
+                    USER_BOOK_STATUS_CONSTANTS_LIST.map(value => {
+                        return  myBooks && myBooks[value] && myBooks[value].length ?
+                                (
+                                <>
+                                    <div className="MyBooks-title-wrapper">
+                                        <span className="MyBooks-title">{value}</span>
+                                        {
+                                            myBooks[value] && myBooks[value].length > 10 ?
+                                                <span className="Mybooks-show-more" type={value} onClick={handleNavigation}>Show more</span>
+                                            : null
+                                        }
+                                    </div>    
+                                    <div className="MyBooks-type-section-wrapper">
+                                        <BooksTile books={myBooks[value]} />
+                                    </div> 
+                                </>) : null
+                    })
                 }
 
                 {
-                    myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ].length ?
-                        (<>
-                            <div className="MyBooks-title-wrapper">
-                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ}</span>
-                                {
-                                    myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ] && myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ].length > 10 ?
-                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ} onClick={handleNavigation}>Show more</span>
-                                    : null
-                                }
-                            </div>
-                            <div className="MyBooks-want-to-read-wrapper">
-                                <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ]} />
-                            </div>
-                        </>) : null
-                }
-
-                {
-                    myBooks[USER_BOOK_STATUS_CONSTANTS.READ].length ? 
+                    myBooks && myBooks['rated'] && myBooks['rated'].length ? 
                         ( <>
                             <div className="MyBooks-title-wrapper">
-                                <span className="MyBooks-title">{USER_BOOK_STATUS_CONSTANTS.READ}</span>
+                                <span className="MyBooks-title">Rated</span>
                                 {
-                                    myBooks[USER_BOOK_STATUS_CONSTANTS.READ] && myBooks[USER_BOOK_STATUS_CONSTANTS.READ].length > 10 ?
+                                    myBooks['rated'] && myBooks['rated'].length > 10 ?
                                         <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.READ} onClick={handleNavigation}>Show more</span>
                                     : null
                                 }
                             </div>
-                            <div className="MyBooks-read-wrapper">
-                                <BooksTile books={myBooks[USER_BOOK_STATUS_CONSTANTS.READ]} />
+                            <div className="MyBooks-type-section-wrapper">
+                                <BooksTile books={myBooks['rated']} displayRating/>
                             </div>
                         </>) : null
                 }
