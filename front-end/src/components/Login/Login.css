@@ -1,24 +1,34 @@
 .Login {
     height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
+}
+
+.Login-wrapper {
     display: flex;
     justify-content: center;
     align-items: baseline;
     flex-wrap: wrap;
+    width: 20rem;
+    height: 70%;
+    transition: 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    background-color: #FFFFFF;
 }
 
 .Login-header {
     width: 100%;
+    height: 30%;
 }
 
 .Login-header-title-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.Login-header-title-wrapper > img {
-    width: 125px;
-    height: 125px;
 }
 
 .Login-header-title {
@@ -33,20 +43,31 @@
     font-size: 1.25rem;
 }
 
-.Login-wrapper {
-    width: 75%;
-    height: 50%;
-    transition: 0.3s;
-    border-radius: 5px;
-    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+.Login-types-wrapper {
+    width: 100%;
 }
 
 .Login-google {
     position: relative;
-    top: 25%;
+    top: 1rem;
 }
 
 .Login-google > button {
-    background-color: blueviolet !important;
+    background-color: rgb(10,5,20) !important;
     color: whitesmoke !important;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50% !important;
+    justify-content: center;
+}
+
+.Login-google > button > span {
+    display: none;
+}
+
+.Login-google > button > div {
+    background: inherit !important;
+    border-radius: 50% !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
 }

@@ -80,7 +80,7 @@ const Book = () => {
             if(response.status === 500) {
                 raiseSnackbarError(response.data.message);
             }
-            else {console.log(response.data);
+            else {
                 setUserBook(response.data);
             }
         });
@@ -155,14 +155,17 @@ const Book = () => {
                         </div>
                     }
 
-                    <>
-                        <div className="Book-author-works-title-wrapper">
-                            <p> Works by the Author </p>
-                        </div>
-                        <div className="Book-author-works-wrapper">
-                            <AuthorWorks id={author?.key} limit={20} />
-                        </div>
-                    </>
+                    { author && author.name ?
+                        <>
+                            <div className="Book-author-works-title-wrapper">
+                                <p> Works by {author.name} </p>
+                            </div>
+                            <div className="Book-author-works-wrapper">
+                                <AuthorWorks id={author?.key} limit={20} />
+                            </div>
+                        </>
+                        : null
+                    }
 
                     <div className="Book-footer">
                     </div>

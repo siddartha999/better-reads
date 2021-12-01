@@ -1,7 +1,16 @@
 .SearchBar {
-    padding-top: 1rem;
+    width: 100%;
 }
 
 .SearchBar > form {
-    box-shadow: 0 8px 16px 0 lightsteelblue;
+    box-shadow: 0 2px 2px 0 floralwhite;
+    border-radius: 1.5rem;
+}
+
+.SearchBar-clear:hover {
+    cursor: pointer;
+}
+
+.SearchBar > .MuiPaper-root {
+    width: 100%;
 }

@@ -19,14 +19,58 @@ import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
+import SearchBar from '../SearchBar/SearchBar';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
+import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
+const SEARCH_QUERY_PREFIX = "http://openlibrary.org/search.json?q=";
 
-function ResponsiveDrawer(props) {
+const ResponsiveDrawer = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const {user} = useContext(UserContext);
   const profilePicUrl = user.profile.profilePicUrl;
+  const profileName = (user && user.profile && user.profile.name) ? user.profile.name : '';
+  const profileNames = profileName.split(' ');
+  let nameCaps = profileNames[0][0];
+  if(profileNames.length > 1) {
+    nameCaps += profileNames.pop()[0]; 
+  }
+  const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+  const navigate = useNavigate();
+  const width = useContext(ScreenWidthContext);
+  /**
+   * Function to raise the error message when the search result isn't retrieved.
+   */
+  const raiseSnackbarMessage = (message, severity) => {
+      snackbarObj.current = {}; 
+      snackbarObj.current.severity = severity;
+      snackbarObj.current.message = message;
+      toggleSnackbar(true);
+  };
+
+  /**
+     * Function to redirect the user to Book results page or raise an error if the search result
+     * isn't retrieved.
+     */
+
+   const onSubmitSearch = async (searchObj) => {
+    const query = searchObj.inputValue;
+    const response = await axios({
+        method: "GET",
+        url: SEARCH_QUERY_PREFIX + encodeURI(query)
+    });
+
+    if(response.status !== 200 || response.data.numFound === 0) {
+      raiseSnackbarMessage();
+    }
+    else {
+        navigate(`bookresults?q=${query}`, {state: response.data});
+    }
+};
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -111,18 +155,19 @@ function ResponsiveDrawer(props) {
           
           <div className="NavSideBar-user-profile-wrapper">
 
-          <div className="NavSideBar-logo-wrapper">
-              <img src={process.env.PUBLIC_URL + "/Logo.png"} alt={process.env.PUBLIC_URL + "/Logo.png"} className="NavSideBar-logo" />
+            <div className="NavSideBar-Search-wrapper">
+              <SearchBar setPlaceHolder="Search books" searchSubmit={onSubmitSearch} />
             </div>
 
-            <div className="NavSideBar-user-profile-info-wrapper"> 
+            <div className="NavSideBar-user-profile-info-wrapper" title={profileName}> 
               <div className="NavSideBar-user-profile-pic-wrapper">
                   <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} className="NavSideBar-user-profile-pic" />
               </div>
-              <div className="NavSideBar-user-profile-name-wrapper">
-                  <p  className="NavSideBar-user-profile-name">{user.profile.name}</p>
+              <div className={`NavSideBar-user-profile-name-wrapper ${width < 700 ? 'no-display' : null}`}>
+                  <p className={`NavSideBar-user-profile-name`}>{nameCaps}</p>
               </div>
             </div>
+
           </div>
 
         </Toolbar>

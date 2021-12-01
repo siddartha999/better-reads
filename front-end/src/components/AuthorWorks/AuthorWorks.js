@@ -48,7 +48,6 @@ const AuthorWorks = (props) => {
             raiseSnackbarError();
             return;
         }
-        console.log(response.data.entries);
         setWorks(response.data.entries);
     }, [props.id]);
 

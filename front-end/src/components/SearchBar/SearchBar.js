@@ -1,15 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import './SearchBar.css';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const SearchBar = (props) => {
     const className = props.setClassName || "";
     const placeholder = props.setPlaceHolder || "Better Reads search...";
-    const inputValue = useRef(null);
+    const [inputValue, setInputValue] = useState(null);
 
     /**
      * Function to call the parent's search submit function with the value entered in the search field.
@@ -18,8 +19,22 @@ const SearchBar = (props) => {
     const submitSearch = (event) => {
         event.preventDefault();
         props.searchSubmit({
-            inputValue: inputValue.current.querySelector('input').value,
+            inputValue: inputValue,
         });
+    };
+
+    /**
+     * Handler to update the state of the search bar.
+     */
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    /**
+     * Handler to clear the input entered in the search field.
+     */
+    const handleClearSearch = (event) => {
+        setInputValue('');
     };
 
   return (
@@ -34,8 +49,14 @@ const SearchBar = (props) => {
                 placeholder={placeholder}
                 inputProps={{ 'aria-label': 'search google maps' }}
                 onSubmit={submitSearch}
-                ref = {inputValue}
+                value={inputValue}
+                onChange={handleChange}
             />
+
+            {
+                inputValue && inputValue.length > 0 ?
+                    <ClearIcon className="Searchbar-clear" onClick={handleClearSearch} /> : null
+            }
 
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 

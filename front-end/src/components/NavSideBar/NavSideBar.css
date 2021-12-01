@@ -4,10 +4,20 @@
 
 .NavSideBar-item {
     text-decoration: none;
+    color: rgb(15, 20, 25);
+}
+
+.NavSideBar-item > .MuiButtonBase-root > .MuiListItemText-root > span {
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 
 .NavSideBar-item.active > div {
     background-color: lightyellow;
+}
+
+.NavSideBar-logo-wrapper {
+    width: 10%;
 }
 
 .NavSideBar-user-profile-wrapper {
@@ -26,9 +36,6 @@
     text-overflow: ellipsis;
 }
 
-.NavSideBar-user-profile-pic-wrapper {
-    margin-right: 0.5rem;
-}
 
 .NavSideBar-user-profile-pic {
     height: 40px;
@@ -44,14 +51,33 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 0.5rem;
 }
+
+.NavSideBar-user-profile-name-wrapper.no-display {
+    display: none;
+}
+
 
 .NavSideBar-user-profile-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-variant: all-petite-caps;
+    font-size: 1.5rem;
+    position: relative;
+    bottom: 3px;
 }
 
 .NavSideBar-logo {
     width: 70px;
+}
+
+.NavSideBar-Search-wrapper {
+    width: 80%;
+    border-radius: 1.5rem !important;
+}
+
+.NavSideBar > .MuiPaper-root > .MuiToolbar-root {
+    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
 }

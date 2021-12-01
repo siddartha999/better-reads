@@ -62,12 +62,16 @@
 .Book-details-title-wrapper {
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 6rem;
+    height: 4rem;
 }
 
 .Book-details-title-wrapper > p {
     font-size: 1.5rem;
     font-weight: bolder;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
@@ -75,7 +79,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     height: 3rem;
-    padding-top: 1rem;
 }
 
 .Book-details-author-wrapper > p {
@@ -91,7 +94,7 @@
 }
 
 .Book-details-description-wrapper {
-    height: calc(100% - 9.5rem);
+    height: calc(100% - 8rem);
     overflow: hidden;
 }
 
@@ -194,6 +197,10 @@
     font-family: cursive;
     color: black;
     font-variant: all-petite-caps;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .Book-current-user-rating-wrapper {
@@ -236,16 +243,8 @@
     text-align: center;
 }
 
-.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-title-wrapper {
-    height: 5rem;
-}
-
 .Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-title-wrapper > p {
     font-size: 1.25rem;
-}
-
-.Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-author-wrapper {
-    padding-top: 0.5rem;
 }
 
 .Book.mobile1200 > .Book-header > .Book-details-section-wrapper > .Book-details-description-wrapper {

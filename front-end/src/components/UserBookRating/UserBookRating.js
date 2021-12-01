@@ -24,13 +24,14 @@ const UserBookRating = (props) => {
      * Handler to update the rating of the current book by the current user.
     */
     const handleRatingUpdate = async (event, value) => {
-        console.log(value);
         const token = user?.token;
         if(!token) {
             raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
             localStorage.setItem("betterreadsuserinfo", null);
             setUser(null);
         }
+        
+        setRating(value);
 
         const response = await axios({
             method: "PATCH",
@@ -53,8 +54,6 @@ const UserBookRating = (props) => {
             localStorage.setItem("betterreadsuserinfo", null);
             setUser(null);
         }
-
-        setRating(value);
     };
 
     /**
