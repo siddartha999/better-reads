@@ -40,18 +40,9 @@ const ResponsiveDrawer = (props) => {
   if(profileNames.length > 1) {
     nameCaps += profileNames.pop()[0]; 
   }
-  const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+  const {raiseSnackbarMessage} = useContext(SnackbarContext);
   const navigate = useNavigate();
   const width = useContext(ScreenWidthContext);
-  /**
-   * Function to raise the error message when the search result isn't retrieved.
-   */
-  const raiseSnackbarMessage = (message, severity) => {
-      snackbarObj.current = {}; 
-      snackbarObj.current.severity = severity;
-      snackbarObj.current.message = message;
-      toggleSnackbar(true);
-  };
 
   /**
      * Function to redirect the user to Book results page or raise an error if the search result
@@ -66,7 +57,7 @@ const ResponsiveDrawer = (props) => {
     });
 
     if(response.status !== 200 || response.data.numFound === 0) {
-      raiseSnackbarMessage();
+      raiseSnackbarMessage('Unable to fetch the Search result. Please try again later or try a different search', 'error');
     }
     else {
         navigate(`bookresults?q=${query}`, {state: response.data});

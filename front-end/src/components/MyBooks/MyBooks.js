@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const MyBooks = () => {
     const {user, setUser} = useContext(UserContext);
     const width = useRef(window.innerWidth);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const [myBooks, setMyBooks] = useState(null);
     const navigate = useNavigate();
 
@@ -44,16 +44,6 @@ const MyBooks = () => {
         setMyBooks(response.data);
 
     }, []);
-
-    /**
-     * Function to display the snackbar message.
-    */
-   const raiseSnackbarMessage = (message, severity) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = severity;
-        snackbarObj.current.message = message;
-        toggleSnackbar(true);
-    };
 
     /**
      * Handler to navigate to the selected status page.

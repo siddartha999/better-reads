@@ -8,18 +8,8 @@ import axios from 'axios';
 const UserBookRating = (props) => {
     const [rating, setRating] = useState(props.rating || 0);
     const {user, setUser} = useContext(UserContext);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
-
-    /**
-     * Function to display the snackbar message.
-    */
-   const raiseSnackbarMessage = (message, severity) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = severity;
-        snackbarObj.current.message = message;
-        toggleSnackbar(true);
-    };
-
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
+    
     /**
      * Handler to update the rating of the current book by the current user.
     */

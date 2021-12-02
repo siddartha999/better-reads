@@ -15,17 +15,7 @@ const USER_BOOK_STATUS_LIST = [USER_BOOK_STATUS_CONSTANTS.NONE, USER_BOOK_STATUS
 const UserBookStatus = (props) => {
   const [status, setStatus] = useState(props.status ? props.status : USER_BOOK_STATUS_LIST[0]);
   const {user, setUser} = useContext(UserContext);
-  const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
-
-  /**
-     * Function to display the snackbar message.
-     */
-   const raiseSnackbarMessage = (message, severity) => {
-    snackbarObj.current = {}; 
-    snackbarObj.current.severity = severity;
-    snackbarObj.current.message = message;
-    toggleSnackbar(true);
-};
+  const {raiseSnackbarMessage} = useContext(SnackbarContext);
 
   /**
    * Handler to modify the status of the book for the current user.

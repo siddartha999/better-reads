@@ -15,7 +15,7 @@ const Profile = () => {
     const name = user.profile.name;
     const profilePicUrl = user.profile.profilePicUrl;
     const [rating, setMyRating] = useState(null);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const navigate = useNavigate();
 
     //Retrieve the user specific info in the initial-run.
@@ -53,19 +53,10 @@ const Profile = () => {
                 sum  += key * response.data.ratingMap[key];
             }
             averageRating = sum / response.data.ratingCount;
+            averageRating = averageRating.toFixed(2);
         }
         setMyRating({...response.data, averageRating});
     }, []);
-
-    /**
-     * Function to display the snackbar message.
-    */
-    const raiseSnackbarMessage = (message, severity) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = severity;
-        snackbarObj.current.message = message;
-        toggleSnackbar(true);
-    };
 
     /**
      * Handler to navigate to the user rated books page.

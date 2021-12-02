@@ -16,18 +16,8 @@ const Author = (props) => {
     const authorId = state.pathname.split("/").pop();
     console.log(authorId);
     const [author, setAuthor] = useState(null);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const width = useContext(ScreenWidthContext);
-
-    /**
-     * Function to display the error message when the query result isn't retrieved.
-     */
-     const raiseSnackbarError = () => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = "error";
-        snackbarObj.current.message = "Unable to retrieve the Author information. Please try again.";
-        toggleSnackbar(true);
-    };
 
     /**
      * Fetch the author details in the initiaal-setup.
@@ -39,7 +29,7 @@ const Author = (props) => {
         });
 
         if(!response || !response.data || response.status !== 200) {
-            raiseSnackbarError();
+            raiseSnackbarMessage('Unable to retrieve the Author info. Please try again.', 'error');
             return;
         }
         console.log(response.data);

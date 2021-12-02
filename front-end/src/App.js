@@ -23,6 +23,16 @@ function App() {
   const snackbarObj = useRef(null);
 
   /**
+   * Handler to invoke the snackbar with the message & severity provided.
+   */
+  const raiseSnackbarMessage = (message, severity) => {
+    snackbarObj.current = {}; 
+    snackbarObj.current.severity = severity;
+    snackbarObj.current.message = message;
+    toggleSnackbar(true);
+  };
+
+  /**
    * useEffect for initial-setup to add an event listener that tracks the current screen's width on resize.
    */
   useEffect(() => {
@@ -50,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <UserContext.Provider value={{user, setUser}}> 
-        <SnackbarContext.Provider value={{snackbarOpen, toggleSnackbar, snackbarObj}}>
+        <SnackbarContext.Provider value={{snackbarOpen, toggleSnackbar, snackbarObj ,raiseSnackbarMessage}}>
           <ScreenWidthContext.Provider value={width}> 
             {user ? appFlow : (<Login />)}
           </ScreenWidthContext.Provider>

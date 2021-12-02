@@ -30,20 +30,10 @@ const Book = () => {
     const [book, setBook] = useState(null);
     const [author, setAuthor] = useState(null);
     const [userBook, setUserBook] = useState(null);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const {user, setUser} = useContext(UserContext);
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
-
-    /**
-     * Function to display the error message when the query result isn't retrieved.
-     */
-     const raiseSnackbarError = (message) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = "error";
-        snackbarObj.current.message = message || "Unable to retrieve the Book information. Please try again.";
-        toggleSnackbar(true);
-    };
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(() => {
@@ -52,7 +42,7 @@ const Book = () => {
             url: BOOK_SEARCH_URL_PREFIX + state.pathname.split("/").pop() + ".json"
         }).then(response => {
             if(response.status !== 200) {
-                raiseSnackbarError();
+                raiseSnackbarMessage('Unable to retrieve the Book info. Please try again', 'error');
             }
             else {
                 setBook(response.data);
@@ -78,7 +68,7 @@ const Book = () => {
             }
         }).then(response => {
             if(response.status === 500) {
-                raiseSnackbarError(response.data.message);
+                raiseSnackbarMessage(response.data.message, 'error');
             }
             else {
                 setUserBook(response.data);

@@ -4,8 +4,6 @@ import { useLocation } from 'react-router';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 import Pagination from '@mui/material/Pagination';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +20,7 @@ const MyBookDetails = (props) => {
     const type = state.pathname?.split('/')?.pop();
     const {user, setUser} = useContext(UserContext);
     const [data, setData] = useState([]);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     let isValidPath = false;
     const paginationCount = Math.ceil((data && data.length ? data.length : 0) / 10);
     const [paginationIndex, setPaginationIndex] = useState(1);
@@ -95,17 +93,6 @@ const MyBookDetails = (props) => {
         console.log(response.data[type]);
         setData(response.data[type]);
     }, []);
-
-    /**
-     * Function to display the snackbar message.
-    */
-   const raiseSnackbarMessage = (message, severity) => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = severity;
-        snackbarObj.current.message = message;
-        toggleSnackbar(true);
-    };
-
 
     const notValidPathJSX = (
         <div className="BookResults-no-results">

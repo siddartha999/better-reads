@@ -12,19 +12,9 @@ const AuthorWorks = (props) => {
     const authorId = props.id;
     const limit = props.limit || 50;
     const [works, setWorks] = useState(null);
-    const {snackbarOpen, toggleSnackbar, snackbarObj} = useContext(SnackbarContext);
+    const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const navigate = useNavigate();
-
-    /**
-     * Function to display the error message when the query result isn't retrieved.
-     */
-     const raiseSnackbarError = () => {
-        snackbarObj.current = {}; 
-        snackbarObj.current.severity = "error";
-        snackbarObj.current.message = "Unable to retrieve the works of Author.";
-        toggleSnackbar(true);
-    };
-
+    
     /**
      * Handler to navigate the user to the selected book page.
      */
@@ -45,7 +35,7 @@ const AuthorWorks = (props) => {
             url: AUTHOR_WORKS_URL_PREFIX + authorId + "/works.json?limit=" + limit,
         });
         if(!response || !response.data || response.status !== 200) {
-            raiseSnackbarError();
+            raiseSnackbarMessage('Unable to retrieve the works of Author', 'error');
             return;
         }
         setWorks(response.data.entries);

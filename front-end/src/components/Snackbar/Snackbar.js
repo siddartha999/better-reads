@@ -12,7 +12,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const SnackBar = (props) => {
 
 const {snackbarOpen: open, toggleSnackbar: setOpen, snackbarObj: details} = useContext(SnackbarContext);
-
+  console.log(details);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -25,8 +25,8 @@ const {snackbarOpen: open, toggleSnackbar: setOpen, snackbarObj: details} = useC
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} key="bottom + center" 
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-        <Alert onClose={handleClose} severity={details.current?.severity} sx={{ width: '100%' }}>
-          {details.current?.message}
+        <Alert onClose={handleClose} severity={details?.current?.severity} sx={{ width: '100%' }}>
+          {details?.current?.message}
         </Alert>
       </Snackbar>
     </Stack>
