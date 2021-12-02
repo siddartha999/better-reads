@@ -14,30 +14,7 @@ const modelObj = {
     profilePicUrl: {
         type: String,
         required: false
-    },
-    activity: {
-        type: Array,
-        default: [],
-    },
-    rated: {
-        type: Array,
-        default: []
     }
-};
-
-modelObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = {
-    type: Array,
-    default: []
-};
-
-modelObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = {
-    type: Array,
-    default: []
-};
-
-modelObj[BOOK_STATUS_CONSTANTS_READ] = {
-    type: Array,
-    default: []
 };
 
 const userSchema = mongoose.Schema(modelObj);

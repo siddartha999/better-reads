@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const UserActivity = require('../models/UserActivity');
 const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ, 
     BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
 
@@ -7,19 +7,19 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
  */
 const retrieveUserBooks = (req, res) => {
     const userId = req.userId;
-    User.findById(userId).exec((err, user) => {
+    UserActivity.findById(userId).exec((err, userActivity) => {
         if(err) {
             return res.status(500).json({
                 message: "Experiencing connectivity issues with the Database. Please revisit later."
             });
         }
 
-        if(user) {
+        if(userActivity) {
             const resObj = {};
-            resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = user[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
-            resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = user[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
-            resObj[BOOK_STATUS_CONSTANTS_READ] = user[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
-            resObj['rated'] = user['rated'].slice(0, 11);
+            resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
+            resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = userActivity[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
+            resObj[BOOK_STATUS_CONSTANTS_READ] = userActivity[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
+            resObj['rated'] = userActivity['rated'].slice(0, 11);
             res.status(200).json(resObj);
         }
 
@@ -33,16 +33,16 @@ const retrieveUserBooks = (req, res) => {
 const retrieveUserBooksByType = (req, res) => {
     const userId = req.userId;
     const type = req.params.type;
-    User.findById(userId).exec((err, user) => {
+    UserActivity.findById(userId).exec((err, userActivity) => {
         if(err) {
             return res.status(500).json({
                 message: "Experiencing connectivity issues with the Database. Please revisit later."
             });
         }
 
-        if(user) {
+        if(userActivity) {
             const resObj = {};
-            resObj[type] = user[type];
+            resObj[type] = userActivity[type];
             return res.status(200).json(resObj);
         }
         else {

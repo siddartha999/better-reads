@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 const SEARCH_QUERY_PREFIX = "http://openlibrary.org/search.json?q=";
+const ALT_IMG_PATH = process.env.PUBLIC_URL + "/altimage.png";
 
 const ResponsiveDrawer = (props) => {
   const { window } = props;
@@ -161,7 +162,7 @@ const ResponsiveDrawer = (props) => {
 
             <div className="NavSideBar-user-profile-info-wrapper" title={profileName}> 
               <div className="NavSideBar-user-profile-pic-wrapper">
-                  <img src={profilePicUrl} alt={process.env.PUBLIC_URL + "/altimage.png"} className="NavSideBar-user-profile-pic" />
+                  <img src={profilePicUrl} className="NavSideBar-user-profile-pic" />
               </div>
               <div className={`NavSideBar-user-profile-name-wrapper ${width < 700 ? 'no-display' : null}`}>
                   <p className={`NavSideBar-user-profile-name`}>{nameCaps}</p>

@@ -1,8 +1,8 @@
 const User = require('../models/User');
+const UserActivity = require('../models/UserActivity');
 const UserBook = require('../models/UserBook');
 const Book = require('../models/Book');
-const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ, 
-    BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
+const {BOOK_STATUS_CONSTANTS_NONE} = require('../util/BookStatusConstants');
 
 /**
  * Controller to update the details(status, rating, review etc..) of the book for the current User.
@@ -27,21 +27,21 @@ const getUserBookInfo = (req, res) => {
     const userId = req.userId;
     const bookId = req.params.bookId;
 
-    UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userbook) => {
+    UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userBook) => {
         if(err) {
             return res.status(500).json({
                 message: `Unable to retrieve the User's status & rating for the current book. Please try again later`
             });
         }
         return res.status(200).json({
-            status: userbook?.status,
-            rating: userbook?.rating
+            status: userBook?.status,
+            rating: userBook?.rating
         });
     });
 };
 
 
-//Update the User, UserBook, Book collections for a change in the Book's status for the current user.
+//Update the UserActivity, UserBook, Book collections for a change in the Book's status for the current user.
 const updateUserBookStatus = (userId, bookId, data, req, res) => {
     const current = data.status.current;
     const prev = data.status.prev;
@@ -56,13 +56,13 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
         _id: bookId
     };
 
-    //Update the status in the User collection.
+    //Update the status in the UserActivity collection.
     if(current !== BOOK_STATUS_CONSTANTS_NONE) {
         let updateObj = {};
         updateObj = {
             $push: $push
         };
-        User.findByIdAndUpdate(userId, updateObj, (err, doc) => {
+        UserActivity.findByIdAndUpdate(userId, updateObj, (err, doc) => {
             if(err) {
                 return res.status(500).json({
                     message: "Unable to modify the status. Please retry."
@@ -75,7 +75,7 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
         updateObj = {
             $pull: $pull
         };
-        User.findByIdAndUpdate(userId, updateObj, (err, doc) => {
+        UserActivity.findByIdAndUpdate(userId, updateObj, (err, doc) => {
             if(err) {
                 return res.status(500).json({
                     message: "Unable to modify the status. Please retry."
@@ -85,15 +85,15 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
     }
 
     //Update the status in the UserBook collection
-    UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userbook) => {
+    UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userBook) => {
         if(err) {//Handle the error case.
             return res.status(500).json({
                 message: "We're experiencing connectivity issues with the Database. Please revisit later."
             });
         }
 
-        let newUserBook = userbook;
-        if(userbook) { //User has already modified it's status before.
+        let newUserBook = userBook;
+        if(userBook) { //User has already modified it's status before.
             newUserBook.status = current;
         }
         else { //User is updating the status for the current book for the first time.
@@ -143,40 +143,46 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
 
 
 /**
- * Function to update the book's rating for the current user in the User, UserBook, Book collections.
+ * Function to update the book's rating for the current user in the UserActivity, UserBook, Book collections.
  */
 const updateUserBookRating = async (userId, bookId, data, req, res) => {
     const rating        = data.rating;
     const bookCover     = data.cover;
     const bookName      = data.name;
 
-    const $pull = {
-        rated: {
-            _id: bookId
+    //Update the UserActivity collection.
+    try {
+        const userActivity = await UserActivity.findById(userId).exec();
+        let newUserActivity = userActivity;
+        if(!newUserActivity) {
+            newUserActivity = new UserActivity({_id: userId});
         }
-    };
 
-    //Update the User Collection.
-    //Pull out the existing record for the User assuming the book has already been rated.
-   const updated = await User.findByIdAndUpdate(userId, {$pull: $pull});
-
-    const $push = {
-        rated: {
-            _id: bookId,
-            cover: bookCover,
-            name: bookName,
-            rating: rating.current
+        //Update the previous rating info.
+        if(rating.prev !== 0) {
+            newUserActivity.ratingMap[Math.floor(rating.prev)] -= 1;
+            newUserActivity.rated = newUserActivity.rated.filter(obj => obj._id !== bookId);
         }
-    }
-    console.log('to be pushed', $push);
-    User.findByIdAndUpdate(userId, {$push: $push}, (err, doc) => {
-        if(err) {
+        //Push the new rating info.
+        newUserActivity.ratingMap[Math.floor(rating.current)] += 1;
+        newUserActivity.rated.push({_id: bookId, cover: bookCover, name: bookName, rating: rating.current});
+
+        //Save the updated info.
+        try {
+            const response = await newUserActivity.save();
+        } catch(err) {
+            console.log('ERR', err);
             return res.status(500).json({
-                message: "Unable to modify the status. Please retry."
+                message: "We're experiencing connectivity issues with the Database. Please revisit later."
             });
         }
-    });
-
+        console.log('DONE');
+    }
+    catch(err) {
+        return res.status(500).json({
+            message: "We're experiencing connectivity issues with the Database. Please revisit later."
+        });
+    }
     
     //Update the UserBook collection
     UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userBook) => {

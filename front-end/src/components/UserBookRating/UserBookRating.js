@@ -54,6 +54,9 @@ const UserBookRating = (props) => {
             localStorage.setItem("betterreadsuserinfo", null);
             setUser(null);
         }
+        else if(response.status !== 200) {
+            raiseSnackbarMessage(response.data.message, 'error');
+        }
     };
 
     /**

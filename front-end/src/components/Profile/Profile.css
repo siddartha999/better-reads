@@ -20,6 +20,7 @@
 
 .Profile-user-pic {
     width: 90%;
+    height: 70%;
     object-fit: contain;
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.04);
@@ -37,6 +38,7 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    margin-bottom: 0;
 }
 
 .Profile-image-wrapper {
@@ -44,6 +46,10 @@
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.Profile-rating-wrapper {
+    padding: 0.5rem 0;
 }
 
 .Profile-info-wrapper {
@@ -54,6 +60,20 @@
     background: inherit;
     border: none;
     color: red;
+    margin: 0.5rem 0;
+}
+
+.Profile-rating-count:hover {
+    cursor: pointer;
+    color: antiquewhite;
+}
+
+.Profile-average-rating {
+    padding-left: 0.25rem;
+}
+
+.Profile-info-wrapper > .Profile-sign-out:hover {
+    border: none;
 }
 
 /*  ---------------------   Mobile Specific -------------------------------------- */
