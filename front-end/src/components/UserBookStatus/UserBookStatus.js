@@ -56,7 +56,10 @@ const UserBookStatus = (props) => {
                 prev: prevVal
             },
             cover : props.cover,
-            name: props.name
+            name: props.name,
+            startDate: props.startDate,
+            endDate: props.endDate,
+            targetDate: props.targetDate
         }
     });
 
@@ -93,11 +96,14 @@ const UserBookStatus = (props) => {
       </FormControl>
       
       <UserBookStatusDialog setOpen={dialogOpen} setDialogOpen={setDialogOpen} bookName={props.name} status={status} 
-        bookId={props.bookId} bookCover={props.cover} startDate={props.startDate} endDate={props.endDate} />
+        bookId={props.bookId} bookCover={props.cover} startDate={props.startDate} endDate={props.endDate} targetDate={props.targetDate} />
 
-      <div className="UserBookStatus-edit-details-wrapper">
-          <p onClick={handleDialogOpen}>{`Edit Dates & Submit Review`}</p>
-      </div>
+      { 
+        status !== USER_BOOK_STATUS_CONSTANTS.NONE &&
+          <div className="UserBookStatus-edit-details-wrapper">
+              <p onClick={handleDialogOpen}>{`Edit Dates & Submit Review`}</p>
+          </div>
+      }
     </div>
   );
 };

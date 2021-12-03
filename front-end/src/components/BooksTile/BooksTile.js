@@ -43,11 +43,20 @@ const BooksTile = (props) => {
                                 : null)
                             : null
                         }
-                         {
+                        {
                             props.displayCompleted ?
                             (obj && obj.endDate ?
                                <span className="BooksTile-name-wrapper-completed"> 
                                    Completed: <Moment date={obj.endDate} format="MMM Do YYYY" />
+                                </span>
+                                : null)
+                            : null
+                        }
+                         {
+                            props.displayTarget ?
+                            (obj && obj.targetDate ?
+                               <span className="BooksTile-name-wrapper-target"> 
+                                   Target: <Moment date={obj.targetDate} format="MMM Do YYYY" />
                                 </span>
                                 : null)
                             : null

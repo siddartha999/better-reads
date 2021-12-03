@@ -37,6 +37,10 @@
     color: forestgreen;
 }
 
+.BooksTile-name-wrapper-target {
+    color: #ea3c53;
+}
+
 .BooksTile-name-wrapper > p {
     display: -webkit-box;
     -webkit-line-clamp: 1;

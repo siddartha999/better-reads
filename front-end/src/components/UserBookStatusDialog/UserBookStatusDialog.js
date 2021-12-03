@@ -18,6 +18,9 @@ import DatePicker from '@mui/lab/DatePicker';
 import axios from 'axios';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
+import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
+import moment from 'moment';
+import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -75,8 +78,11 @@ const PaperComponent = (props) => {
 const UserBookStatusDialog = (props) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [targetDate, setTargetDate] = useState(null);
     const {user, setUser} = useContext(UserContext);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
+    const dateError = useRef(false);
+    const width = useContext(ScreenWidthContext);
     /**
      * Handler to close the dialog.
      */
@@ -92,7 +98,8 @@ const UserBookStatusDialog = (props) => {
     useEffect(() => {
         setStartDate(props.startDate || null);
         setEndDate(props.endDate || null);
-    }, [props.startDate, props.endDate]);
+        setTargetDate(props.targetDate || null);
+    }, [props.startDate, props.endDate, props.setTargetDate]);
 
 
     /**
@@ -118,6 +125,7 @@ const UserBookStatusDialog = (props) => {
                 extras: {
                     startDate: startDate,
                     endDate: endDate,
+                    targetDate: targetDate,
                     status: props.status
                 },
                 cover : props.bookCover,
@@ -149,43 +157,84 @@ const UserBookStatusDialog = (props) => {
 
                     <DialogContent dividers>
                         <div className="UserBookStatusDialog-content-wrapper">
-                            <div className="UserBookStatusDialog-content-dates-wrapper">
-                                <div className="UserBookStatusDialog-start-date-wrapper"> 
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <DatePicker
-                                            label="Start Date"
-                                            value={startDate}
-                                            onChange={(newValue) => {
-                                                setStartDate(newValue);
-                                              }}
-                                            maxDate = {new Date()}
-                                            renderInput={(params) => (
-                                            <TextField {...params}/>
-                                            )}
-                                        />
-                                    </LocalizationProvider>
-                                </div>
-                                <div className="UserBookStatusDialog-end-date-wrapper"> 
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <DatePicker
-                                                label="End Date"
-                                                value={endDate}
-                                                onChange={(newValue) => {
-                                                    setEndDate(newValue);
-                                                  }}
-                                                maxDate = {new Date()}
-                                                renderInput={(params) => (
-                                                <TextField {...params}/>
-                                                )}
-                                            />
-                                    </LocalizationProvider>
-                                </div>
+                            <div className={`UserBookStatusDialog-content-dates-wrapper ${width < 600 ? 'mobile600' : null}`}>
+                                {
+                                    props.status && (props.status === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING || 
+                                        props.status === USER_BOOK_STATUS_CONSTANTS.READ) && 
+                                        <div className="UserBookStatusDialog-start-date-wrapper">
+                                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                <DatePicker 
+                                                    label="Start Date"
+                                                    value={startDate}
+                                                    onChange={(newValue) => {
+                                                        if(props.status === USER_BOOK_STATUS_CONSTANTS.READ && endDate) {
+                                                            //If the start Date is greater than the end date, mark for error
+                                                            //and disable 'Save Changes'.
+                                                            const val1 = Date.parse(moment(newValue).format("YYYY-MM-DD") + "T00:00:00");
+                                                            const val2 = Date.parse(moment(endDate).format("YYYY-MM-DD") + "T00:00:00");
+                                                            console.log(val1, val2);
+                                                            if(val1 > val2) {
+                                                                dateError.current = true;
+                                                            }
+                                                            else {
+                                                                dateError.current = false;
+                                                            }
+                                                        }
+                                                        else {
+                                                            dateError.current = false;
+                                                        }
+                                                        setStartDate(newValue);
+                                                    }}
+                                                    maxDate = {new Date()}
+                                                    renderInput={(params) => (
+                                                    <TextField {...params}/>
+                                                    )}
+                                                />
+                                            </LocalizationProvider>
+                                        </div>
+                                }
+                                {
+                                    props.status && props.status === USER_BOOK_STATUS_CONSTANTS.READ &&
+                                        <div className={`UserBookStatusDialog-end-date-wrapper ${dateError.current === true ? 'error' : null}`}> 
+                                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <DatePicker
+                                                        label="End Date"
+                                                        value={endDate}
+                                                        onChange={(newValue) => {
+                                                            setEndDate(newValue);
+                                                        }}
+                                                        maxDate = {new Date()}
+                                                        renderInput={(params) => (
+                                                        <TextField {...params}/>
+                                                        )}
+                                                    />
+                                            </LocalizationProvider>
+                                        </div>
+                                }
+                                {
+                                    props.status && props.status === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ &&
+                                        <div className="UserBookStatusDialog-end-date-wrapper"> 
+                                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                    <DatePicker
+                                                        label="Target Date"
+                                                        value={targetDate}
+                                                        onChange={(newValue) => {
+                                                            setTargetDate(newValue);
+                                                        }}
+                                                        minDate = {new Date()}
+                                                        renderInput={(params) => (
+                                                        <TextField {...params}/>
+                                                        )}
+                                                    />
+                                            </LocalizationProvider>
+                                        </div>
+                                }
                             </div>
                         </div>
                     </DialogContent>
                 
                     <DialogActions>
-                        <Button autoFocus onClick={handleSubmit}>
+                        <Button autoFocus onClick={handleSubmit} disabled={dateError.current}>
                             Save changes
                         </Button>
                     </DialogActions>

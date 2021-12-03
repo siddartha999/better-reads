@@ -77,6 +77,7 @@ const MyBooks = () => {
                                         <BooksTile books={myBooks[value]} 
                                             displayStarted={value === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ? true : false} 
                                             displayCompleted={value === USER_BOOK_STATUS_CONSTANTS.READ ? true : false}
+                                            displayTarget={value === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ ? true : false}
                                             />
                                     </div> 
                                 </div>) : null

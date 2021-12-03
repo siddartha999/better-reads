@@ -24,13 +24,15 @@ const userBookSchema = mongoose.Schema({
     },
     startDate: {
         type: Date,
-        required: false,
-        default: 'None'
+        required: false
     },
     endDate: {
         type: Date,
-        required: false,
-        default: 'None'
+        required: false
+    },
+    targetDate: {
+        type: Date,
+        required: false
     }
 });
 
