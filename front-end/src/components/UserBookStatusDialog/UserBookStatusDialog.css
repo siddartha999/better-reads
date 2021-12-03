@@ -1,0 +1,16 @@
+.MuiPaper-root.MuiDialog-paperScrollPaper.react-draggable {
+    width: 100%;
+    height: 60%;
+}
+
+.UserBookStatusDialog-content-dates-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.UserBookStatusDialog-title {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

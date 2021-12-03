@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import './UserBookStatus.css';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -7,6 +8,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
+import UserBookStatusDialog from '../UserBookStatusDialog/UserBookStatusDialog';
 
 
 const USER_BOOK_STATUS_LIST = [USER_BOOK_STATUS_CONSTANTS.NONE, USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ,
@@ -16,6 +18,15 @@ const UserBookStatus = (props) => {
   const [status, setStatus] = useState(props.status ? props.status : USER_BOOK_STATUS_LIST[0]);
   const {user, setUser} = useContext(UserContext);
   const {raiseSnackbarMessage} = useContext(SnackbarContext);
+  const renderCount = useRef(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  /**
+   * Handler to open the UserBookStatusDialog.
+   */
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
 
   /**
    * Handler to modify the status of the book for the current user.
@@ -24,6 +35,7 @@ const UserBookStatus = (props) => {
     const prevVal = status;
     const statusVal = event.target.value;
     setStatus(statusVal);
+    renderCount.current += 1;
     const token = user?.token;
 
     if(!token) {
@@ -79,6 +91,13 @@ const UserBookStatus = (props) => {
             {USER_BOOK_STATUS_LIST.map( (val, idx) => <MenuItem value={val} key={idx}>{val}</MenuItem>)}
         </Select>
       </FormControl>
+      
+      <UserBookStatusDialog setOpen={dialogOpen} setDialogOpen={setDialogOpen} bookName={props.name} status={status} 
+        bookId={props.bookId} bookCover={props.cover} startDate={props.startDate} endDate={props.endDate} />
+
+      <div className="UserBookStatus-edit-details-wrapper">
+          <p onClick={handleDialogOpen}>{`Edit Dates & Submit Review`}</p>
+      </div>
     </div>
   );
 };

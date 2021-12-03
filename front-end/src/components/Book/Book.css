@@ -26,10 +26,11 @@
     transition: 0.3s;
     border-radius: 1rem;
     margin-top: 0.5rem;
+    overflow-x: auto;
 }
 
 .Book-current-user-status-wrapper {
-    width: 12rem;
+    width: 15rem;
     display: flex;
     align-items: center;
     justify-content: center;

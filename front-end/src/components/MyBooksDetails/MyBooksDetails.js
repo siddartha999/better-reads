@@ -11,13 +11,15 @@ import axios from 'axios';
 import { UserContext } from '../../contexts/UserContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import Rating from '@mui/material/Rating';
+import Moment from 'react-moment';
+
 
 const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
 const MyBookDetails = (props) => {
     const state = useLocation();console.log(state);
-    const type = state.pathname?.split('/')?.pop();
+    const type = decodeURI(state.pathname).split('/')?.pop();
     const {user, setUser} = useContext(UserContext);
     const [data, setData] = useState([]);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
@@ -121,6 +123,28 @@ const MyBookDetails = (props) => {
                                                 <Rating value={obj.rating} precision={0.5} readOnly/>
                                                 : null) 
                                         : null}
+
+                                        {
+                                            type === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ?
+                                            (obj && obj.startDate ? 
+                                                <span className="BooksTile-name-wrapper-started"> 
+                                                    Started: <Moment date={obj.startDate} format="MMM Do YYYY" /> 
+                                                </span>
+                                                : null
+                                                )
+                                            : null
+                                        }
+
+                                        {
+                                            type === USER_BOOK_STATUS_CONSTANTS.READ ?
+                                            (obj && obj.endDate ? 
+                                                <span className="BooksTile-name-wrapper-completed"> 
+                                                    Completed: <Moment date={obj.endDate} format="MMM Do YYYY" /> 
+                                                </span>
+                                                : null
+                                                )
+                                            : null
+                                        }
                                     </div>
                                 </Card>
                             </div>

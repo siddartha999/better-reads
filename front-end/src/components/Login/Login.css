@@ -4,7 +4,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
 }
 
 .Login-wrapper {
@@ -13,11 +12,11 @@
     align-items: baseline;
     flex-wrap: wrap;
     width: 20rem;
-    height: 70%;
+    height: 60%;
     transition: 0.3s;
     border-radius: 5px;
     box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
-    background-color: #FFFFFF;
+    background: linear-gradient(to right, rgb(202, 197, 49), rgb(243, 249, 167));
 }
 
 .Login-header {
@@ -45,6 +44,11 @@
 
 .Login-types-wrapper {
     width: 100%;
+}
+
+.Login-types-text-wrapper > p {
+    font-size: 18px;
+    font-family: "Merriweather";
 }
 
 .Login-google {

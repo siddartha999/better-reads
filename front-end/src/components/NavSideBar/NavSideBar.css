@@ -4,7 +4,7 @@
 
 .NavSideBar-item {
     text-decoration: none;
-    color: rgb(15, 20, 25);
+    color: slateblue;
 }
 
 .NavSideBar-item > .MuiButtonBase-root > .MuiListItemText-root > span {
@@ -67,6 +67,7 @@
     font-size: 1.5rem;
     position: relative;
     bottom: 3px;
+    color: black;
 }
 
 .NavSideBar-logo {
@@ -79,5 +80,5 @@
 }
 
 .NavSideBar > .MuiPaper-root > .MuiToolbar-root {
-    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
+    background: linear-gradient(to right, rgb(202, 197, 49), rgb(243, 249, 167));
 }

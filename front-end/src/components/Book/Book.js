@@ -119,7 +119,7 @@ const Book = () => {
                     <div className="Book-current-user-utils-wrapper">
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
-                                status={userBook?.status} rating = {userBook?.rating} />
+                                status={userBook?.status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} />
                         </div>
                         <div className="Book-current-user-rating-wrapper">
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 

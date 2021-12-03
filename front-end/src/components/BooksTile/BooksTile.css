@@ -29,10 +29,22 @@
     overflow: hidden;
 }
 
+.BooksTile-name-wrapper-started {
+    color: darkorange;
+}
+
+.BooksTile-name-wrapper-completed {
+    color: forestgreen;
+}
+
 .BooksTile-name-wrapper > p {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 0;
+    color: darkslateblue;
+    font-weight: bolder;
+    font-size: 17px;
+    padding-top: 10px;
 }

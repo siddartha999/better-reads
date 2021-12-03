@@ -50,8 +50,7 @@ const MyBooks = () => {
      */
     const handleNavigation = (event) => {
         const type = event.currentTarget.getAttribute('type').trim();
-        console.log(type);
-        console.log(type.trim());
+        type = encodeURI(type);
         navigate(`${type}`, {state: myBooks[type]});
     };
 
@@ -62,10 +61,10 @@ const MyBooks = () => {
 
                 {
                     USER_BOOK_STATUS_CONSTANTS_LIST && USER_BOOK_STATUS_CONSTANTS_LIST.length &&
-                    USER_BOOK_STATUS_CONSTANTS_LIST.map(value => {
+                    USER_BOOK_STATUS_CONSTANTS_LIST.map((value, idx) => {
                         return  myBooks && myBooks[value] && myBooks[value].length ?
                                 (
-                                <>
+                                <div key={value + " " + idx}>
                                     <div className="MyBooks-title-wrapper">
                                         <span className="MyBooks-title">{value}</span>
                                         {
@@ -75,9 +74,12 @@ const MyBooks = () => {
                                         }
                                     </div>    
                                     <div className="MyBooks-type-section-wrapper">
-                                        <BooksTile books={myBooks[value]} />
+                                        <BooksTile books={myBooks[value]} 
+                                            displayStarted={value === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ? true : false} 
+                                            displayCompleted={value === USER_BOOK_STATUS_CONSTANTS.READ ? true : false}
+                                            />
                                     </div> 
-                                </>) : null
+                                </div>) : null
                     })
                 }
 

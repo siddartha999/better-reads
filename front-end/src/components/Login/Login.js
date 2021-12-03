@@ -40,6 +40,9 @@ function Login() {
                         <p className="Login-header-caption">A social network for Bookworms!</p>
                 </div>
                 <div className="Login-types-wrapper">
+                    <div className="Login-types-text-wrapper">
+                        <p>{`Discover & read more`}</p>
+                    </div>
                     <div className="Login-google">
                         <GoogleLogin
                             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}

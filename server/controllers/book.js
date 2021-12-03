@@ -3,6 +3,7 @@ const UserActivity = require('../models/UserActivity');
 const UserBook = require('../models/UserBook');
 const Book = require('../models/Book');
 const {BOOK_STATUS_CONSTANTS_NONE} = require('../util/BookStatusConstants');
+const { UserRefreshClient } = require('googleapis-common');
 
 /**
  * Controller to update the details(status, rating, review etc..) of the book for the current User.
@@ -17,6 +18,9 @@ const updateUserBookDetails = (req, res) => {
     }
     else if(data.rating) {//Update the Book's rating for the current user.
         updateUserBookRating(userId, bookId, data, req, res);
+    }
+    else if(data.extras) {//Update the Book's date-info & review by the current user.
+        updateUserBookExtras(userId, bookId, data, req, res);
     }
 };
 
@@ -35,14 +39,16 @@ const getUserBookInfo = (req, res) => {
         }
         return res.status(200).json({
             status: userBook?.status,
-            rating: userBook?.rating
+            rating: userBook?.rating,
+            startDate: userBook?.startDate,
+            endDate: userBook?.endDate
         });
     });
 };
 
 
 //Update the UserActivity, UserBook, Book collections for a change in the Book's status for the current user.
-const updateUserBookStatus = (userId, bookId, data, req, res) => {
+const updateUserBookStatus = async (userId, bookId, data, req, res) => {
     const current = data.status.current;
     const prev = data.status.prev;
     let $push = {};
@@ -56,31 +62,27 @@ const updateUserBookStatus = (userId, bookId, data, req, res) => {
         _id: bookId
     };
 
-    //Update the status in the UserActivity collection.
-    if(current !== BOOK_STATUS_CONSTANTS_NONE) {
-        let updateObj = {};
-        updateObj = {
-            $push: $push
-        };
-        UserActivity.findByIdAndUpdate(userId, updateObj, (err, doc) => {
-            if(err) {
-                return res.status(500).json({
-                    message: "Unable to modify the status. Please retry."
-                });
-            }
-        });
+    try {
+        let resp;
+        //Update the status in the UserActivity collection.
+        if(current !== BOOK_STATUS_CONSTANTS_NONE) {
+            let updateObj = {};
+            updateObj = {
+                $push: $push
+            };
+            resp = await UserActivity.findByIdAndUpdate(userId, updateObj);
+        }
+        if(prev !== BOOK_STATUS_CONSTANTS_NONE) {
+            let updateObj = {};
+            updateObj = {
+                $pull: $pull
+            };
+            resp = await UserActivity.findByIdAndUpdate(userId, updateObj);
+        }
     }
-    if(prev !== BOOK_STATUS_CONSTANTS_NONE) {
-        let updateObj = {};
-        updateObj = {
-            $pull: $pull
-        };
-        UserActivity.findByIdAndUpdate(userId, updateObj, (err, doc) => {
-            if(err) {
-                return res.status(500).json({
-                    message: "Unable to modify the status. Please retry."
-                });
-            }
+    catch(err) {
+        return res.status(500).json({
+            message: "Unable to modify the status. Please retry."
         });
     }
 
@@ -244,6 +246,77 @@ const updateUserBookRating = async (userId, bookId, data, req, res) => {
         });
     });
 
+};
+
+/**
+ * Function to update the book extras such as Start date, End-date, review for the current user.
+ */
+const updateUserBookExtras = async (userId, bookId, data, req, res) => {
+    if(!data.extras) return;
+    if(data.extras.startDate || data.extras.endDate) {
+        const startDate = data.extras.startDate;
+        const endDate = data.extras.endDate;
+        const status = data.extras.status;
+
+        if(!status) {//Validate the status type.
+            return res.status(400).json({
+                message: 'Missing the status type.'
+            });
+        }
+
+        let $pull = {};
+        $pull[status] = {
+            _id: bookId
+        };
+        let $push = {};
+        $push[status] = {
+            _id: bookId,
+            cover: data.cover,
+            name: data.name,
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        try {//Update the UserActivity collection.
+            let  resp   = await UserActivity.findByIdAndUpdate(userId, {$pull: $pull});
+            resp        =  await UserActivity.findByIdAndUpdate(userId, {$push: $push});
+        }
+        catch(err) {
+            return res.status(500).json({
+                message: "Unable to modify the status. Please retry."
+            });
+        }
+
+        //Update the UserBook collection.
+        UserBook.findOne({userId: userId, bookId: bookId}).exec((err, userBook) => {
+            if(err) {//Handle the error case.
+                return res.status(500).json({
+                    message: `Unable to retrieve the User's status & rating for the current book. Please try again later`
+                });
+            }
+
+            let newUserBook = userBook;
+            if(userBook) { //User has already modified it's status before.
+                newUserBook.startDate = startDate;
+                newUserBook.endDate = endDate;
+            }
+            else { //User is updating the status for the current book for the first time.
+                newUserBook = new UserBook({userId, bookId, status: status, startDate: startDate, endDate: endDate});
+            }
+            console.log('newUserBook ', newUserBook);
+            newUserBook.save((err, data) => {
+                if(err) {
+                    return res.status(500).json({
+                        message: "We're experiencing connectivity issues with the Database. Please revisit later."
+                    });
+                }
+                res.status(200).json({
+                    message: "Status has been updated successfully."
+                });
+            });
+
+        });
+    }
 };
 
 module.exports.updateUserBookDetails = updateUserBookDetails;

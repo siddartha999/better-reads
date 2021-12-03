@@ -14,8 +14,8 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    background: linear-gradient(to right, rgb(173, 83, 137), rgb(60, 16, 83));
-    color: aliceblue;
+    background: linear-gradient(to right, rgb(202, 197, 49), rgb(243, 249, 167));
+    color: black;
 }
 
 .Profile-user-pic {
@@ -59,8 +59,13 @@
 .Profile-info-wrapper > .Profile-sign-out {
     background: inherit;
     border: none;
-    color: red;
+    color: darkred;
     margin: 0.5rem 0;
+}
+
+.Profile-info-wrapper > .Profile-sign-out:hover {
+    background-color: transparent;
+    color: orangered;
 }
 
 .Profile-rating-count:hover {
