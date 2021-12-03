@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import './UserBookStatusDialog.css';
+import './UserBookExtrasDialog.css';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -75,7 +75,7 @@ const PaperComponent = (props) => {
 
 
 
-const UserBookStatusDialog = (props) => {
+const UserBookExtrasDialog = (props) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [targetDate, setTargetDate] = useState(null);
@@ -144,7 +144,7 @@ const UserBookStatusDialog = (props) => {
     };
 
     return (
-        <div className="UserBookStatusDialog">
+        <div className="UserBookExtrasDialog">
             <Dialog
                 onClose={handleClose}
                 aria-labelledby="draggable-dialog-title"
@@ -152,16 +152,16 @@ const UserBookStatusDialog = (props) => {
                 PaperComponent={PaperComponent}
             >
                 <DialogHeader id="customized-dialog-title" onClose={handleClose} style={{cursor: 'move'}}>
-                    <p className="UserBookStatusDialog-title">{props.bookName}</p>
+                    <p className="UserBookExtrasDialog-title">{props.bookName}</p>
                 </DialogHeader>
 
                     <DialogContent dividers>
-                        <div className="UserBookStatusDialog-content-wrapper">
-                            <div className={`UserBookStatusDialog-content-dates-wrapper ${width < 600 ? 'mobile600' : null}`}>
+                        <div className="UserBookExtrasDialog-content-wrapper">
+                            <div className={`UserBookExtrasDialog-content-dates-wrapper ${width < 600 ? 'mobile600' : null}`}>
                                 {
                                     props.status && (props.status === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING || 
                                         props.status === USER_BOOK_STATUS_CONSTANTS.READ) && 
-                                        <div className="UserBookStatusDialog-start-date-wrapper">
+                                        <div className="UserBookExtrasDialog-start-date-wrapper">
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                 <DatePicker 
                                                     label="Start Date"
@@ -195,7 +195,7 @@ const UserBookStatusDialog = (props) => {
                                 }
                                 {
                                     props.status && props.status === USER_BOOK_STATUS_CONSTANTS.READ &&
-                                        <div className={`UserBookStatusDialog-end-date-wrapper ${dateError.current === true ? 'error' : null}`}> 
+                                        <div className={`UserBookExtrasDialog-end-date-wrapper ${dateError.current === true ? 'error' : null}`}> 
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                     <DatePicker
                                                         label="End Date"
@@ -213,7 +213,7 @@ const UserBookStatusDialog = (props) => {
                                 }
                                 {
                                     props.status && props.status === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ &&
-                                        <div className="UserBookStatusDialog-end-date-wrapper"> 
+                                        <div className="UserBookExtrasDialog-end-date-wrapper"> 
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                     <DatePicker
                                                         label="Target Date"
@@ -243,4 +243,4 @@ const UserBookStatusDialog = (props) => {
         );
 };
 
-export default UserBookStatusDialog;
+export default UserBookExtrasDialog;

@@ -145,6 +145,17 @@ const MyBookDetails = (props) => {
                                                 )
                                             : null
                                         }
+
+                                        {
+                                            type === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ ?
+                                            (obj && obj.targetDate ? 
+                                                <span className="BooksTile-name-wrapper-target"> 
+                                                    Target: <Moment date={obj.endDate} format="MMM Do YYYY" /> 
+                                                </span>
+                                                : null
+                                                )
+                                            : null
+                                        }
                                     </div>
                                 </Card>
                             </div>

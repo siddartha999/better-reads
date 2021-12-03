@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useLocation } from 'react-router';
 import './BookResults.css';
 import Pagination from '@mui/material/Pagination';
@@ -13,8 +13,8 @@ const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
 const BookResults = (props) => {
-    const { state } = useLocation();
-    const data = state?.docs || [];
+    const state = useLocation();
+    const data = state.state?.docs || [];
     const paginationCount = Math.ceil(data.length / 10);
     const [paginationIndex, setPaginationIndex] = useState(1);
     const width = useContext(ScreenWidthContext);
@@ -36,6 +36,14 @@ const BookResults = (props) => {
         id = id.pop();
         navigate(`/book/${id}`, {state: id});
     };
+
+    /**
+     * Update the pagination index to 1 whenever there is a change in search query.
+     */
+    useEffect(() => {
+        setPaginationIndex(1);
+        console.log(state);
+    }, state.key);
 
     const noResultsJSX = (
         <div className="BookResults-no-results">
@@ -72,8 +80,8 @@ const BookResults = (props) => {
     );
     return (
         <div className="BookResults">
-            {state ? displayResultsJSX : noResultsJSX}
-            {state ? 
+            {data ? displayResultsJSX : noResultsJSX}
+            {data ? 
                 <div className="BookResults-pagination-wrapper">
                     <Pagination count={paginationCount} page={paginationIndex} onChange={handlePaginationChange} 
                         variant="outlined" color="primary" />  

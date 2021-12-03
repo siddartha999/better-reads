@@ -53,6 +53,10 @@
 
 .MyBooksDetails-result-card-details-wrapper > p {
     margin: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .MyBooksDetails-pagination-wrapper {

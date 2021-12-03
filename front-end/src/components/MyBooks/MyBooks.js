@@ -49,7 +49,7 @@ const MyBooks = () => {
      * Handler to navigate to the selected status page.
      */
     const handleNavigation = (event) => {
-        const type = event.currentTarget.getAttribute('type').trim();
+        let type = event.currentTarget.getAttribute('type').trim();
         type = encodeURI(type);
         navigate(`${type}`, {state: myBooks[type]});
     };

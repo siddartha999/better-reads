@@ -17,12 +17,12 @@ const BOOK_THUMBNAIL_URL_PRFEFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
 const CHIP_STYLES = [
-    {backgroundColor: "wheat", color: "darkslategrey"},
-    {backgroundColor: "black", color: "white"},
-    {backgroundColor: "turquoise", color: "darkred"},
-    {backgroundColor: "chocolate", color: "cornsilk"},
-    {backgroundColor: "brown", color: "aliceblue"},
-    {backgroundColor: "rebeccapurple", color: "papayawhip"}
+    {background: "linear-gradient(#7D141D, #FF1E27)", color: "#F4EFEA"},
+    {backgroundColor: "#292826", color: "#F9D342"},
+    {backgroundColor: "#FBEAEB", color: "#2F3C7E"},
+    {background: "linear-gradient(#F6B042, #F9ED4E)", color: "#533549,"},
+    {backgroundColor: "#AA96DA", color: "#FFFFD2"},
+    {backgroundColor: "#080A52", color: "#EB2188"}
 ];
 
 const Book = () => {
@@ -73,6 +73,7 @@ const Book = () => {
             }
             else {
                 setUserBook(response.data);
+                console.log(response.data);
                 setStatus(response.data.status);
             }
         });
@@ -118,10 +119,10 @@ const Book = () => {
                         </div>
                     </div>
 
-                    <div className={`Book-current-user-utils-wrapper ${status ? status : ''}`}>
+                    <div className={`Book-current-user-utils-wrapper ${status}`}>
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
-                                status={userBook?.status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
+                                status={status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
                                 updateStatus={setStatus}/>
                         </div>
                         <div className="Book-current-user-rating-wrapper">
@@ -136,7 +137,7 @@ const Book = () => {
                     { book && (book.subject_people || book.subject_places) &&
                          <div className="Book-extras">
                             <div className={`Book-characters-wrapper ${width <= 850 ? 'mobile' : ''}`}>
-                                {book && book.subject_people && book.subject_people.filter((val, idx) => idx < 15).map((value, index) => {
+                                {book && book.subject_people && book.subject_people.filter((val, idx) => idx < 10).map((value, index) => {
                                     return <Chip label={value} key={value} title={value} style={CHIP_STYLES[index % CHIP_STYLES.length]} />
                                 })}
                             </div>

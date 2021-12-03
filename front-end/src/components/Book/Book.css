@@ -128,7 +128,6 @@
 }
 
 .Book-extras {
-    height: 25vh;
     overflow: auto;
     display: flex;
     align-items: center;
@@ -141,9 +140,10 @@
 }
 
 .Book-characters-wrapper > .MuiChip-root {
-    margin: 0.1rem;
+    margin: 0.25rem;
     height: 2rem;
     max-width: 20rem;
+    padding: 1rem;
 }
 
 .Book-characters-wrapper.mobile > .MuiChip-root {
@@ -175,9 +175,10 @@
 }
 
 .Book-places-wrapper > .MuiChip-root {
-    margin: 0.1rem;
+    margin: 0.25rem;
     height: 2rem;
     max-width: 20rem;
+    padding: 1rem;
 }
 
 .Book-places-wrapper.mobile > .MuiChip-root {
