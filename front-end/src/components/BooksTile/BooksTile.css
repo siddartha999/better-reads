@@ -31,14 +31,17 @@
 
 .BooksTile-name-wrapper-started {
     color: darkorange;
+    font-weight: bold;
 }
 
 .BooksTile-name-wrapper-completed {
-    color: forestgreen;
+    color: lightseagreen;
+    font-weight: bold;
 }
 
 .BooksTile-name-wrapper-target {
     color: #ea3c53;
+    font-weight: bold;
 }
 
 .BooksTile-name-wrapper > p {

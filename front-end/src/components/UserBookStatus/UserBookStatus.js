@@ -35,6 +35,9 @@ const UserBookStatus = (props) => {
     const prevVal = status;
     const statusVal = event.target.value;
     setStatus(statusVal);
+    if(props.updateStatus) {
+      props.updateStatus(statusVal);
+    }
     renderCount.current += 1;
     const token = user?.token;
 

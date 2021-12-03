@@ -34,6 +34,7 @@ const Book = () => {
     const {user, setUser} = useContext(UserContext);
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
+    const [status, setStatus] = useState(null);
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(() => {
@@ -72,6 +73,7 @@ const Book = () => {
             }
             else {
                 setUserBook(response.data);
+                setStatus(response.data.status);
             }
         });
 
@@ -116,10 +118,11 @@ const Book = () => {
                         </div>
                     </div>
 
-                    <div className="Book-current-user-utils-wrapper">
+                    <div className={`Book-current-user-utils-wrapper ${status ? status : ''}`}>
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
-                                status={userBook?.status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} />
+                                status={userBook?.status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
+                                updateStatus={setStatus}/>
                         </div>
                         <div className="Book-current-user-rating-wrapper">
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 

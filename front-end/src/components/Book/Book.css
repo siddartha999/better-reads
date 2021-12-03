@@ -23,10 +23,25 @@
     position: relative;
     left: 5%;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
+    transition: 0.5s;
     border-radius: 1rem;
     margin-top: 0.5rem;
     overflow-x: auto;
+}
+
+.Book-current-user-utils-wrapper.Currently.Reading {
+    background-color: darkorange;
+    color: floralwhite;
+}
+
+.Book-current-user-utils-wrapper.Want.to.Read {
+    background-color: #ea3c53;
+    color: white;
+}
+
+.Book-current-user-utils-wrapper.Read {
+    background-color: lightseagreen;
+    color: snow;
 }
 
 .Book-current-user-status-wrapper {

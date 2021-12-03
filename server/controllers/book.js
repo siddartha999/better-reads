@@ -272,6 +272,7 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
             });
         }
 
+
         let $pull = {};
         $pull[status] = {
             _id: bookId

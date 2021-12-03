@@ -3,3 +3,11 @@
     text-decoration: underline;
     color: darkslateblue;
 }
+
+.UserBookStatus > .MuiFormControl-root > label {
+    color: inherit;
+}
+
+.UserBookStatus > .MuiFormControl-root > .MuiInput-root.MuiInput-underline {
+    color: inherit;
+}
