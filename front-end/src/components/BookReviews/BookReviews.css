@@ -1,0 +1,89 @@
+.BookReviews {
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    min-height: 5rem;
+}
+
+.BookReviews-review {
+    display: flex;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.BookReviews-review-image-wrapper {
+    padding-left: 1rem;
+}
+
+.BookReviews-review-image-wrapper > img {
+    height: 3rem;
+    width: 3rem;
+    border-width: 1px;
+    border-radius: 9999px;
+    border-color: rgba(0, 0, 0, 0.04);
+    outline-style: none;
+    box-shadow: rgb(0 0 0 / 2%) 0px 0px 2px inset;
+}
+
+.BookReviews-review-header-wrapper {
+    display: flex;
+}
+
+.BookReviews-review-header-wrapper> p {
+    margin: 0;
+}
+
+.BookReviews-review-body-wrapper {
+    width: calc(100% - 5rem);
+    padding-left: 2rem;
+    text-align: left;
+}
+
+.BookReviews-review-user-name {
+    font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 1.75rem;
+    max-width: 50%;
+    font-size: 17px;
+    font-family: sans-serif;
+}
+
+.BookReviews-review-published-date {
+    padding-left: 1rem;
+}
+
+.BookReviews-review-content-wrapper {
+    max-height: 50vh;
+    overflow: auto;
+    padding-top: 0.5rem;
+}
+
+.BookReviews-review-content-wrapper > span {
+    font-weight: 500;
+    white-space: pre-line;
+}
+
+.BookReviews-pagination-wrapper {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}
+
+
+/* ---------------------------------  Mobile Specific --------------------------------------- */
+
+.BookReviews-review-header-wrapper.mobile900 > .BookReviews-review-user-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: unset;
+}

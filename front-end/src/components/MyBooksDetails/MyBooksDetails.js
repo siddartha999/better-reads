@@ -128,7 +128,7 @@ const MyBookDetails = (props) => {
                                             type === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ?
                                             (obj && obj.startDate ? 
                                                 <span className="BooksTile-name-wrapper-started"> 
-                                                    Started: <Moment date={obj.startDate} format="MMM Do YYYY" /> 
+                                                    Started: <Moment date={obj.startDate} format="D MMM YYYY" /> 
                                                 </span>
                                                 : null
                                                 )
@@ -139,7 +139,7 @@ const MyBookDetails = (props) => {
                                             type === USER_BOOK_STATUS_CONSTANTS.READ ?
                                             (obj && obj.endDate ? 
                                                 <span className="BooksTile-name-wrapper-completed"> 
-                                                    Completed: <Moment date={obj.endDate} format="MMM Do YYYY" /> 
+                                                    Completed: <Moment date={obj.endDate} format="D MMM YYYY" /> 
                                                 </span>
                                                 : null
                                                 )
@@ -150,7 +150,7 @@ const MyBookDetails = (props) => {
                                             type === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ ?
                                             (obj && obj.targetDate ? 
                                                 <span className="BooksTile-name-wrapper-target"> 
-                                                    Target: <Moment date={obj.endDate} format="MMM Do YYYY" /> 
+                                                    Target: <Moment date={obj.endDate} format="D MMM YYYY" /> 
                                                 </span>
                                                 : null
                                                 )

@@ -13,7 +13,7 @@
 }
 
 .NavSideBar-item.active > div {
-    background-color: lightyellow;
+    background: linear-gradient(to right, rgb(202, 197, 49), rgb(243, 249, 167));
 }
 
 .NavSideBar-logo-wrapper {

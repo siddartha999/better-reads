@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import UserBookStatus from '../UserBookStatus/UserBookStatus';
 import { UserContext } from '../../contexts/UserContext';
 import UserBookRating from '../UserBookRating/UserBookRating';
+import BookReviews from '../BookReviews/BookReviews';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -35,6 +36,7 @@ const Book = () => {
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
     const [status, setStatus] = useState(null);
+    const [bookReviews, setBookReviews] = useState(null);
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(() => {
@@ -74,6 +76,23 @@ const Book = () => {
             else {
                 setUserBook(response.data);
                 setStatus(response.data.status);
+            }
+        });
+
+        //Fetch the reviews for the current book.
+        axios({
+            method: "GET",
+            url: process.env.REACT_APP_SERVER_URL + '/api/bookReviews/' + state.pathname.split("/").pop(),
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            if(response.status !== 200) {
+                raiseSnackbarMessage(response.data.message, 'error');
+            }
+            else {
+                console.log(response.data);
+                setBookReviews(response.data);
             }
         });
 
@@ -158,6 +177,17 @@ const Book = () => {
                             </div>
                         </>
                         : null
+                    }
+
+                    {
+                        bookReviews && bookReviews.reviews && bookReviews.reviews.length ?
+                            <div className="Book-reviews-wrapper">
+                                <div className="Book-reviews-title-wrapper">
+                                    <p>Community Reviews</p>
+                                </div>
+                                <BookReviews reviews={bookReviews.reviews} userBook={userBook} userId={bookReviews.userId} />
+                            </div>
+                            : null
                     }
 
                     <div className="Book-footer">

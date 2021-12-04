@@ -38,7 +38,7 @@ const BooksTile = (props) => {
                             props.displayStarted ?
                             (obj && obj.startDate ?
                                 <span className="BooksTile-name-wrapper-started">
-                                    Started: <Moment date={obj.startDate} format="MMM Do YYYY" /> 
+                                    Started: <Moment date={obj.startDate} format="D MMM YYYY" /> 
                                 </span>
                                 : null)
                             : null
@@ -47,7 +47,7 @@ const BooksTile = (props) => {
                             props.displayCompleted ?
                             (obj && obj.endDate ?
                                <span className="BooksTile-name-wrapper-completed"> 
-                                   Completed: <Moment date={obj.endDate} format="MMM Do YYYY" />
+                                   Completed: <Moment date={obj.endDate} format="D MMM YYYY" />
                                 </span>
                                 : null)
                             : null
@@ -56,7 +56,7 @@ const BooksTile = (props) => {
                             props.displayTarget ?
                             (obj && obj.targetDate ?
                                <span className="BooksTile-name-wrapper-target"> 
-                                   Target: <Moment date={obj.targetDate} format="MMM Do YYYY" />
+                                   Target: <Moment date={obj.targetDate} format="D MMM YYYY" />
                                 </span>
                                 : null)
                             : null

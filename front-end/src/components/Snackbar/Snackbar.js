@@ -12,7 +12,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const SnackBar = (props) => {
 
 const {snackbarOpen: open, toggleSnackbar: setOpen, snackbarObj: details} = useContext(SnackbarContext);
-  console.log(details);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;

@@ -6,7 +6,7 @@ const auth = async (req, res, next) => {
         let decodedData;
         if(token) {
             decodedData = jwt.verify(token, process.env.JWT_SIGNIN_KEY);
-            //Verify whether the token is acitve.
+            //Verify whether the token is active.
             if(decodedData.exp * 1000 < new Date().getTime()) {
                 return res.status(401).json({
                     message: "Session has expired. Please login again."

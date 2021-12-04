@@ -255,7 +255,7 @@ const UserBookExtrasDialog = (props) => {
                                 {
                                     props.reviewTimeStamp && 
                                         <div className="UserBookExtrasDialog-timestamp-wrapper">
-                                            <p>last updated: {moment(props.reviewTimeStamp).format("MMM Do YYYY")}</p>
+                                            <p>last updated: {moment(props.reviewTimeStamp).format("D MMM YYYY")}</p>
                                         </div>
                                 }
                             </div>
