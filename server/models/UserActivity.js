@@ -42,7 +42,11 @@ const modelObj = {
         type: Array,
         default: []
     },
-    ratingMap: ratingMap
+    ratingMap: ratingMap,
+    reviews: {
+        type: Array,
+        default: []
+    }
 };
 
 modelObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = {

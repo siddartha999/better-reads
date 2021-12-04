@@ -73,7 +73,6 @@ const Book = () => {
             }
             else {
                 setUserBook(response.data);
-                console.log(response.data);
                 setStatus(response.data.status);
             }
         });
@@ -123,7 +122,7 @@ const Book = () => {
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
                                 status={status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
-                                updateStatus={setStatus}/>
+                                updateStatus={setStatus} reviewContent={userBook?.reviewContent} reviewTimeStamp={userBook?.reviewTimeStamp}/>
                         </div>
                         <div className="Book-current-user-rating-wrapper">
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 

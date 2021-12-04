@@ -22,6 +22,7 @@ import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 import moment from 'moment';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
       padding: theme.spacing(2),
@@ -83,11 +84,20 @@ const UserBookExtrasDialog = (props) => {
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const dateError = useRef(false);
     const width = useContext(ScreenWidthContext);
+    const [currentReviewContent, setReviewContent] = useState('');
+    const prevReviewContent = useRef(props.reviewContent);
     /**
      * Handler to close the dialog.
      */
     const handleClose = () => {
         props.setDialogOpen(false);
+    };
+
+    /**
+     * Handler to update the review state.
+     */
+    const handleReviewUpdate = (event) => {
+        setReviewContent(event.target.value);
     };
 
     
@@ -99,6 +109,7 @@ const UserBookExtrasDialog = (props) => {
         setStartDate(props.startDate || null);
         setEndDate(props.endDate || null);
         setTargetDate(props.targetDate || null);
+        setReviewContent(props.reviewContent);
     }, [props.startDate, props.endDate, props.setTargetDate]);
 
 
@@ -114,7 +125,6 @@ const UserBookExtrasDialog = (props) => {
             localStorage.setItem("betterreadsuserinfo", null);
             setUser(null);
         }
-
         const response = await axios({
             method: "PATCH",
             url: process.env.REACT_APP_SERVER_URL + `/api/book/${props.bookId}`,
@@ -123,10 +133,15 @@ const UserBookExtrasDialog = (props) => {
             },
             data: {
                 extras: {
+                    userName: user.profile?.name,
+                    profilePicUrl: user.profile?.profilePicUrl,
+                    rating: props.rating,
                     startDate: startDate,
                     endDate: endDate,
                     targetDate: targetDate,
-                    status: props.status
+                    status: props.status,
+                    prevReview: prevReviewContent.current,
+                    reviewContent: currentReviewContent
                 },
                 cover : props.bookCover,
                 name: props.bookName
@@ -141,6 +156,9 @@ const UserBookExtrasDialog = (props) => {
         if(response.status !== 200) {
             raiseSnackbarMessage(response.data.message, 'error');
         }
+        //Storing the currentReviewContent as prevReviewContent in-case the User sticks to the same screen & edits his
+        //review
+        prevReviewContent.current = currentReviewContent;
     };
 
     return (
@@ -227,6 +245,17 @@ const UserBookExtrasDialog = (props) => {
                                                         )}
                                                     />
                                             </LocalizationProvider>
+                                        </div>
+                                }
+                            </div>
+                            <div className="UserBookExtrasDialog-review-wrapper">
+                                <TextField value={currentReviewContent} multiline 
+                                inputProps={{ maxLength: 280 }} fullWidth label="review" id="fullWidth" 
+                                onChange={handleReviewUpdate} />
+                                {
+                                    props.reviewTimeStamp && 
+                                        <div className="UserBookExtrasDialog-timestamp-wrapper">
+                                            <p>last updated: {moment(props.reviewTimeStamp).format("MMM Do YYYY")}</p>
                                         </div>
                                 }
                             </div>

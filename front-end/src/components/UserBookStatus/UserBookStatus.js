@@ -9,7 +9,6 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 import UserBookExtrasDialog from '../UserBookExtrasDialog/UserBookExtrasDialog';
-import { useLocation } from 'react-router';
 
 
 const USER_BOOK_STATUS_LIST = [USER_BOOK_STATUS_CONSTANTS.NONE, USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ,
@@ -21,8 +20,6 @@ const UserBookStatus = (props) => {
   const {raiseSnackbarMessage} = useContext(SnackbarContext);
   const renderCount = useRef(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const state = useLocation();
-  console.log('Rendered ', props.status);
 
   /**
    * Handler to open the UserBookExtrasDialog.
@@ -82,7 +79,6 @@ const UserBookStatus = (props) => {
    * To make sure the component renders with the expected status value, setting the status again.
    */
   useEffect(() => {
-    console.log('In Use effect', props.status);
     setStatus(props.status ? props.status : USER_BOOK_STATUS_LIST[0]);
   }, [props.status]);
 
@@ -103,7 +99,8 @@ const UserBookStatus = (props) => {
       </FormControl>
       
       <UserBookExtrasDialog setOpen={dialogOpen} setDialogOpen={setDialogOpen} bookName={props.name} status={status} 
-        bookId={props.bookId} bookCover={props.cover} startDate={props.startDate} endDate={props.endDate} targetDate={props.targetDate} />
+        bookId={props.bookId} bookCover={props.cover} startDate={props.startDate} endDate={props.endDate} targetDate={props.targetDate}
+          rating={props.rating} reviewContent={props.reviewContent} reviewTimeStamp={props.reviewTimeStamp} />
 
       { 
         status !== USER_BOOK_STATUS_CONSTANTS.NONE &&

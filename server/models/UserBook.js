@@ -9,8 +9,12 @@ const userBookSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    review: {
+    reviewContent: {
         type: String,
+        required: false
+    },
+    reviewTimeStamp : {
+        type: Date,
         required: false
     },
     rating: {
