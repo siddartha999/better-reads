@@ -68,9 +68,9 @@
     color: orangered;
 }
 
-.Profile-rating-count:hover {
+.Profile-rating-count:hover, .Profile-review-count:hover{
     cursor: pointer;
-    color: antiquewhite;
+    color: mediumvioletred;
 }
 
 .Profile-average-rating {

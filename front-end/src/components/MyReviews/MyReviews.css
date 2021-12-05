@@ -1,0 +1,91 @@
+.MyReviews-row {
+    display: flex;
+    height: 35vh;
+    overflow-y: hidden;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.MyReviews-row-cover-wrapper {
+    width: 30%;
+    height: 90%;
+}
+
+.MyReviews-row-cover-wrapper > img {
+    width: 50%;
+    height: 90%;
+    object-fit: contain;
+    position: relative;
+    top: 10%;
+    cursor: pointer;
+}
+
+.MyReviews-row-details-wrapper {
+    width: 70%;
+    height: 100%;
+    text-align: left;
+}
+
+.MyReviews-row-title-wrapper {
+    height: 3rem;
+    overflow: hidden;
+}
+
+.MyReviews-row-title-wrapper > p {
+    font-family: sans-serif;
+    font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.MyReviews-row-review-wrapper {
+    height: calc(100% - 4rem);
+    overflow: auto;
+}
+
+.MyReviews-pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+
+/*  -------------------Mobile Specific ------------------------ */
+
+.MyReviews.mobile1200 > .MyReviews-row {
+    display: block;
+    height: 60vh;
+}
+
+.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-cover-wrapper {
+    width: 100%;
+    height: 50%;
+}
+
+.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-cover-wrapper > img {
+    height: 90%;
+    position: relative;
+    top: 5%;
+}
+
+.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-details-wrapper {
+    width: 100%;
+    height: 50%;
+    text-align: center;
+}
+
+.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-details-wrapper > .MyReviews-row-review-wrapper {
+    padding: 0.5rem;
+}

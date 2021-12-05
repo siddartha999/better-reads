@@ -14,7 +14,7 @@ import BookReviews from '../BookReviews/BookReviews';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
-const BOOK_THUMBNAIL_URL_PRFEFIX = "https://covers.openlibrary.org/b/id/";
+const BOOK_THUMBNAIL_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
 const CHIP_STYLES = [
@@ -119,7 +119,7 @@ const Book = () => {
                     <div className="Book-header">
                         <div className={`Book-Thumbnail-section-wrapper`}>
                             <div className="Book-Thumbail-wrapper">
-                                <img src={book && book.covers && book.covers.length ? BOOK_THUMBNAIL_URL_PRFEFIX + book?.covers[0] + "-M.jpg" : ALT_IMAGE_PATH} alt={ALT_IMAGE_PATH} />
+                                <img src={book && book.covers && book.covers.length ? BOOK_THUMBNAIL_URL_PREFIX + book?.covers[0] + "-M.jpg" : ALT_IMAGE_PATH} alt={ALT_IMAGE_PATH} />
                             </div>
                         </div>
                         <div className={`Book-details-section-wrapper ${width <= 900 ? 'mobile' : ''}`}>

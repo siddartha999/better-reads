@@ -15,6 +15,7 @@ const Profile = () => {
     const name = user.profile.name;
     const profilePicUrl = user.profile.profilePicUrl;
     const [rating, setMyRating] = useState(null);
+    const [reviews, setReviews] = useState(null);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ const Profile = () => {
 
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/userActivity/rating',
+            url: process.env.REACT_APP_SERVER_URL + '/api/userActivity',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -45,7 +46,6 @@ const Profile = () => {
             raiseSnackbarMessage(response.data.message, 'error');
             return;
         }
-        console.log(response.data);
         let averageRating = 0;
         if(response.data && response.data.ratingMap && response.data.ratingCount) {
             let sum = 0;
@@ -55,7 +55,8 @@ const Profile = () => {
             averageRating = sum / response.data.ratingCount;
             averageRating = averageRating.toFixed(2);
         }
-        setMyRating({...response.data, averageRating});
+        setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating});
+        setReviews(response.data.reviews);
     }, []);
 
     /**
@@ -63,6 +64,15 @@ const Profile = () => {
      */
      const handleRatedPageNavigation = (event) => {
         navigate(`/mybooks/rated`, {state: 'rated'});
+    };
+
+    /**
+     * Handler to navigate to the user's reviews page.
+     */
+    const handleUserReviewsNavigation = () => {
+        navigate('/myReviews', {state: {
+            reviews: reviews
+        }});
     };
 
     /*
@@ -98,6 +108,15 @@ const Profile = () => {
                                     </span>
                                     : null
                             }
+                        </div>
+                        : null
+                    }
+                    {
+                        reviews && reviews.length ?
+                        <div className="Profile-review-wrapper">
+                            <span className="Profile-review-count" onClick={handleUserReviewsNavigation}>
+                                {reviews.length} reviews
+                            </span>
                         </div>
                         : null
                     }
