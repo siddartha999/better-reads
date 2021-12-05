@@ -147,6 +147,13 @@ const UserBookExtrasDialog = (props) => {
                 name: props.bookName
             }
         });
+
+        if(prevReviewContent.current !== currentReviewContent) {
+            props.setCurrentUserReview({
+                reviewContent: currentReviewContent, 
+                reviewTimeStamp: Date.now()
+            });
+        }
     
         if(response.status === 401) {
             raiseSnackbarMessage(response.data.message, 'error');

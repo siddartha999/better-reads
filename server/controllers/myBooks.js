@@ -8,12 +8,13 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
 const retrieveUserBooks = (req, res) => {
     const userId = req.userId;
     UserActivity.findById(userId).exec((err, userActivity) => {
+        console.log('MyBooks');
         if(err) {
+            console.log(err);
             return res.status(500).json({
                 message: "Experiencing connectivity issues with the Database. Please revisit later."
             });
         }
-
         if(userActivity) {
             const resObj = {};
             resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);

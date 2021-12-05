@@ -117,7 +117,7 @@ const Profile = () => {
                         reviews && reviews.length ?
                         <div className="Profile-review-wrapper">
                             <span className="Profile-review-count" onClick={handleUserReviewsNavigation}>
-                                {reviews.length} reviews
+                                {reviews.length} {reviews.length > 1 ? 'reviews' : 'review'}
                             </span>
                         </div>
                         : null

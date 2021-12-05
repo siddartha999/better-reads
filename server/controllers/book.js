@@ -81,14 +81,16 @@ const updateUserBookStatus = async (userId, bookId, data, req, res) => {
             updateObj = {
                 $pull: $pull
             };
-            resp = await UserActivity.findByIdAndUpdate(userId, updateObj);
+            console.log('Plling', updateObj);
+            resp = await UserActivity.findByIdAndUpdate({_id: userId}, updateObj);
         }
         if(current !== BOOK_STATUS_CONSTANTS_NONE) {
             let updateObj = {};
             updateObj = {
                 $push: $push
             };
-            resp = await UserActivity.findByIdAndUpdate(userId, updateObj);
+            console.log('Pushing', updateObj);
+            resp = await UserActivity.findByIdAndUpdate({_id: userId}, updateObj, { upsert: true });
         }
     }
     catch(err) {
@@ -270,7 +272,7 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
     const reviewContent = data.extras.reviewContent;
     const prevReview = data.extras.prevReview;
     const rating = data.extras.rating;
-    const currentTimeStamp = Date();
+    const currentTimeStamp = Date.now();
 
     if(!status) {//Validate the status type.
         return res.status(400).json({
@@ -295,7 +297,7 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
     
     try {//Update the UserActivity collection.
         let  resp   = await UserActivity.findByIdAndUpdate(userId, {$pull: $pull});
-        resp        =  await UserActivity.findByIdAndUpdate(userId, {$push: $push});
+        resp        =  await UserActivity.findByIdAndUpdate(userId, {$push: $push}, { upsert: true });
         //Update the review content, if it has been updated by the user.
         if(prevReview !== reviewContent) {
             const $pullReview = {
@@ -313,7 +315,7 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
             };
 
             resp = await UserActivity.findByIdAndUpdate(userId, {$pull: $pullReview});
-            resp = await UserActivity.findByIdAndUpdate(userId, {$push: $pushReview});
+            resp = await UserActivity.findByIdAndUpdate(userId, {$push: $pushReview}, { upsert: true });
         }
     }
     catch(err) {
@@ -385,6 +387,9 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
                     }
                     return obj._id !== userId;
                 });
+                if(!userReviewObj || !userReviewObj._id) {
+                    userReviewObj = $pushReview;
+                }
                 userReviewObj.reviewContent = reviewContent;
                 userReviewObj.timeStamp = currentTimeStamp;
                 newBookReview.reviews.push(userReviewObj);

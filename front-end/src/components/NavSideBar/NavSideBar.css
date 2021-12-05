@@ -103,3 +103,8 @@
     background: #161B21;
     border-right: 1px solid wheat;
 }
+
+.MuiModal-root.MuiDrawer-root.MuiDrawer-modal > 
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft {
+    background: #161B21;
+}

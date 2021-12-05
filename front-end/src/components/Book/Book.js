@@ -37,6 +37,7 @@ const Book = () => {
     const navigate = useNavigate();
     const [status, setStatus] = useState(null);
     const [bookReviews, setBookReviews] = useState(null);
+    const [currentUserReview, setCurrentUserReview] = useState(null);
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(() => {
@@ -75,6 +76,7 @@ const Book = () => {
             }
             else {
                 setUserBook(response.data);
+                setCurrentUserReview({reviewContent: response.data.reviewContent, reviewTimeStamp: response.data.reviewTimeStamp});
                 setStatus(response.data.status);
             }
         });
@@ -140,7 +142,8 @@ const Book = () => {
                         <div className="Book-current-user-status-wrapper">
                             <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
                                 status={status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
-                                updateStatus={setStatus} reviewContent={userBook?.reviewContent} reviewTimeStamp={userBook?.reviewTimeStamp}/>
+                                updateStatus={setStatus} reviewContent={userBook?.reviewContent} reviewTimeStamp={userBook?.reviewTimeStamp}
+                                setCurrentUserReview={setCurrentUserReview}/>
                         </div>
                         <div className="Book-current-user-rating-wrapper">
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 
@@ -184,7 +187,7 @@ const Book = () => {
                                 <div className="Book-reviews-title-wrapper">
                                     <p>Community Reviews</p>
                                 </div>
-                                <BookReviews reviews={bookReviews.reviews} userBook={userBook} userId={bookReviews.userId} />
+                                <BookReviews reviews={bookReviews.reviews} userReview={currentUserReview} userId={bookReviews.userId} />
                             </div>
                             : null
                     }

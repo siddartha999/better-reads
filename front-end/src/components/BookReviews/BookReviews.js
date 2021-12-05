@@ -9,7 +9,7 @@ const BookReviews = (props) => {
     const { user } = useContext(UserContext);
     const reviews = props.reviews;
     const userId = props.userId;
-    const userBook = props.userBook;
+    const userReview = props.userReview;
     const width = useContext(ScreenWidthContext);
     const paginationCount = Math.ceil((reviews && reviews.length ? reviews.length : 0) / 10);
     const [paginationIndex, setPaginationIndex] = useState(1);
@@ -26,7 +26,7 @@ const BookReviews = (props) => {
 
     return (
         <div className="BookReviews">
-            { userBook && userBook.reviewContent ?
+            { userReview && userReview.reviewContent ?
                 <div className="BookReviews-review">
                     <div className="BookReviews-review-image-wrapper">
                             <img src={profilePicUrl} />
@@ -34,10 +34,10 @@ const BookReviews = (props) => {
                        <div className="BookReviews-review-body-wrapper">
                             <div className={`BookReviews-review-header-wrapper ${width < 900 ? 'mobile900' : null}`}>
                                 <p className="BookReviews-review-user-name">{userName}</p>
-                                <p className="BookReviews-review-published-date">{moment(userBook.reviewTimeStamp).format("D MMM, YY")}</p>
+                                <p className="BookReviews-review-published-date">{moment(userReview.reviewTimeStamp).format("D MMM, YY")}</p>
                             </div>
                             <div className="BookReviews-review-content-wrapper">
-                                <span>{userBook.reviewContent}</span>
+                                <span>{userReview.reviewContent}</span>
                             </div>
                        </div>
                 </div>
