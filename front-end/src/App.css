@@ -45,7 +45,7 @@ body {
   overflow-y: auto;
   background-color: #FFFFFF;
   color: rgb(15, 20, 25);
-  font-family: "Merriweather"
+  font-family: Copernicus, "Libre Baskerville", Georgia, serif;
 }
 
 .App-body-wrapper.mobile {

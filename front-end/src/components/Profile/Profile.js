@@ -6,6 +6,7 @@ import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { abbreviateNumber } from '../../utils/numbersUtils';
 
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/altimage.png";
 
@@ -50,9 +51,10 @@ const Profile = () => {
         if(response.data && response.data.ratingMap && response.data.ratingCount) {
             let sum = 0;
             for(let key in response.data.ratingMap) {
-                sum  += key * response.data.ratingMap[key];
+                //sum  += key * response.data.ratingMap[key];
+                averageRating += (key * response.data.ratingMap[key]) / response.data.ratingCount;
             }
-            averageRating = sum / response.data.ratingCount;
+            //averageRating = sum / response.data.ratingCount;
             averageRating = averageRating.toFixed(2);
         }
         setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating});
@@ -97,7 +99,7 @@ const Profile = () => {
                             {
                                 rating.ratingCount ?
                                     <span className="Profile-rating-count" onClick={handleRatedPageNavigation}>
-                                        {rating.ratingCount} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
+                                        {abbreviateNumber(rating.ratingCount)} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
                                     </span>
                                     : null
                             }

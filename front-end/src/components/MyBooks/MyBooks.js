@@ -73,7 +73,7 @@ const MyBooks = () => {
                                             : null
                                         }
                                     </div>    
-                                    <div className="MyBooks-type-section-wrapper">
+                                    <div className={`MyBooks-type-section-wrapper ${value}`}>
                                         <BooksTile books={myBooks[value]} 
                                             displayStarted={value === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ? true : false} 
                                             displayCompleted={value === USER_BOOK_STATUS_CONSTANTS.READ ? true : false}
@@ -95,7 +95,7 @@ const MyBooks = () => {
                                     : null
                                 }
                             </div>
-                            <div className="MyBooks-type-section-wrapper">
+                            <div className={`MyBooks-type-section-wrapper rated`}>
                                 <BooksTile books={myBooks['rated']} displayRating/>
                             </div>
                         </>) : null

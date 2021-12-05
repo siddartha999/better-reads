@@ -7,9 +7,24 @@
     color: slateblue;
 }
 
+.NavSideBar-item > .MuiButtonBase-root {
+    color: #F4A950;
+}
+
+.NavSideBar-item > .MuiButtonBase-root > .MuiListItemIcon-root > svg {
+    color: #F4A950;
+}
+
 .NavSideBar-item > .MuiButtonBase-root > .MuiListItemText-root > span {
     font-weight: bold;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    font-family: Copernicus, "Libre Baskerville", Georgia, serif;
+    color: #F4A950;
+}
+
+
+.NavSideBar-item.active > .MuiButtonBase-root > .MuiListItemText-root > span
+, .NavSideBar-item.active > .MuiButtonBase-root > .MuiListItemIcon-root > svg {
+    color: darkslateblue;
 }
 
 .NavSideBar-item.active > div {
@@ -67,7 +82,7 @@
     font-size: 1.5rem;
     position: relative;
     bottom: 3px;
-    color: black;
+    color: #F4A950;
 }
 
 .NavSideBar-logo {
@@ -80,5 +95,11 @@
 }
 
 .NavSideBar > .MuiPaper-root > .MuiToolbar-root {
-    background: linear-gradient(to right, rgb(202, 197, 49), rgb(243, 249, 167));
+    background: #161B21;
+    color: #F4A950;
+}
+
+.NavSideBar > nav > .MuiDrawer-root.MuiDrawer-docked > .MuiPaper-root {
+    background: #161B21;
+    border-right: 1px solid wheat;
 }

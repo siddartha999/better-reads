@@ -6,13 +6,13 @@ const retrieveBookReviews = (req, res) => {
     const data = req.body;
 
     BookReviews.findById(bookId).exec((err, bookReviews) => {
-        if(err || !bookReviews) {
+        if(err) {
             return res.status(500).json({
                 message: `Unable to retrieve the community reviews for the book. Please try again later`
             });
         }
         return res.status(200).json({
-            reviews: bookReviews.reviews,
+            reviews: bookReviews?.reviews,
             userId: userId
         });
     });

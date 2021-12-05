@@ -29,7 +29,7 @@
     overflow: hidden;
 }
 
-.BooksTile-name-wrapper-started {
+/* .BooksTile-name-wrapper-started {
     color: darkorange;
     font-weight: bold;
 }
@@ -42,7 +42,7 @@
 .BooksTile-name-wrapper-target {
     color: #ea3c53;
     font-weight: bold;
-}
+} */
 
 .BooksTile-name-wrapper > p {
     display: -webkit-box;
@@ -50,7 +50,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 0;
-    color: darkslateblue;
     font-weight: bolder;
     font-size: 17px;
     padding-top: 10px;

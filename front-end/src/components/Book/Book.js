@@ -91,7 +91,6 @@ const Book = () => {
                 raiseSnackbarMessage(response.data.message, 'error');
             }
             else {
-                console.log(response.data);
                 setBookReviews(response.data);
             }
         });

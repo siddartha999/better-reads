@@ -30,18 +30,18 @@
 }
 
 .Book-current-user-utils-wrapper.Currently.Reading {
-    background-color: darkorange;
-    color: floralwhite;
+    background: #EC8B5E;
+    color: #141A46;
 }
 
 .Book-current-user-utils-wrapper.Want.to.Read {
-    background-color: #ea3c53;
-    color: white;
+    background:#D2302C;
+    color:#F7F7F9;
 }
 
 .Book-current-user-utils-wrapper.Read {
-    background-color: lightseagreen;
-    color: snow;
+    background:#234E70;
+    color:#FBF8BE;
 }
 
 .Book-current-user-status-wrapper {
@@ -155,6 +155,7 @@
     word-break: break-word;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-family: Copernicus, "Libre Baskerville", Georgia, serif;
 }
 
 .Book-characters-wrapper {
@@ -190,6 +191,7 @@
     word-break: break-word;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-family: Copernicus, "Libre Baskerville", Georgia, serif;
 }
 
 .Book-author-works-wrapper {
