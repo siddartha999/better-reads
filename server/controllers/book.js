@@ -3,6 +3,7 @@ const UserActivity = require('../models/UserActivity');
 const UserBook = require('../models/UserBook');
 const Book = require('../models/Book');
 const BookReviews = require('../models/BookReviews');
+const { insertUserAction } = require('./userActions');
 const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_WANT_TO_READ, BOOK_STATUS_CONSTANTS_READ} 
     = require('../util/BookStatusConstants');
 
@@ -24,6 +25,19 @@ const updateUserBookDetails = (req, res) => {
     else if(data.extras) {//Update the Book's date-info & review by the current user.
         updateUserBookExtras(userId, bookId, data, req, res);
     }
+
+    //Insert the User action.
+    const actionObj = {
+        userId: userId,
+        bookId: bookId,
+        bookName: data.name,
+        cover: data.cover,
+        rating: data.rating,
+        reviewContent: data.extras?.reviewContent,
+        currentStatus: data.status?.current,
+        prevStatus: data.status?.prev 
+    }
+    insertUserAction(actionObj);
 };
 
 /**

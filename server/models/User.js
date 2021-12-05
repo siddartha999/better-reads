@@ -14,6 +14,14 @@ const modelObj = {
     profilePicUrl: {
         type: String,
         required: false
+    },
+    followers: {
+        type: Array,
+        default: []
+    },
+    following: {
+        type: Array,
+        default: []
     }
 };
 

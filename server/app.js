@@ -43,5 +43,8 @@ app.use('/api/userActivity', userActivityRoute);
 const bookReviewsRoute = require('./routes/bookReviews');
 app.use('/api/bookReviews', bookReviewsRoute);
 
+const userActionsRoute = require('./routes/userActions');
+app.use('/api/userActions', userActionsRoute);
+
 app.listen(PORT, () => console.log("Server is up & running!"));
 

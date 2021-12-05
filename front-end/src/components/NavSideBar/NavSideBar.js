@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './NavSideBar.css';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -36,6 +36,7 @@ const ResponsiveDrawer = (props) => {
   const profilePicUrl = user.profile.profilePicUrl;
   const profileName = (user && user.profile && user.profile.name) ? user.profile.name : '';
   const profileNames = profileName.split(' ');
+  const [displayLoadingSpinner, setDisplayLoadingSpinner] = useState(false);
   let nameCaps = profileNames[0][0];
   if(profileNames.length > 1) {
     nameCaps += profileNames.pop()[0]; 
@@ -51,11 +52,12 @@ const ResponsiveDrawer = (props) => {
 
    const onSubmitSearch = async (searchObj) => {
     const query = searchObj.inputValue;
+    setDisplayLoadingSpinner(true);
     const response = await axios({
         method: "GET",
         url: SEARCH_QUERY_PREFIX + encodeURI(query)
     });
-
+    setDisplayLoadingSpinner(false);
     if(response.status !== 200 || response.data.numFound === 0) {
       raiseSnackbarMessage('Unable to fetch the Search result. Please try again later or try a different search', 'error');
     }
@@ -109,12 +111,12 @@ const ResponsiveDrawer = (props) => {
             </ListItem>
         </NavLink>
 
-        <NavLink to="/groups" className="NavSideBar-item" onClick={handleDrawerToggle}>
-            <ListItem button key="Groups"> 
+        <NavLink to="/communities" className="NavSideBar-item" onClick={handleDrawerToggle}>
+            <ListItem button key="Communities"> 
                 <ListItemIcon>
                     <GroupsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Groups" />
+                <ListItemText primary="Communities" />
             </ListItem>
         </NavLink>
 
@@ -148,7 +150,7 @@ const ResponsiveDrawer = (props) => {
           <div className="NavSideBar-user-profile-wrapper">
 
             <div className="NavSideBar-Search-wrapper">
-              <SearchBar setPlaceHolder="Search books" searchSubmit={onSubmitSearch} />
+              <SearchBar setPlaceHolder="Search books" searchSubmit={onSubmitSearch} displayLoadingSpinner={displayLoadingSpinner} />
             </div>
 
             <div className="NavSideBar-user-profile-info-wrapper" title={profileName}> 

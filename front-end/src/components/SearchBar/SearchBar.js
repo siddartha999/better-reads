@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import './SearchBar.css';
 import ClearIcon from '@mui/icons-material/Clear';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const SearchBar = (props) => {
     const className = props.setClassName || "";
@@ -54,15 +55,24 @@ const SearchBar = (props) => {
             />
 
             {
-                inputValue && inputValue.length > 0 ?
-                    <ClearIcon className="Searchbar-clear" onClick={handleClearSearch} /> : null
+                props.displayLoadingSpinner ?
+                    <div className="SearchBar-loading-spinner-wrapper">
+                        <CircularProgress /> 
+                    </div> 
+                    :
+                    <>
+                        {
+                            inputValue && inputValue.length > 0 ?
+                                <ClearIcon className="Searchbar-clear" onClick={handleClearSearch} /> : null
+                        }
+                        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={submitSearch}>
+                        <SearchIcon />
+                        </IconButton>
+                    </>
+                    
             }
 
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-
-            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={submitSearch}>
-                <SearchIcon />
-            </IconButton>
         </Paper>
       </div>
   );

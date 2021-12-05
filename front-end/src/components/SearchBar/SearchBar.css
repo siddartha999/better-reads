@@ -14,3 +14,7 @@
 .SearchBar > .MuiPaper-root {
     width: 100%;
 }
+
+.SearchBar-loading-spinner-wrapper {
+    padding-right: 0.5rem;
+}
