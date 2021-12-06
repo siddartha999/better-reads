@@ -81,6 +81,10 @@
     border: none;
 }
 
+.Profile-user-actions-wrapper {
+    width: 100%;
+}
+
 /*  ---------------------   Mobile Specific -------------------------------------- */
 
 .Profile.mobile > .Profile-details-wrapper {

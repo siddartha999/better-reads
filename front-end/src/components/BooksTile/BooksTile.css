@@ -14,7 +14,7 @@
 
 .BooksTile-cover-wrapper {
     cursor: pointer;
-    height: 75%;
+    height: 90%;
     width: 80%;
 }
 
@@ -26,23 +26,9 @@
 
 .BooksTile-name-wrapper {
     width: 100%;
+    padding-top: 2px;
     overflow: hidden;
 }
-
-/* .BooksTile-name-wrapper-started {
-    color: darkorange;
-    font-weight: bold;
-}
-
-.BooksTile-name-wrapper-completed {
-    color: lightseagreen;
-    font-weight: bold;
-}
-
-.BooksTile-name-wrapper-target {
-    color: #ea3c53;
-    font-weight: bold;
-} */
 
 .BooksTile-name-wrapper > p {
     display: -webkit-box;

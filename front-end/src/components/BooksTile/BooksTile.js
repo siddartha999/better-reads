@@ -24,10 +24,10 @@ const BooksTile = (props) => {
             {books && books.filter((val, idx) => idx < 10).map((obj, idx) => 
                 <div className="BooksTile-book-wrapper" key={obj._id + " " + idx}>
                     <div className="BooksTile-cover-wrapper" onClick={navigationHandler} bookid={obj._id}>
-                        <img src={obj.cover ? WORK_COVER_URL_PREFIX + obj.cover + '-M.jpg' : ALT_IMAGE_PATH} alt ={ALT_IMAGE_PATH} />
+                        <img src={obj.cover ? WORK_COVER_URL_PREFIX + obj.cover + '-M.jpg' : ALT_IMAGE_PATH} 
+                        alt ={ALT_IMAGE_PATH} title={obj.name}/>
                     </div>
-                    <div className="BooksTile-name-wrapper" title={obj.name}>
-                        <p>{obj.name}</p>
+                    <div className="BooksTile-name-wrapper">
                         {props.displayRating ? 
                             (obj && obj.rating ? 
                                 <Rating value={obj.rating} precision={0.5} readOnly/>

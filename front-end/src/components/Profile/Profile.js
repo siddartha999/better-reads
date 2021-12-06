@@ -7,6 +7,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { abbreviateNumber } from '../../utils/numbersUtils';
+import UserActions from '../UserActions/UserActions';
 
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/altimage.png";
 
@@ -18,6 +19,7 @@ const Profile = () => {
     const [rating, setMyRating] = useState(null);
     const [reviews, setReviews] = useState(null);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
+    const [userActions, setUserActions] = useState(null);
     const navigate = useNavigate();
 
     //Retrieve the user specific info in the initial-run.
@@ -59,6 +61,37 @@ const Profile = () => {
         }
         setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating});
         setReviews(response.data.reviews);
+    }, []);
+
+    /**
+     * Retrieve the current User's actions in the initial run.
+     */
+    useEffect(async () => {
+        const token = user?.token;
+        if(!token) {
+            raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
+            localStorage.setItem("betterreadsuserinfo", null);
+            setUser(null);
+        }
+
+        const response = await axios({
+            method: 'GET',
+            url: process.env.REACT_APP_SERVER_URL + '/api/userActions',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if(response.status === 401) {
+            raiseSnackbarMessage(response.data.message, 'error');
+            localStorage.setItem("betterreadsuserinfo", null);
+            setUser(null);
+        }
+
+        if(response.status !== 200) {
+            raiseSnackbarMessage(response.data.message, 'error');
+            return;
+        }
+        setUserActions(response.data);
     }, []);
 
     /**
@@ -124,6 +157,10 @@ const Profile = () => {
                     }
                     <Button className="Profile-sign-out" variant="outlined" color="error" onClick={signOutUser}>Sign Out</Button>
                 </div>
+            </div>
+
+            <div className="Profile-user-actions-wrapper">
+                <UserActions data={userActions?.userActions} />
             </div>
         </div>
     );

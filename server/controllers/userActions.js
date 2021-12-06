@@ -1,6 +1,7 @@
 const UserActions = require('../models/UserActions');
 const User = require('../models/User');
-const {BOOK_STATUS_CONSTANTS_NONE} = require('../util/BookStatusConstants');
+const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ, 
+    BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
 
 /**
  * Controller to insert an action for the User.
@@ -26,7 +27,7 @@ const insertUserAction = async (data) => {
         const userActions =  await UserActions.findById(userId).exec();
         let newUserActions = userActions;
         if(newUserActions) {//UserId already exists.
-            newUserActions.actions.push(actionObj);
+            newUserActions.actions.unshift(actionObj);
         }
         else {//This is the first action inserted for the user.
             newUserActions = new UserActions({_id: userId, actions: [actionObj]});
@@ -44,18 +45,21 @@ const insertUserAction = async (data) => {
 const generateUserAction = (data, userName) => {
     let action = "";
     if(data.rating) {
-        action = `${userName} has rated ${data.bookName}`;
+        action = `${userName} rated a book`;
     }
     else if(data .currentStatus) {
-        if(data.prevStatus && data.prevStatus !== BOOK_STATUS_CONSTANTS_NONE) {
-            action = `${userName} has updated the status of ${data.bookName} from ${data.prevStatus} to ${data.currentStatus}`;
+        if(data.currentStatus === BOOK_STATUS_CONSTANTS_WANT_TO_READ) {
+            action = `${userName} wants to read`;
         }
-        else {
-            action = `${userName} has marked ${data.bookName} as ${data.currentStatus}`;
+        else if(data.currentStatus === BOOK_STATUS_CONSTANTS_READ) {
+            action = `${userName} finished reading`;
+        }
+        else if(data.currentStatus === BOOK_STATUS_CONSTANTS_CURRENTLY_READING) {
+            action = `${userName} is currently reading`;
         }
     }
     else if(data.reviewContent) {
-        action = `${userName} has reviewed ${data.bookName}`;
+        action = `${userName} has left a review for`;
     }
     return action;
 };
@@ -66,7 +70,7 @@ const generateUserAction = (data, userName) => {
 const retrieveUserActions = async (req, res) => {
     const userId = req.userId;
     try {
-        const userActions = UserActions.findById(userId).exec();
+        const userActions = await UserActions.findById(userId).exec();
         return res.status(200).json({
             userActions: userActions.actions
         });

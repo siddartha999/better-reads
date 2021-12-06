@@ -32,7 +32,7 @@ const updateUserBookDetails = (req, res) => {
         bookId: bookId,
         bookName: data.name,
         cover: data.cover,
-        rating: data.rating,
+        rating: data.rating?.current,
         reviewContent: data.extras?.reviewContent,
         currentStatus: data.status?.current,
         prevStatus: data.status?.prev 
