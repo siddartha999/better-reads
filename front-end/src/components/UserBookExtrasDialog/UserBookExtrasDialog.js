@@ -21,6 +21,7 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 import moment from 'moment';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
+import UserBookContext from '../../contexts/UserBookContext';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -86,6 +87,7 @@ const UserBookExtrasDialog = (props) => {
     const width = useContext(ScreenWidthContext);
     const [currentReviewContent, setReviewContent] = useState('');
     const prevReviewContent = useRef(props.reviewContent);
+    const {setCurrentUserReview, bookId} = useContext(UserBookContext);
     /**
      * Handler to close the dialog.
      */
@@ -109,8 +111,8 @@ const UserBookExtrasDialog = (props) => {
         setStartDate(props.startDate || null);
         setEndDate(props.endDate || null);
         setTargetDate(props.targetDate || null);
-        setReviewContent(props.reviewContent);
-    }, [props.startDate, props.endDate, props.setTargetDate]);
+        setReviewContent(props.reviewContent); console.log('In UseEffect', bookId, props.reviewContent);
+    }, [props.startDate, props.endDate, props.setTargetDate, props.reviewContent, bookId]);
 
 
     /**
@@ -125,9 +127,10 @@ const UserBookExtrasDialog = (props) => {
             localStorage.setItem("betterreadsuserinfo", null);
             setUser(null);
         }
+
         const response = await axios({
             method: "PATCH",
-            url: process.env.REACT_APP_SERVER_URL + `/api/book/${props.bookId}`,
+            url: process.env.REACT_APP_SERVER_URL + `/api/book/${bookId}`,
             headers: {
                 'Authorization': `Bearer ${token}`
             },
@@ -147,13 +150,6 @@ const UserBookExtrasDialog = (props) => {
                 name: props.bookName
             }
         });
-
-        if(prevReviewContent.current !== currentReviewContent) {
-            props.setCurrentUserReview({
-                reviewContent: currentReviewContent, 
-                reviewTimeStamp: Date.now()
-            });
-        }
     
         if(response.status === 401) {
             raiseSnackbarMessage(response.data.message, 'error');
@@ -162,7 +158,16 @@ const UserBookExtrasDialog = (props) => {
         }
         if(response.status !== 200) {
             raiseSnackbarMessage(response.data.message, 'error');
+            return;
         }
+
+        if(prevReviewContent.current !== currentReviewContent) {
+            setCurrentUserReview({
+                reviewContent: currentReviewContent, 
+                reviewTimeStamp: Date.now()
+            });
+        }
+
         //Storing the currentReviewContent as prevReviewContent in-case the User sticks to the same screen & edits his
         //review
         prevReviewContent.current = currentReviewContent;
@@ -226,6 +231,22 @@ const UserBookExtrasDialog = (props) => {
                                                         label="End Date"
                                                         value={endDate}
                                                         onChange={(newValue) => {
+                                                            if(props.status === USER_BOOK_STATUS_CONSTANTS.READ && startDate) {
+                                                                //If the start Date is greater than the end date, mark for error
+                                                                //and disable 'Save Changes'.
+                                                                const val1 = Date.parse(moment(startDate).format("YYYY-MM-DD") + "T00:00:00");
+                                                                const val2 = Date.parse(moment(newValue).format("YYYY-MM-DD") + "T00:00:00");
+                                                                console.log(val1, val2);
+                                                                if(val1 > val2) {
+                                                                    dateError.current = true;
+                                                                }
+                                                                else {
+                                                                    dateError.current = false;
+                                                                }
+                                                            }
+                                                            else {
+                                                                dateError.current = false;
+                                                            }
                                                             setEndDate(newValue);
                                                         }}
                                                         maxDate = {new Date()}

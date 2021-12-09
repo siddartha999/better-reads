@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import './UserBookRating.css'
 import Rating from '@mui/material/Rating';
 import { UserContext } from '../../contexts/UserContext';
@@ -55,7 +55,7 @@ const UserBookRating = (props) => {
     */
     useEffect(() => {
         setRating(props.rating ? props.rating : 0);
-    }, [props.rating]);
+    }, [props.bookId, props.rating]);
 
 
     return (

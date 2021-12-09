@@ -51,20 +51,27 @@ const ResponsiveDrawer = (props) => {
      */
 
    const onSubmitSearch = async (searchObj) => {
-    const query = searchObj.inputValue;
-    setDisplayLoadingSpinner(true);
-    const response = await axios({
-        method: "GET",
-        url: SEARCH_QUERY_PREFIX + encodeURI(query)
-    });
-    setDisplayLoadingSpinner(false);
-    if(response.status !== 200 || response.data.numFound === 0) {
-      raiseSnackbarMessage('Unable to fetch the Search result. Please try again later or try a different search', 'error');
-    }
-    else {
-        navigate(`bookresults?q=${query}`, {state: response.data});
-    }
-};
+      const query = searchObj.inputValue;
+      setDisplayLoadingSpinner(true);
+      const response = await axios({
+          method: "GET",
+          url: SEARCH_QUERY_PREFIX + encodeURI(query)
+      });
+      setDisplayLoadingSpinner(false);
+      if(response.status !== 200 || response.data.numFound === 0) {
+        raiseSnackbarMessage('Unable to fetch the Search result. Please try again later or try a different search', 'error');
+      }
+      else {
+          navigate(`bookresults?q=${query}`, {state: response.data});
+      }
+  };
+
+  /**
+   * Handler to navigate the user to Profile page.
+   */
+  const handleProfileNavigation = () => {
+    navigate(`/profile`);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -153,7 +160,7 @@ const ResponsiveDrawer = (props) => {
               <SearchBar setPlaceHolder="Search books" searchSubmit={onSubmitSearch} displayLoadingSpinner={displayLoadingSpinner} />
             </div>
 
-            <div className="NavSideBar-user-profile-info-wrapper" title={profileName}> 
+            <div className="NavSideBar-user-profile-info-wrapper" title={profileName} onClick={handleProfileNavigation}> 
               <div className="NavSideBar-user-profile-pic-wrapper">
                   <img src={profilePicUrl} className="NavSideBar-user-profile-pic" />
               </div>

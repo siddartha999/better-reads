@@ -44,7 +44,7 @@ const BookReviews = (props) => {
                 : null
             }
             {
-                reviews.slice(10 * (paginationIndex - 1), 10 * paginationIndex).filter((obj) => obj._id !== userId).map((review, idx) => 
+                reviews && reviews.length ? reviews.slice(10 * (paginationIndex - 1), 10 * paginationIndex).filter((obj) => obj._id !== userId).map((review, idx) => 
                     <div className="BookReviews-review" key={idx}>
                        <div className="BookReviews-review-image-wrapper">
                             <img src={review.profilePicUrl} />
@@ -52,7 +52,7 @@ const BookReviews = (props) => {
                        <div className="BookReviews-review-body-wrapper">
                             <div className={`BookReviews-review-header-wrapper ${width < 900 ? 'mobile900' : null}`}>
                                 <p className="BookReviews-review-user-name">{review.userName}</p>
-                                <p className="BookReviews-review-published-date">{moment(review.reviewTimeStamp).format("D MMM, YY")}</p>
+                                <p className="BookReviews-review-published-date">{moment(review.timeStamp).format("D MMM, YY")}</p>
                             </div>
                             <div className="BookReviews-review-content-wrapper">
                                 <span>{review.reviewContent}</span>
@@ -60,6 +60,7 @@ const BookReviews = (props) => {
                        </div>
                     </div>
                 )
+                : null
             }
             {
                 reviews && reviews.length ? 

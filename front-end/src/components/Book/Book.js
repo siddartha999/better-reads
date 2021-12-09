@@ -11,6 +11,7 @@ import UserBookStatus from '../UserBookStatus/UserBookStatus';
 import { UserContext } from '../../contexts/UserContext';
 import UserBookRating from '../UserBookRating/UserBookRating';
 import BookReviews from '../BookReviews/BookReviews';
+import UserBookContext from '../../contexts/UserBookContext';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -140,10 +141,12 @@ const Book = () => {
 
                     <div className={`Book-current-user-utils-wrapper ${status}`}>
                         <div className="Book-current-user-status-wrapper">
-                            <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
-                                status={status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
-                                updateStatus={setStatus} reviewContent={userBook?.reviewContent} reviewTimeStamp={userBook?.reviewTimeStamp}
-                                setCurrentUserReview={setCurrentUserReview}/>
+                            <UserBookContext.Provider value={{setCurrentUserReview, bookId: state.pathname.split("/").pop()}}>
+                                <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
+                                    status={status} rating = {userBook?.rating} startDate={userBook?.startDate} endDate={userBook?.endDate} targetDate={userBook?.targetDate} 
+                                    updateStatus={setStatus} reviewContent={userBook?.reviewContent} reviewTimeStamp={userBook?.reviewTimeStamp}
+                                />
+                            </UserBookContext.Provider>
                         </div>
                         <div className="Book-current-user-rating-wrapper">
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 
@@ -182,12 +185,13 @@ const Book = () => {
                     }
 
                     {
-                        bookReviews && bookReviews.reviews && bookReviews.reviews.length ?
+                        (bookReviews && bookReviews.reviews && bookReviews.reviews.length) || (currentUserReview && currentUserReview.reviewContent) ?
                             <div className="Book-reviews-wrapper">
                                 <div className="Book-reviews-title-wrapper">
                                     <p>Community Reviews</p>
                                 </div>
-                                <BookReviews reviews={bookReviews.reviews} userReview={currentUserReview} userId={bookReviews.userId} />
+                                <BookReviews bookId={state.pathname.split("/").pop()} reviews={bookReviews?.reviews} 
+                                userReview={currentUserReview} userId={bookReviews?.userId} />
                             </div>
                             : null
                     }

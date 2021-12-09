@@ -28,6 +28,7 @@ function Login() {
 
     const responseFailureGoogle = (res) => {
         //alert('Unable to Login via Google OAUTH. Please try again!');
+        console.log(res);
     };
 
     return(

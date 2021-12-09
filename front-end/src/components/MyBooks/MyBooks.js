@@ -91,7 +91,7 @@ const MyBooks = () => {
                                 <span className="MyBooks-title">Rated</span>
                                 {
                                     myBooks['rated'] && myBooks['rated'].length > 10 ?
-                                        <span className="Mybooks-show-more" type={USER_BOOK_STATUS_CONSTANTS.READ} onClick={handleNavigation}>Show more</span>
+                                        <span className="Mybooks-show-more" type={'rated'} onClick={handleNavigation}>Show more</span>
                                     : null
                                 }
                             </div>
