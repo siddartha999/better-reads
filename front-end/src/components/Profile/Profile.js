@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { abbreviateNumber } from '../../utils/numbersUtils';
 import UserActions from '../UserActions/UserActions';
+import UserRatingsChart from '../UserRatingsChart/UserRatingsChart';
 
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/altimage.png";
 
@@ -20,7 +21,15 @@ const Profile = () => {
     const [reviews, setReviews] = useState(null);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
     const [userActions, setUserActions] = useState(null);
+    const [openReviewChart, setOpenReviewChart] = useState(false);
     const navigate = useNavigate();
+
+    /**
+     * Handler to display the Review chart.
+     */
+    const handleOpenReviewChart = () => {
+        setOpenReviewChart(true);
+    };
 
     //Retrieve the user specific info in the initial-run.
     useEffect(async () => {
@@ -59,7 +68,7 @@ const Profile = () => {
             //averageRating = sum / response.data.ratingCount;
             averageRating = averageRating.toFixed(2);
         }
-        setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating});
+        setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating, ratingMap: response.data.ratingMap});
         setReviews(response.data.reviews);
     }, []);
 
@@ -131,14 +140,16 @@ const Profile = () => {
                         <div className="Profile-rating-wrapper">
                             {
                                 rating.ratingCount ?
-                                    <span className="Profile-rating-count" onClick={handleRatedPageNavigation}>
-                                        {abbreviateNumber(rating.ratingCount)} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
-                                    </span>
+                                    <>
+                                        <span className="Profile-rating-count" onClick={handleRatedPageNavigation}>
+                                            {abbreviateNumber(rating.ratingCount)} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
+                                        </span>
+                                     </>
                                     : null
                             }
                             {
                                 rating.averageRating > 0 ?
-                                    <span className="Profile-average-rating">
+                                    <span className="Profile-average-rating" onClick={handleOpenReviewChart}>
                                         ({rating.averageRating} average)
                                     </span>
                                     : null
@@ -156,6 +167,7 @@ const Profile = () => {
                         : null
                     }
                     <Button className="Profile-sign-out" variant="outlined" color="error" onClick={signOutUser}>Sign Out</Button>
+                    <UserRatingsChart data={rating?.ratingMap} open={openReviewChart} setOpenReviewChart={setOpenReviewChart} />
                 </div>
             </div>
 

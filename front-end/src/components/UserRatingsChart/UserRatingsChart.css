@@ -1,0 +1,9 @@
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded {
+    padding: 0.75rem;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded > .MuiSwitch-root {
+    bottom: 1rem;
+    position: relative;
+    left: 35%;
+}

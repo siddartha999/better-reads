@@ -18,3 +18,8 @@
 .SearchBar-loading-spinner-wrapper {
     padding-right: 0.5rem;
 }
+
+.SearchBar > .MuiPaper-root.MuiPaper-elevation {
+    height: 2.5rem;
+    border-radius: 10rem;
+}

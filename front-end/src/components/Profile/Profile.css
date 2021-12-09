@@ -54,6 +54,7 @@
 
 .Profile-info-wrapper {
     width: calc(100% - 25%);
+    height: 100%;
 }
 
 .Profile-info-wrapper > .Profile-sign-out {
@@ -75,6 +76,11 @@
 
 .Profile-average-rating {
     padding-left: 0.25rem;
+    cursor: pointer;
+}
+
+.Profile-average-rating:hover {
+    color: aquamarine;
 }
 
 .Profile-info-wrapper > .Profile-sign-out:hover {

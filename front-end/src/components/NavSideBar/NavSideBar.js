@@ -157,7 +157,7 @@ const ResponsiveDrawer = (props) => {
           <div className="NavSideBar-user-profile-wrapper">
 
             <div className="NavSideBar-Search-wrapper">
-              <SearchBar setPlaceHolder="Search books" searchSubmit={onSubmitSearch} displayLoadingSpinner={displayLoadingSpinner} />
+              <SearchBar setPlaceHolder="Search Books/Authors" searchSubmit={onSubmitSearch} displayLoadingSpinner={displayLoadingSpinner} />
             </div>
 
             <div className="NavSideBar-user-profile-info-wrapper" title={profileName} onClick={handleProfileNavigation}> 
