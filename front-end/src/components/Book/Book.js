@@ -12,6 +12,7 @@ import { UserContext } from '../../contexts/UserContext';
 import UserBookRating from '../UserBookRating/UserBookRating';
 import BookReviews from '../BookReviews/BookReviews';
 import UserBookContext from '../../contexts/UserBookContext';
+import ProgressBar from 'react-customizable-progressbar';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -39,6 +40,8 @@ const Book = () => {
     const [status, setStatus] = useState(null);
     const [bookReviews, setBookReviews] = useState(null);
     const [currentUserReview, setCurrentUserReview] = useState(null);
+    const [bookStats, setBookStats] = useState(null);
+    let averageRating = bookStats && bookStats.averageRating ? (bookStats.averageRating * 100) / 5 : 0;
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(() => {
@@ -98,6 +101,22 @@ const Book = () => {
             }
         });
 
+        //Fetch the statistics for the current book.
+        axios({
+            method: "GET",
+            url: process.env.REACT_APP_SERVER_URL + '/api/book/' + state.pathname.split("/").pop() + '/stats',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(response => {
+            if(response.status !== 200) {
+                raiseSnackbarMessage(response.data.message, 'error');
+            }
+            else {
+                setBookStats(response.data);
+            }
+        });
+
     }, [state.pathname]);
 
     /**
@@ -152,8 +171,21 @@ const Book = () => {
                             <UserBookRating bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} 
                             name={book?.title} status={userBook?.status} rating = {userBook?.rating}/>
                         </div>
-                        <div className="Book-current-user-stats-wrapper">
-
+                        <div className="Book-stats-wrapper">
+                            {
+                                bookStats && bookStats.averageRating ?
+                                <div className="Book-stats-rating-wrapper">
+                                    <ProgressBar
+                                            progress={averageRating.toFixed(2)}
+                                            radius={100}
+                                            className={`${averageRating > 75 ? 'green' : averageRating > 50 ? 'yellow' : 'red'}`}
+                                    >
+                                        <span className="Book-stats-rating-content">{bookStats.averageRating} / {5}</span>
+                                    </ProgressBar>
+                                    <span>{bookStats.ratingCount} ratings</span>
+                                </div>
+                                : null
+                            }
                         </div>
                     </div>
         

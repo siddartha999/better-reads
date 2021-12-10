@@ -66,6 +66,30 @@ const getUserBookInfo = (req, res) => {
 };
 
 
+/**
+ * Controller to retrieve the Book stats from the Book collection.
+ */
+const retrieveBookStats = async (req, res) => {
+    const bookId = req.params.bookId;
+    try {
+        const response = await Book.findById(bookId);
+        return res.status(200).json({
+            averageRating: response.averageRating,
+            ratingCount: response.ratingCount,
+            wantToReadCount: response[BOOK_STATUS_CONSTANTS_WANT_TO_READ],
+            readCount: response[BOOK_STATUS_CONSTANTS_READ],
+            currentlyReadingCount: response[BOOK_STATUS_CONSTANTS_CURRENTLY_READING]
+        });
+    }
+    catch(err) {
+        res.status(500).json({
+            message: `Unable to retrieve the statistics for the current book. Please try again later`
+        });
+        console.log(`Error retrieving Book statistics for ${bookId}`, err);
+    }
+};
+
+
 //Update the UserActivity, UserBook, Book collections for a change in the Book's status for the current user.
 const updateUserBookStatus = async (userId, bookId, data, req, res) => {
     const current = data.status.current;
@@ -424,3 +448,4 @@ const updateUserBookExtras = async (userId, bookId, data, req, res) => {
 
 module.exports.updateUserBookDetails = updateUserBookDetails;
 module.exports.getUserBookInfo = getUserBookInfo;
+module.exports.retrieveBookStats = retrieveBookStats;

@@ -230,6 +230,40 @@
     justify-content: center;
 }
 
+.Book-stats-rating-wrapper {
+    width: 10rem;
+    height: 100%;
+}
+
+.Book-stats-rating-wrapper > .RCP {
+    width: 100% !important;
+    height: 90% !important;
+}
+
+.Book-stats-rating-content {
+    bottom: 8vh;
+    position: relative;
+}
+
+.Book-stats-rating-wrapper > .RCP > svg {
+    width: 100%;
+    height: 15vh;
+    position: relative;
+    top: 1.5vh;
+}
+
+.Book-stats-rating-wrapper > .RCP.green > svg > circle:last-child, .Book-stats-rating-content {
+    stroke: greenyellow;
+}
+
+.Book-stats-rating-wrapper > .RCP.orange > svg > circle:last-child, .Book-stats-rating-content {
+    stroke: goldenrod;
+}
+
+.Book-stats-rating-wrapper > .RCP.red > svg > circle:last-child, .Book-stats-rating-content {
+    stroke: palevioletred;
+}
+
 .Book-reviews-title-wrapper {
     font-family: cursive;
     color: black;
