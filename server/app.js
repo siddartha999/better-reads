@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', error => console.log(error));
 db.on('open', () => console.log('Connection to the Database is Successful'));
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 
 //Setup the server to accept JSON
 app.use(express.json());
