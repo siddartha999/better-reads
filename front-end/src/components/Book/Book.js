@@ -39,11 +39,12 @@ const Book = () => {
     const {user, setUser} = useContext(UserContext);
     const width = useContext(ScreenWidthContext);
     const navigate = useNavigate();
+    let bookId = state.pathname.split("/").pop();
     const [status, setStatus] = useState(null);
     const [bookReviews, setBookReviews] = useState(null);
     const [currentUserReview, setCurrentUserReview] = useState(null);
     const [bookStats, setBookStats] = useState(null);
-    let averageRating = bookStats && bookStats.averageRating ? (bookStats.averageRating * 100) / 5 : 0;
+    const [averageRating, setAverageRating] = useState(0);
     let chartData;
     if(bookStats && (bookStats.wantToReadCount || bookStats.readCount || bookStats.currentlyReadingCount) ) {
         chartData = {
@@ -62,7 +63,8 @@ const Book = () => {
     }
 
     //Fetch the book data from the provided ID in the initial-run.
-    useEffect(() => {
+    useEffect(async () => {
+        console.log('Book component Re-render ', bookId);
         axios({
             method: "GET",
             url: BOOK_SEARCH_URL_PREFIX + state.pathname.split("/").pop() + ".json"
@@ -120,22 +122,22 @@ const Book = () => {
         });
 
         //Fetch the statistics for the current book.
-        axios({
+        const bookStats = await axios({
             method: "GET",
             url: process.env.REACT_APP_SERVER_URL + '/api/book/' + state.pathname.split("/").pop() + '/stats',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        }).then(response => {
-            if(response.status !== 200) {
-                raiseSnackbarMessage(response.data.message, 'error');
-            }
-            else {
-                setBookStats(response.data);
-            }
         });
+        if(!bookStats || !bookStats.data || bookStats.status !== 200) {
+            raiseSnackbarMessage(bookStats.data.message, 'error');
+        }
+        else {
+            setBookStats(bookStats.data);
+            setAverageRating((bookStats.data.averageRating * 100) / 5);
+        }
 
-    }, [state.pathname]);
+    }, [bookId]);
 
     /**
      * Handler to navigate to the Author's view.
@@ -208,7 +210,7 @@ const Book = () => {
                                 chartData ?
                                     <div className="Book-stats-chart-wrapper">
                                         <div className="Book-stats-chart">
-                                            <Doughnut responsive={true} data={chartData} height={200} width={200}  maintainAspectRatio={false}
+                                            <Doughnut responsive data={chartData} height={200} width={200}
                                             options={{ plugins: { legend: { display: false }} }}/>
                                         </div> 
                                     </div>

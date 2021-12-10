@@ -5,26 +5,23 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
 /**
  * Controller to retrieve the currently-reading, want-to-read, read books for the current user, limit: 10 for each.
  */
-const retrieveUserBooks = (req, res) => {
+const retrieveUserBooks = async (req, res) => {
     const userId = req.userId;
-    UserActivity.findById(userId).exec((err, userActivity) => {
-        console.log('MyBooks');
-        if(err) {
-            console.log(err);
-            return res.status(500).json({
-                message: "Experiencing connectivity issues with the Database. Please revisit later."
-            });
-        }
-        if(userActivity) {
-            const resObj = {};
-            resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
-            resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = userActivity[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
-            resObj[BOOK_STATUS_CONSTANTS_READ] = userActivity[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
-            resObj['rated'] = userActivity['rated'].slice(0, 11);
-            res.status(200).json(resObj);
-        }
-
-    });
+    try {
+        const userActivity = await UserActivity.findById(userId).exec();
+        const resObj = {};
+        resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
+        resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = userActivity[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
+        resObj[BOOK_STATUS_CONSTANTS_READ] = userActivity[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
+        resObj['rated'] = userActivity['rated'].slice(0, 11);
+        res.status(200).json(resObj);
+    }
+    catch(err) {
+        console.log('MyBooks Error: ', err);
+        return res.status(500).json({
+            message: "Experiencing connectivity issues with the Database. Please revisit later."
+        });
+    }
 };
 
 

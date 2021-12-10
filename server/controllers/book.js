@@ -73,13 +73,18 @@ const retrieveBookStats = async (req, res) => {
     const bookId = req.params.bookId;
     try {
         const response = await Book.findById(bookId);
-        return res.status(200).json({
-            averageRating: response.averageRating,
-            ratingCount: response.ratingCount,
-            wantToReadCount: response[BOOK_STATUS_CONSTANTS_WANT_TO_READ],
-            readCount: response[BOOK_STATUS_CONSTANTS_READ],
-            currentlyReadingCount: response[BOOK_STATUS_CONSTANTS_CURRENTLY_READING]
-        });
+        if(response) {
+            return res.status(200).json({
+                averageRating: response.averageRating,
+                ratingCount: response.ratingCount,
+                wantToReadCount: response[BOOK_STATUS_CONSTANTS_WANT_TO_READ],
+                readCount: response[BOOK_STATUS_CONSTANTS_READ],
+                currentlyReadingCount: response[BOOK_STATUS_CONSTANTS_CURRENTLY_READING]
+            });
+        }
+        else {
+            return res.status(200).json({});
+        }
     }
     catch(err) {
         res.status(500).json({
