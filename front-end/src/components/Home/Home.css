@@ -1,0 +1,33 @@
+.Home-count-down-wrapper {
+    width: 50%;
+    min-height: 50vh;
+    overflow: hidden;
+    transition: 0.3s;
+    border-radius: 1rem;
+    box-shadow: 0 12px 20px 0 rgb(0 0 0 / 20%);
+    position: relative;
+    left: 25%;
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: #161B21;
+    color: #F4A950;
+}
+
+.Home-count-down-wrapper > p {
+    width: 100%;
+    font-size: 1.25rem;
+}
+
+.Home-count-down-wrapper > .CountdownClock {
+    font-size: 1.25rem;
+}
+
+
+/*   ----------------  Mobile Specific ---------------------- */
+
+.Home-count-down-wrapper.mobile1200 {
+    width: 90%;
+    left: 5%;
+}

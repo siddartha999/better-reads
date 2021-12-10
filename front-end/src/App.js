@@ -15,6 +15,9 @@ import Author from './components/Author/Author';
 import MyBooks from './components/MyBooks/MyBooks';
 import MyBooksDetails from './components/MyBooksDetails/MyBooksDetails';
 import MyReviews from './components/MyReviews/MyReviews';
+import Friends from './components/Friends/Friends';
+import Communities from './components/Communities/Communities';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -55,6 +58,9 @@ function App() {
             <Route path='/mybooks' element={<MyBooks />} />
             <Route path='/mybooks/:status' element={<MyBooksDetails />} />
             <Route path="/myReviews" element={<MyReviews />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/communities" element={<Communities />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </>
