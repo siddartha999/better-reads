@@ -4,8 +4,7 @@
   "description": "An social network for Bookworms",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "devStart": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "Siddartha Tummala",
   "license": "ISC",
