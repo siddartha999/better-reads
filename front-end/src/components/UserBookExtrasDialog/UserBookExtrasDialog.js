@@ -22,7 +22,7 @@ import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 import moment from 'moment';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import UserBookContext from '../../contexts/UserBookContext';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -280,12 +280,21 @@ const UserBookExtrasDialog = (props) => {
                                 <TextField value={currentReviewContent} multiline 
                                 inputProps={{ maxLength: 280 }} fullWidth label="review" id="fullWidth" 
                                 onChange={handleReviewUpdate} />
-                                {
-                                    props.reviewTimeStamp && 
-                                        <div className="UserBookExtrasDialog-timestamp-wrapper">
-                                            <p>last updated: {moment(props.reviewTimeStamp).format("D MMM YYYY")}</p>
+                                <div className="UserBookExtrasDialog-review-utils-wrapper">
+                                    { (currentReviewContent !== null && currentReviewContent !== undefined) ?
+                                        <div className='UserBookExtrasDialog-review-progress-wrapper' title={`${currentReviewContent.length} / 280`}>
+                                            <CircularProgress variant="determinate" color="secondary" 
+                                                value={((currentReviewContent.length * 100) / 280).toFixed(2)} />
                                         </div>
-                                }
+                                        : null
+                                    }
+                                    {
+                                        props.reviewTimeStamp && 
+                                            <div className="UserBookExtrasDialog-timestamp-wrapper">
+                                                <p>last updated: {moment(props.reviewTimeStamp).format("D MMM YYYY")}</p>
+                                            </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </DialogContent>

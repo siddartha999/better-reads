@@ -26,7 +26,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
-const SEARCH_QUERY_PREFIX = "http://openlibrary.org/search.json?q=";
+const SEARCH_QUERY_PREFIX = "https://openlibrary.org/search.json?q=";
 
 const ResponsiveDrawer = (props) => {
   const { window } = props;

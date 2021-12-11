@@ -33,6 +33,17 @@
     text-align: right;
 }
 
+.UserBookExtrasDialog-review-utils-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.UserBookExtrasDialog-review-progress-wrapper {
+    position: relative;
+    position: relative;
+    top: 0.25rem;
+}
 
 /* ----------------------------------   Mobile Specific ------------------------------------------- */
 .UserBookExtrasDialog-content-dates-wrapper.mobile600 {

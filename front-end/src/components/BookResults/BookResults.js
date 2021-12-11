@@ -15,7 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
-const SEARCH_QUERY_PREFIX = "http://openlibrary.org/search.json";
+const SEARCH_QUERY_PREFIX = "https://openlibrary.org/search.json";
 
 const BookResults = (props) => {
     const state = useLocation();
@@ -42,7 +42,6 @@ const BookResults = (props) => {
             raiseSnackbarMessage('Unable to fetch the Search result. Please try again later or try a different search', 'error');
         }
         else {
-            console.log(response.data);
             setData(response.data.docs);
         }
     };
@@ -62,7 +61,7 @@ const BookResults = (props) => {
      */
     useEffect(() => {
         setPaginationIndex(1);
-        console.log(state);
+        setData(state.state?.docs || []);
     }, state.key);
 
     const noResultsJSX = (
