@@ -27,7 +27,6 @@ import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 const SEARCH_QUERY_PREFIX = "http://openlibrary.org/search.json?q=";
-const ALT_IMG_PATH = process.env.PUBLIC_URL + "/altimage.png";
 
 const ResponsiveDrawer = (props) => {
   const { window } = props;
@@ -55,7 +54,7 @@ const ResponsiveDrawer = (props) => {
       setDisplayLoadingSpinner(true);
       const response = await axios({
           method: "GET",
-          url: SEARCH_QUERY_PREFIX + encodeURI(query)
+          url: SEARCH_QUERY_PREFIX + encodeURI(query) + '&limit=10'
       });
       setDisplayLoadingSpinner(false);
       if(response.status !== 200 || response.data.numFound === 0) {

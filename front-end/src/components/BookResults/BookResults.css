@@ -69,3 +69,8 @@
     position: relative;
     top: 50%;
 }
+
+.BookResults-loading-spinner-wrapper {
+    position: absolute;
+    top: 50%;
+}
