@@ -4,9 +4,11 @@ import moment from 'moment';
 import { ScreenWidthContext } from "../../contexts/ScreenWidthContext";
 import Pagination from '@mui/material/Pagination';
 import { UserContext } from '../../contexts/UserContext';
+import { useLocation } from "react-router-dom";
 
 const BookReviews = (props) => {
     const { user } = useContext(UserContext);
+    const state = useLocation();
     const reviews = props.reviews;
     const userId = props.userId;
     const userReview = props.userReview;
@@ -38,7 +40,7 @@ const BookReviews = (props) => {
                             </div>
                             <div className="BookReviews-review-content-wrapper">
                                 <span>{userReview.reviewContent}</span>
-                            </div>
+                            </div> 
                        </div>
                 </div>
                 : null

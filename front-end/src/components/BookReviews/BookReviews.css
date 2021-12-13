@@ -78,6 +78,23 @@
 }
 
 
+.BookReviews-review-footer-likes-wrapper {
+    cursor: pointer;
+    padding-top: 1rem;
+}
+
+.BookReviews-review-footer-likes-wrapper > svg:hover {
+    color: red;
+}
+
+.BookReviews-review-footer-likes-wrapper.liked > svg {
+    color: red;
+}
+
+.BookReviews-review-footer-likes-wrapper.liked > svg:hover {
+    color: palevioletred;
+}
+
 /* ---------------------------------  Mobile Specific --------------------------------------- */
 
 .BookReviews-review-header-wrapper.mobile900 > .BookReviews-review-user-name {

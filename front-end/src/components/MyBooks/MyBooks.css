@@ -53,10 +53,10 @@
 }
 
 .MyBooks-title-wrapper > span {
-    font-family: cursive;
     color: black;
     font-variant: all-petite-caps;
     display: inline-block;
+    font-weight: bold;
 }
 
 .MyBooks-title {

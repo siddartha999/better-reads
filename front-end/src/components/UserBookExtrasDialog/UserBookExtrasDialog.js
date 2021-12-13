@@ -39,20 +39,19 @@ const DialogHeader = (props) => {
     return (
         <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
             {children}
-            {onClose ? (
-                <IconButton
+            <IconButton
                 aria-label="close"
-                onClick={onClose}
                 sx={{
                     position: 'absolute',
                     right: 8,
                     top: 8,
                     color: (theme) => theme.palette.grey[500],
                 }}
+                onTouchStart={onClose}
+                onClick={onClose}
                 >
                 <CloseIcon />
-                </IconButton>
-            ) : null}
+            </IconButton>
             </DialogTitle>
         );
     };
@@ -91,7 +90,7 @@ const UserBookExtrasDialog = (props) => {
     /**
      * Handler to close the dialog.
      */
-    const handleClose = () => {
+    const handleClose = () => {console.log('Handle close clicked');
         props.setDialogOpen(false);
     };
 
@@ -99,7 +98,7 @@ const UserBookExtrasDialog = (props) => {
      * Handler to update the review state.
      */
     const handleReviewUpdate = (event) => {
-        setReviewContent(event.target.value);
+        setReviewContent(event.target.value.slice(0, 280));
     };
 
     
@@ -181,7 +180,7 @@ const UserBookExtrasDialog = (props) => {
                 open={props.setOpen}
                 PaperComponent={PaperComponent}
             >
-                <DialogHeader id="customized-dialog-title" onClose={handleClose} style={{cursor: 'move'}}>
+                <DialogHeader id="customized-dialog-title" onClose={handleClose}  style={{cursor: 'move'}}>
                     <p className="UserBookExtrasDialog-title">{props.bookName}</p>
                 </DialogHeader>
 

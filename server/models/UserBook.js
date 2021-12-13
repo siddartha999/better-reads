@@ -17,6 +17,14 @@ const userBookSchema = mongoose.Schema({
         type: Date,
         required: false
     },
+    hasUserLikedReview: {
+        type: Boolean,
+        default: false
+    },
+    likes: {
+        type: Number,
+        default: 0
+    },
     rating: {
         type: Number,
         required: false

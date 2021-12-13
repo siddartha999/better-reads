@@ -7,7 +7,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    height: 90%;
+    height: 88%;
     overflow: auto;
 }
 
@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10%;
+    height: 12%;
 }
 
 .BookResults-result-card {

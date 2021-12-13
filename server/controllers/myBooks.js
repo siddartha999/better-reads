@@ -10,10 +10,12 @@ const retrieveUserBooks = async (req, res) => {
     try {
         const userActivity = await UserActivity.findById(userId).exec();
         const resObj = {};
-        resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ].slice(0, 11);
-        resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = userActivity[BOOK_STATUS_CONSTANTS_CURRENTLY_READING].slice(0, 11);
-        resObj[BOOK_STATUS_CONSTANTS_READ] = userActivity[BOOK_STATUS_CONSTANTS_READ].slice(0, 11);
-        resObj['rated'] = userActivity['rated'].slice(0, 11);
+        if(userActivity) {
+            resObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = userActivity[BOOK_STATUS_CONSTANTS_WANT_TO_READ]?.slice(0, 11);
+            resObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = userActivity[BOOK_STATUS_CONSTANTS_CURRENTLY_READING]?.slice(0, 11);
+            resObj[BOOK_STATUS_CONSTANTS_READ] = userActivity[BOOK_STATUS_CONSTANTS_READ]?.slice(0, 11);
+            resObj['rated'] = userActivity['rated']?.slice(0, 11);
+        }
         res.status(200).json(resObj);
     }
     catch(err) {

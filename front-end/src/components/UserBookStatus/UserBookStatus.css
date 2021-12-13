@@ -1,7 +1,6 @@
 .UserBookStatus-edit-details-wrapper > p:hover {
     cursor: pointer;
     text-decoration: underline;
-    color: darkslateblue;
 }
 
 .UserBookStatus > .MuiFormControl-root > label {

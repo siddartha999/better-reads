@@ -4,7 +4,8 @@
   "description": "An social network for Bookworms",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
   "author": "Siddartha Tummala",
   "license": "ISC",
@@ -16,7 +17,8 @@
     "googleapis": "^91.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
-    "mongoose": "^6.0.13"
+    "mongoose": "^6.0.13",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",

@@ -4,7 +4,7 @@ const retrieveBookReviews = (req, res) => {
     const userId = req.userId;
     const bookId = req.params.bookId;
     const data = req.body;
-
+    
     BookReviews.findById(bookId).exec((err, bookReviews) => {
         if(err) {
             return res.status(500).json({

@@ -19,7 +19,7 @@
 .Book-current-user-utils-wrapper {
     display: flex;
     width: 90%;
-    height: 22vh;
+    height: 25vh;
     position: relative;
     left: 5%;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -214,7 +214,7 @@
 }
 
 .Book-author-works-title-wrapper > p {
-    font-family: cursive;
+    font-weight: bold;
     color: black;
     font-variant: all-petite-caps;
     display: -webkit-box;
@@ -238,6 +238,7 @@
 .Book-stats-rating-wrapper > .RCP {
     width: 100% !important;
     height: 75% !important;
+    top: 0.5rem;
 }
 
 .Book-stats-rating-content {
@@ -276,7 +277,6 @@
 }
 
 .Book-reviews-title-wrapper {
-    font-family: cursive;
     color: black;
     font-feature-settings: "pcap", "c2pc";
     font-variant: all-petite-caps;
@@ -319,7 +319,7 @@
 
 .Book.mobile1200 > .Book-header {
     display: block;
-    height: 80vh;
+    height: 85vh;
 }
 
 .Book.mobile1200 > .Book-header > .Book-Thumbnail-section-wrapper {
@@ -361,4 +361,38 @@
 
 .Book.mobile1200 > .Book-author-works-wrapper {
     margin-top: 2rem;
+}
+
+
+.Book-current-user-utils-wrapper.mobile900 {
+    display: block;
+    height: 50vh;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-current-user-status-wrapper {
+    width: 100%;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-current-user-rating-wrapper {
+    width: 100%;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-stats-wrapper {
+    display: block;
+    padding-top: 1rem;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-stats-wrapper > .Book-stats-rating-wrapper {
+    width: 100%;
+    padding-bottom: 1rem;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-stats-wrapper > .Book-stats-chart-wrapper {
+    width: 30%;
+    left: 35%;
+    padding-bottom: 1rem;
+}
+
+.Book-current-user-utils-wrapper.mobile900 > .Book-stats-wrapper > .Book-stats-chart-wrapper > .Book-stats-chart {
+    width: 100%;
 }

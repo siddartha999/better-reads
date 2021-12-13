@@ -13,7 +13,7 @@ import UserBookRating from '../UserBookRating/UserBookRating';
 import BookReviews from '../BookReviews/BookReviews';
 import UserBookContext from '../../contexts/UserBookContext';
 import ProgressBar from 'react-customizable-progressbar';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Pie } from 'react-chartjs-2';
 import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
@@ -52,11 +52,14 @@ const Book = () => {
             datasets: [{
                 data: [bookStats.currentlyReadingCount, bookStats.wantToReadCount, bookStats.readCount],
                 backgroundColor: [
-                    '#292826',
-                    'rgb(255, 99, 132)',
+                    "9A1750",
+                    '#5CD895',
+                    "#E3E2DF",
                     '#AA96DA',
                     'rgb(255, 205, 86)',
                     'rgb(54, 162, 235)',
+                    '#5CD895',
+                    "#950740",
                   ]
             }]
         };
@@ -172,13 +175,14 @@ const Book = () => {
                                     by <p authorid={author?.key} onClick={authorNavigationHandler}> {author?.name} </p>
                                 </div>
                             }
-                            <div className="Book-details-description-wrapper" title={book && book.description ? book.description.value : ''}>
-                                <p>{book && book.description ? book.description.value : ''}</p>
+                            <div className="Book-details-description-wrapper" 
+                                title={book && book.description ? (typeof book.description == 'string' ? book.description : book.description.value) : ''}>
+                                <p>{book && book.description ? (typeof book.description == 'string' ? book.description : book.description.value) : ''}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className={`Book-current-user-utils-wrapper ${status}`}>
+                    <div className={`Book-current-user-utils-wrapper ${status} ${width < 900 ? 'mobile900' : null}`}>
                         <div className="Book-current-user-status-wrapper">
                             <UserBookContext.Provider value={{setCurrentUserReview, bookId: state.pathname.split("/").pop()}}>
                                 <UserBookStatus bookId={state.pathname.split("/").pop()} cover={book && book.covers && book.covers.length ? book.covers[0] : ALT_IMAGE_PATH} name={book?.title}  
@@ -200,7 +204,7 @@ const Book = () => {
                                                 radius={100}
                                                 className={`${averageRating > 75 ? 'green' : averageRating > 50 ? 'orange' : 'red'}`}
                                         >
-                                            <span className="Book-stats-rating-content">{bookStats.averageRating} / {5}</span>
+                                            <span className="Book-stats-rating-content">{bookStats.averageRating.toFixed(2)} / {5}</span>
                                         </ProgressBar>
                                         <span>{bookStats.ratingCount} {bookStats.ratingCount > 1 ? 'ratings' : 'rating'}</span>
                                     </div>
@@ -210,7 +214,7 @@ const Book = () => {
                                 chartData ?
                                     <div className="Book-stats-chart-wrapper">
                                         <div className="Book-stats-chart">
-                                            <Doughnut responsive data={chartData} height={200} width={200}
+                                            <Pie data={chartData} height={200} width={200}
                                             options={{ plugins: { legend: { display: false }} }}/>
                                         </div> 
                                     </div>
