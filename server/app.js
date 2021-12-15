@@ -26,7 +26,7 @@ app.use(cors(corsOptions))
 
 //Create Routing
 const userProfileRouter = require('./routes/userProfile');
-app.use('/user', userProfileRouter);
+app.use('/api/profile', userProfileRouter);
 
 const oauthRoute = require('./routes/auth');
 app.use('/api/login', oauthRoute);
@@ -37,14 +37,14 @@ app.use('/api/book', bookRoute);
 const userBooksRoute = require('./routes/myBooks');
 app.use('/api/mybooks', userBooksRoute);
 
-const userActivityRoute = require('./routes/userActivity');
-app.use('/api/userActivity', userActivityRoute);
+const profileActivityRoute = require('./routes/profileActivity');
+app.use('/api/profileActivity', profileActivityRoute);
 
 const bookReviewsRoute = require('./routes/bookReviews');
 app.use('/api/bookReviews', bookReviewsRoute);
 
-const userActionsRoute = require('./routes/userActions');
-app.use('/api/userActions', userActionsRoute);
+const profileActionsRoute = require('./routes/profileActions');
+app.use('/api/profileActions', profileActionsRoute);
 
 app.listen(PORT, () => console.log("Server is up & running!"));
 

@@ -1,4 +1,4 @@
-.MyReviews-row {
+.ProfileReviews-row {
     display: flex;
     height: 35vh;
     overflow-y: hidden;
@@ -13,12 +13,12 @@
     margin-bottom: 1rem;
 }
 
-.MyReviews-row-cover-wrapper {
+.ProfileReviews-row-cover-wrapper {
     width: 30%;
     height: 90%;
 }
 
-.MyReviews-row-cover-wrapper > img {
+.ProfileReviews-row-cover-wrapper > img {
     width: 50%;
     height: 90%;
     object-fit: contain;
@@ -27,18 +27,18 @@
     cursor: pointer;
 }
 
-.MyReviews-row-details-wrapper {
+.ProfileReviews-row-details-wrapper {
     width: 70%;
     height: 100%;
     text-align: left;
 }
 
-.MyReviews-row-title-wrapper {
+.ProfileReviews-row-title-wrapper {
     height: 3rem;
     overflow: hidden;
 }
 
-.MyReviews-row-title-wrapper > p {
+.ProfileReviews-row-title-wrapper > p {
     font-family: sans-serif;
     font-weight: bold;
     display: -webkit-box;
@@ -47,45 +47,43 @@
     overflow: hidden;
 }
 
-.MyReviews-row-review-wrapper {
+.ProfileReviews-row-review-wrapper {
     height: calc(100% - 4rem);
     overflow: auto;
 }
 
-.MyReviews-pagination-wrapper {
+.ProfileReviews-pagination-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10%;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding: 2rem 0;
 }
 
 
 /*  -------------------Mobile Specific ------------------------ */
 
-.MyReviews.mobile1200 > .MyReviews-row {
+.ProfileReviews.mobile1200 > .ProfileReviews-row {
     display: block;
     height: 60vh;
 }
 
-.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-cover-wrapper {
+.ProfileReviews.mobile1200 > .ProfileReviews-row > .ProfileReviews-row-cover-wrapper {
     width: 100%;
     height: 50%;
 }
 
-.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-cover-wrapper > img {
+.ProfileReviews.mobile1200 > .ProfileReviews-row > .ProfileReviews-row-cover-wrapper > img {
     height: 90%;
     position: relative;
     top: 5%;
 }
 
-.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-details-wrapper {
+.ProfileReviews.mobile1200 > .ProfileReviews-row > .ProfileReviews-row-details-wrapper {
     width: 100%;
     height: 50%;
     text-align: center;
 }
 
-.MyReviews.mobile1200 > .MyReviews-row > .MyReviews-row-details-wrapper > .MyReviews-row-review-wrapper {
+.ProfileReviews.mobile1200 > .ProfileReviews-row > .ProfileReviews-row-details-wrapper > .ProfileReviews-row-review-wrapper {
     padding: 0.5rem;
 }

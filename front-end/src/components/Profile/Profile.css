@@ -87,7 +87,11 @@
     border: none;
 }
 
-.Profile-user-actions-wrapper {
+.Profile-BookShelf-wrapper {
+    width: 90%;
+}
+
+.Profile-profile-actions-wrapper {
     width: 100%;
 }
 

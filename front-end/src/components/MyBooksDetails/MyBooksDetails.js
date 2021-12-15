@@ -18,8 +18,10 @@ const COVER_PIC_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
 const MyBookDetails = (props) => {
-    const state = useLocation();console.log(state);
-    const type = decodeURI(state.pathname).split('/')?.pop();
+    const state = useLocation();
+    const splitPath = decodeURI(state.pathname).split('/'); 
+    const type = splitPath.pop();
+    const profileId = splitPath.pop();
     const {user, setUser} = useContext(UserContext);
     const [data, setData] = useState([]);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
@@ -74,9 +76,14 @@ const MyBookDetails = (props) => {
             return;
         }
 
+        let url = process.env.REACT_APP_SERVER_URL + '/api/mybooks/' + type;
+        if(profileId && profileId !== 'mybooks') {
+            url = process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileId + '/' + type;
+        }
+
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/mybooks/' + type,
+            url: url,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -92,7 +99,6 @@ const MyBookDetails = (props) => {
             raiseSnackbarMessage(response.data.message, 'error');
             return;
         }
-        console.log(response.data[type]);
         setData(response.data[type]);
     }, []);
 
@@ -106,65 +112,69 @@ const MyBookDetails = (props) => {
         <div className='MyBooksDetails'>
             {!isValidPath ? notValidPathJSX : 
                 <div className="MyBooksDetails-results-wrapper">
-                    {
-                        data && data.length && data.slice(10 * (paginationIndex - 1), 10 * paginationIndex).map(obj => (
-                            <div key={obj._id} coverid={obj.cover} itemID={obj._id} 
-                                className={`MyBooksDetails-result-card ${width < 800 ? 'mobile' : width < 1000 ? 'tablet' : ''}`}>
-                                <Card sx={{ maxWidth: 345 }} itemID={obj._id} onClick={bookSelected}>
-                                    <CardMedia
-                                        component="img"
-                                        alt={ALT_IMAGE_PATH}
-                                        image={obj.cover ? COVER_PIC_URL_PREFIX + obj.cover + "-M.jpg" : ALT_IMAGE_PATH}
-                                    />
-                                    <div className="MyBooksDetails-result-card-details-wrapper" title={obj?.name}>
-                                        <p>{obj?.name}</p>
-                                        {type === 'rated' ? 
-                                            (obj && obj.rating ? 
-                                                <Rating value={obj.rating} precision={0.5} readOnly/>
-                                                : null) 
-                                        : null}
+                    { data && data.length ? 
+                            data.slice(10 * (paginationIndex - 1), 10 * paginationIndex).map(obj => (
+                                <div key={obj._id} coverid={obj.cover} itemID={obj._id} 
+                                    className={`MyBooksDetails-result-card ${width < 800 ? 'mobile' : width < 1000 ? 'tablet' : ''}`}>
+                                    <Card sx={{ maxWidth: 345 }} itemID={obj._id} onClick={bookSelected}>
+                                        <CardMedia
+                                            component="img"
+                                            alt={ALT_IMAGE_PATH}
+                                            image={obj.cover ? COVER_PIC_URL_PREFIX + obj.cover + "-M.jpg" : ALT_IMAGE_PATH}
+                                        />
+                                        <div className="MyBooksDetails-result-card-details-wrapper" title={obj?.name}>
+                                            <p>{obj?.name}</p>
+                                            {type === 'rated' ? 
+                                                (obj && obj.rating ? 
+                                                    <Rating value={obj.rating} precision={0.5} readOnly/>
+                                                    : null) 
+                                            : null}
 
-                                        {
-                                            type === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ?
-                                            (obj && obj.startDate ? 
-                                                <span className="BooksTile-name-wrapper-started"> 
-                                                    Started: <Moment date={obj.startDate} format="D MMM YYYY" /> 
-                                                </span>
+                                            {
+                                                type === USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING ?
+                                                (obj && obj.startDate ? 
+                                                    <span className="BooksTile-name-wrapper-started"> 
+                                                        Started: <Moment date={obj.startDate} format="D MMM YYYY" /> 
+                                                    </span>
+                                                    : null
+                                                    )
                                                 : null
-                                                )
-                                            : null
-                                        }
+                                            }
 
-                                        {
-                                            type === USER_BOOK_STATUS_CONSTANTS.READ ?
-                                            (obj && obj.endDate ? 
-                                                <span className="BooksTile-name-wrapper-completed"> 
-                                                    Completed: <Moment date={obj.endDate} format="D MMM YYYY" /> 
-                                                </span>
+                                            {
+                                                type === USER_BOOK_STATUS_CONSTANTS.READ ?
+                                                (obj && obj.endDate ? 
+                                                    <span className="BooksTile-name-wrapper-completed"> 
+                                                        Completed: <Moment date={obj.endDate} format="D MMM YYYY" /> 
+                                                    </span>
+                                                    : null
+                                                    )
                                                 : null
-                                                )
-                                            : null
-                                        }
+                                            }
 
-                                        {
-                                            type === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ ?
-                                            (obj && obj.targetDate ? 
-                                                <span className="BooksTile-name-wrapper-target"> 
-                                                    Target: <Moment date={obj.endDate} format="D MMM YYYY" /> 
-                                                </span>
+                                            {
+                                                type === USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ ?
+                                                (obj && obj.targetDate ? 
+                                                    <span className="BooksTile-name-wrapper-target"> 
+                                                        Target: <Moment date={obj.endDate} format="D MMM YYYY" /> 
+                                                    </span>
+                                                    : null
+                                                    )
                                                 : null
-                                                )
-                                            : null
-                                        }
-                                    </div>
-                                </Card>
-                            </div>
-                        ))
+                                            }
+                                        </div>
+                                    </Card>
+                                </div>
+                             ))
+                        :
+                        <div className="MyBookDetails-no-results-wrapper">
+                            <p>No results to display</p>
+                        </div>
                     }
                 </div>
             }
 
-            {isValidPath ? 
+            {isValidPath && data && data.length ? 
                 <div className="MyBooksDetails-pagination-wrapper">
                     <Pagination count={paginationCount} page={paginationIndex} onChange={handlePaginationChange} 
                         variant="outlined" color="primary" />  

@@ -14,35 +14,25 @@
 }
 
 .MyBooks-type-section-wrapper.Currently.Reading {
-    background: #EC8B5E;
-    color: #141A46;
-}
-
-.MyBooks-type-section-wrapper.Currently.Reading > .BooksTile {
-    color: #141A46;
+    background: #FECD45;
+    color: #141824;
+    font-weight: bold;
 }
 
 .MyBooks-type-section-wrapper.Want.to.Read {
-    background:#D2302C;
-    color:#F7F7F9;
-}
-
-.MyBooks-type-section-wrapper.Want.to.Read > .BooksTile {
-    color:#F7F7F9;
+    background: #61082B;
+    color: #B4D0E7;
+    font-weight: bold;
 }
 
 .MyBooks-type-section-wrapper.Read {
-    background:#234E70;
-    color:#FBF8BE;
-}
-
-.MyBooks-type-section-wrapper.Read > .BooksTile {
-    color:#FBF8BE;
+    background: #faf6ed;
+    color: #5cb25d;
+    font-weight: bold;
 }
 
 .MyBooks-type-section-wrapper.rated {
-    background: #1D1B1B;
-    color: #EC4D37;
+    background: #0F0C24;
 }
 
 .MyBooks-title-wrapper {

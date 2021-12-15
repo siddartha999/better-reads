@@ -3,7 +3,7 @@ const UserActivity = require('../models/UserActivity');
 const UserBook = require('../models/UserBook');
 const Book = require('../models/Book');
 const BookReviews = require('../models/BookReviews');
-const { insertUserAction } = require('./userActions');
+const { insertUserAction } = require('./profileActions');
 const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_WANT_TO_READ, BOOK_STATUS_CONSTANTS_READ} 
     = require('../util/BookStatusConstants');
 

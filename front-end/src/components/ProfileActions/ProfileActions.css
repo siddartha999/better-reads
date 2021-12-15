@@ -1,4 +1,4 @@
-.UserActions-action {
+.ProfileActions-action {
     width: 90%;
     overflow: hidden;
     transition: 0.3s;
@@ -10,12 +10,12 @@
     display: flex;
 }
 
-.UserActions-book-cover-wrapper {
+.ProfileActions-book-cover-wrapper {
     width: 20%;
     height: 20rem;
 }
 
-.UserActions-book-cover-wrapper > img {
+.ProfileActions-book-cover-wrapper > img {
     width: 100%;
     height: 80%;
     object-fit: contain;
@@ -24,13 +24,13 @@
     cursor: pointer;
 }
 
-.UserActions-details-wrapper {
+.ProfileActions-details-wrapper {
     width: 80%;
     padding-left: 1rem;
     text-align: left;
 }
 
-.UserActions-action-wrapper > p {
+.ProfileActions-action-wrapper > p {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -38,7 +38,7 @@
 }
 
 
-.UserActions-book-name {
+.ProfileActions-book-name {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -46,7 +46,7 @@
     font-weight: bold;
 }
 
-.UserActions-book-timestamp-wrapper > p {
+.ProfileActions-book-timestamp-wrapper > p {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -54,13 +54,17 @@
     margin: 1rem 0;
 }
 
-.UserActions-book-review-content-wrapper {
+.ProfileActions-book-review-content-wrapper {
     height: 12rem;
     overflow: auto;
     padding-top: 0.5rem;
 }
 
-.UserActions-pagination-wrapper {
+.ProfileActions-book-review-content-wrapper > p {
+    padding: 0.1rem;
+}
+
+.ProfileActions-pagination-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,16 +75,16 @@
 
 /*  ----------------------------------- Mobile Specific ---------------------------------------------- */
 
-.UserActions-action.mobile1200 {
+.ProfileActions-action.mobile1200 {
     display: block;
     min-height: 20rem;
 }
 
-.UserActions-action.mobile1200 > .UserActions-book-cover-wrapper {
+.ProfileActions-action.mobile1200 > .ProfileActions-book-cover-wrapper {
     width: 100%;
 }
 
-.UserActions-action.mobile1200 > .UserActions-details-wrapper {
+.ProfileActions-action.mobile1200 > .ProfileActions-details-wrapper {
     text-align: center;
     width: 90%;
     position: relative;
@@ -89,10 +93,10 @@
     padding-bottom: 1rem;
 }
 
-.UserActions-action.mobile1200 > .UserActions-details-wrapper > .UserActions-action-wrapper > p {
+.ProfileActions-action.mobile1200 > .ProfileActions-details-wrapper > .ProfileActions-action-wrapper > p {
     -webkit-line-clamp: 3;
 }
 
-.UserActions-action.mobile1200 > .UserActions-details-wrapper > .UserActions-book-name-wrapper > .UserActions-book-name {
+.ProfileActions-action.mobile1200 > .ProfileActions-details-wrapper > .ProfileActions-book-name-wrapper > .ProfileActions-book-name {
     -webkit-line-clamp: 2;
 }

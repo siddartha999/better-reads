@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import './MyReviews.css';
+import './ProfileReviews.css';
 import axios from 'axios';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import { useLocation } from 'react-router';
@@ -11,9 +11,10 @@ import { ScreenWidthContext } from "../../contexts/ScreenWidthContext";
 const BOOK_THUMBNAIL_URL_PREFIX = "https://covers.openlibrary.org/b/id/";
 const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 
-const MyReviews = (props) => {
+const ProfileReviews = (props) => {
     const {user, setUser} = useContext(UserContext);
-    const state = useLocation().state;
+    const splitPath = useLocation().pathname.split('/');
+    const profileId = splitPath[splitPath.length - 2];
     const [reviews, setReviews] = useState(null);
     const width = useContext(ScreenWidthContext);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
@@ -32,13 +33,10 @@ const MyReviews = (props) => {
             setUser(null);
         }
 
-        if(state && state.reviews) {
-            setReviews(state.reviews);
-        }
         else {//If the reviews hasn't been supplied from the props, make the corresponding API call to retrieve them. 
             const response = await axios({
                 method: 'GET',
-                url: process.env.REACT_APP_SERVER_URL + '/api/userActivity/userReviews',
+                url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileId + '/reviews',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -73,21 +71,21 @@ const MyReviews = (props) => {
     };
 
     return (
-        <div className={`MyReviews ${width < 1200 ? 'mobile1200' : null}`}>
+        <div className={`ProfileReviews ${width < 1200 ? 'mobile1200' : null}`}>
             {
                 reviews && reviews.length ?
                 reviews.slice(10 * (paginationIndex - 1), 10 * paginationIndex).map((review, idx) => 
-                    <div className="MyReviews-row" key={idx}>
-                        <div className="MyReviews-row-cover-wrapper">
+                    <div className="ProfileReviews-row" key={idx}>
+                        <div className="ProfileReviews-row-cover-wrapper">
                             <img src={review.cover ? BOOK_THUMBNAIL_URL_PREFIX + review.cover + "-M.jpg" : ALT_IMAGE_PATH} 
                                 onClick={handleBookNavigation} bookid={review._id}
                             />
                         </div>
-                        <div className="MyReviews-row-details-wrapper">
-                            <div className="MyReviews-row-title-wrapper">
+                        <div className="ProfileReviews-row-details-wrapper">
+                            <div className="ProfileReviews-row-title-wrapper">
                                 <p>{review.name}</p>
                             </div>
-                            <div className="MyReviews-row-review-wrapper">
+                            <div className="ProfileReviews-row-review-wrapper">
                                 <p>{review.reviewContent}</p>
                             </div>
                         </div>
@@ -96,7 +94,7 @@ const MyReviews = (props) => {
                 : null
             }
             {reviews && reviews.length ? 
-                <div className="MyReviews-pagination-wrapper">
+                <div className="ProfileReviews-pagination-wrapper">
                     <Pagination count={paginationCount} page={paginationIndex} onChange={handlePaginationChange} 
                         variant="outlined" color="primary" />  
                 </div> 
@@ -106,4 +104,4 @@ const MyReviews = (props) => {
     );
 };
 
-export default MyReviews;
+export default ProfileReviews;

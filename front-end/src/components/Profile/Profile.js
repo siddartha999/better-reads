@@ -5,24 +5,32 @@ import Button from '@mui/material/Button';
 import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import { SnackbarContext } from '../../contexts/SnackbarContext';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { abbreviateNumber } from '../../utils/numbersUtils';
-import UserActions from '../UserActions/UserActions';
+import ProfileActions from '../ProfileActions/ProfileActions';
 import UserRatingsChart from '../UserRatingsChart/UserRatingsChart';
-
-const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/altimage.png";
+import BookShelf from '../BookShelf/BookShelf';
 
 const Profile = () => {
     const {user, setUser} = useContext(UserContext);
+    const history = useLocation();
+    const profileId = history.pathname.split('/').pop();
+    const [profile, setProfile] = useState(null);
     const width = useContext(ScreenWidthContext);
-    const name = user.profile.name;
-    const profilePicUrl = user.profile.profilePicUrl;
     const [rating, setMyRating] = useState(null);
-    const [reviews, setReviews] = useState(null);
+    const [reviewsCount, setReviewsCount] = useState(null);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
-    const [userActions, setUserActions] = useState(null);
+    const [profileActions, setProfileActions] = useState(null);
     const [openReviewChart, setOpenReviewChart] = useState(false);
+    const profileBooks = useRef(null);
     const navigate = useNavigate();
+
+    const token = user?.token;
+        if(!token) {
+            raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
+            localStorage.setItem("betterreadsuserinfo", null);
+            setUser(null);
+        }
 
     /**
      * Handler to display the Review chart.
@@ -31,18 +39,48 @@ const Profile = () => {
         setOpenReviewChart(true);
     };
 
-    //Retrieve the user specific info in the initial-run.
+    /**
+     * Retrieve profile info in the initial-run.
+     */
     useEffect(async () => {
-        const token = user?.token;
-        if(!token) {
-            raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+
+        //Current User's profile, required profile info is already present.
+        if(profileId === user?.profile?._id) {
+            setProfile({
+                name: user.profile.name,
+                profilePicUrl: user.profile.profilePicUrl
+            });
+            return;
         }
 
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/userActivity',
+            url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileId,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if(response.status === 401) {
+            raiseSnackbarMessage(response.data.message, 'error');
+            localStorage.setItem("betterreadsuserinfo", null);
+            setUser(null);
+        }
+
+        if(response.status !== 200) {
+            raiseSnackbarMessage(response.data.message, 'error');
+            return;
+        }
+
+        setProfile(response.data);
+
+    }, []);
+
+    //Retrieve the profile specific info in the initial-run.
+    useEffect(async () => {
+        const response = await axios({
+            method: 'GET',
+            url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileId,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -68,24 +106,18 @@ const Profile = () => {
             //averageRating = sum / response.data.ratingCount;
             averageRating = averageRating.toFixed(2);
         }
+        profileBooks.current = response.data.profileBooks
         setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating, ratingMap: response.data.ratingMap});
-        setReviews(response.data.reviews);
+        setReviewsCount(response.data.reviewsCount);
     }, []);
 
     /**
-     * Retrieve the current User's actions in the initial run.
+     * Retrieve the profile's actions in the initial run.
      */
     useEffect(async () => {
-        const token = user?.token;
-        if(!token) {
-            raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
-        }
-
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/userActions',
+            url: process.env.REACT_APP_SERVER_URL + '/api/profileActions/' + profileId,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -100,23 +132,21 @@ const Profile = () => {
             raiseSnackbarMessage(response.data.message, 'error');
             return;
         }
-        setUserActions(response.data);
+        setProfileActions(response.data);
     }, []);
 
     /**
      * Handler to navigate to the user rated books page.
      */
      const handleRatedPageNavigation = (event) => {
-        navigate(`/mybooks/rated`, {state: 'rated'});
+        navigate('/' + profileId + '/rated', {state: {profileId: profileId}});
     };
 
     /**
      * Handler to navigate to the user's reviews page.
      */
     const handleUserReviewsNavigation = () => {
-        navigate('/myReviews', {state: {
-            reviews: reviews
-        }});
+        navigate('/' + profileId + '/reviews');
     };
 
     /*
@@ -127,15 +157,22 @@ const Profile = () => {
         setUser(null);
     };
 
+     /**
+     * Handler to navigate the user to current profile's marked books.
+     */
+      const handleProfileBooksNavigation = (type) => {
+        navigate('/' + profileId + '/' + type, {state: {profileId: profileId}});
+    };
+
     return (
         <div className={`Profile  ${width < 1400 ? 'mobile' : ''}`}>
             <div className={`Profile-details-wrapper`}>
                 <div className="Profile-image-wrapper">
-                    <img src={profilePicUrl}
+                    <img src={profile?.profilePicUrl}
                     className="Profile-user-pic" />
                 </div>
                 <div className="Profile-info-wrapper">
-                    <p className="Profile-name" title={name}>{name}</p>
+                    <p className="Profile-name" title={profile?.name}>{profile?.name}</p>
                     {rating ?
                         <div className="Profile-rating-wrapper">
                             {
@@ -158,10 +195,10 @@ const Profile = () => {
                         : null
                     }
                     {
-                        reviews && reviews.length ?
+                        reviewsCount && reviewsCount > 0 ?
                         <div className="Profile-review-wrapper">
                             <span className="Profile-review-count" onClick={handleUserReviewsNavigation}>
-                                {reviews.length} {reviews.length > 1 ? 'reviews' : 'review'}
+                                {reviewsCount} {reviewsCount > 1 ? 'reviews' : 'review'}
                             </span>
                         </div>
                         : null
@@ -171,8 +208,12 @@ const Profile = () => {
                 </div>
             </div>
 
-            <div className="Profile-user-actions-wrapper">
-                <UserActions data={userActions?.userActions} />
+            <div className="Profile-BookShelf-wrapper">
+                <BookShelf data={profileBooks.current} handleProfileBooksNavigation={handleProfileBooksNavigation} />
+            </div>
+
+            <div className="Profile-profile-actions-wrapper">
+                <ProfileActions data={profileActions?.profileActions} />
             </div>
         </div>
     );

@@ -4,7 +4,7 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
     BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
 
 /**
- * Controller to insert an action for the User.
+ * Controller to insert an action for the current User.
  */
 const insertUserAction = async (data) => {
     try {
@@ -65,7 +65,7 @@ const generateUserAction = (data, userName) => {
 };
 
 /**
- * Controller to retrieve the User actions.
+ * Controller to retrieve the current User actions.
  */
 const retrieveUserActions = async (req, res) => {
     const userId = req.userId;
@@ -82,5 +82,25 @@ const retrieveUserActions = async (req, res) => {
     }
 };
 
+/**
+ * Controller to retrieve a profile's actions.
+ */
+const retrieveProfileActions = async (req, res) => {
+    const profileId = req.params.profileId;
+    try {
+        const profileActions = await UserActions.findById(profileId).exec();
+        return res.status(200).json({
+            profileActions: profileActions?.actions
+        });
+    }
+    catch(err){
+        console.log('Error retrieving profile actions: ', err);
+        return res.status(500).json({
+            message: "We're experiencing connectivity issues with the Database. Please revisit later."
+        });
+    }
+};
+
 module.exports.retrieveUserActions = retrieveUserActions;
 module.exports.insertUserAction = insertUserAction;
+module.exports.retrieveProfileActions = retrieveProfileActions;

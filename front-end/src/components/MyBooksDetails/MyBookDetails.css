@@ -65,3 +65,10 @@
     align-items: center;
     height: 10%;
 }
+
+.MyBookDetails-no-results-wrapper {
+    height: 3rem;
+    position: relative;
+    top: 50%;
+    font-weight: bold;
+}

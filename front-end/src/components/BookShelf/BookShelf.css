@@ -1,0 +1,89 @@
+.BookShelf {
+    padding: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.BookShelf-row {
+    padding: 1.5rem 0;
+    position: relative;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.BookShelf-row-covers-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.BookShelf-row-cover-wrapper > img {
+    width: 10rem;
+    height: 15rem;
+    object-fit: contain;
+}
+
+.BookShelf-row-cover-wrapper.left {
+    left: 1.5rem;
+    transform: rotate(-25deg);
+    position: relative;
+    top: 1rem;
+}
+
+
+.BookShelf-row-cover-wrapper.right {
+    right: 1.5rem;
+    transform: rotate(25deg);
+    position: relative;
+    top: 1rem;
+}
+
+.BookShelf-row-tag-wrapper {
+    height: 2rem;
+    width: 75%;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: 0.3s;
+    border-radius: 1rem;
+    box-shadow: 0 12px 20px 0 rgb(0 0 0 / 20%);
+}
+
+.BookShelf-row-tag-wrapper > p {
+    margin: 0;
+    position: relative;
+    top: 0.25rem;
+    font-weight: bold;
+}
+
+.BookShelf-row-tag-wrapper.Currently.Reading{
+    background: #FECD45;
+    color: #141824;
+}
+
+.BookShelf-row-tag-wrapper.Want.to.Read {
+    background: #61082B;
+    color: #B4D0E7;
+}
+
+.BookShelf-row-tag-wrapper.Read {
+    background: #faf6ed;
+    color: #5cb25d;
+}
+
+
+/* ----------------------------------- Mobile Specific ------------------------------------- */
+.BookShelf.mobile1200 > .BookShelf-row{
+    width: 100%;
+}
+
+.BookShelf.mobile1200 > .BookShelf-row > .BookShelf-row-covers-wrapper > .BookShelf-row-cover-wrapper {
+    width: 33.3%;
+}
+
+.BookShelf.mobile1200 > .BookShelf-row > .BookShelf-row-covers-wrapper > .BookShelf-row-cover-wrapper > img {
+    width: 100%;
+    height: unset;
+}

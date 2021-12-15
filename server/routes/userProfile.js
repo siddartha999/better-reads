@@ -1,27 +1,15 @@
 //INITIAL SETUP.
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
-//Create a new user
-router.post('/', (req, res) => {
+const { retrieveUserProfile, retrieveUserProfileBooksByType } = require('../controllers/userProfile');
 
-});
+//Get the requested profile.
+router.get('/:profileId', auth, retrieveUserProfile);
 
-//Get the current user's profile
-router.get('/:id', (req, res) => {
-    res.send('Hello User : ' + req.params.id);
-});
-
-
-//Update the current user's profile
-router.patch('/:id', (req, res) => {
-
-});
-
-//Delete the current user
-router.delete('/:id', (req, res) => {
-
-});
+//Get the requested profiles books. 
+router.get('/:profileId/:type', auth, retrieveUserProfileBooksByType);
 
 
 module.exports = router;

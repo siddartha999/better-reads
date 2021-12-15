@@ -69,7 +69,7 @@ const ResponsiveDrawer = (props) => {
    * Handler to navigate the user to Profile page.
    */
   const handleProfileNavigation = () => {
-    navigate(`/profile`);
+    navigate('/profile/' + user?.profile?._id);
   };
 
   const handleDrawerToggle = () => {
@@ -89,7 +89,7 @@ const ResponsiveDrawer = (props) => {
             </ListItem>
           </NavLink>
 
-        <NavLink to="/profile" className="NavSideBar-item" onClick={handleDrawerToggle}>
+        <NavLink to={`/profile/${user?.profile?._id}`} className="NavSideBar-item" onClick={handleDrawerToggle}>
             <ListItem button key="Profile"> 
                 <ListItemIcon>
                     <PersonIcon />
