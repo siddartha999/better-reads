@@ -18,6 +18,7 @@ import ProfileReviews from './components/ProfileReviews/ProfileReviews';
 import Friends from './components/Friends/Friends';
 import Communities from './components/Communities/Communities';
 import NotFound from './components/NotFound/NotFound';
+import UpdateProfileName from './components/UpdateProfileName/UpdateProfileName';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -71,7 +72,11 @@ function App() {
       <UserContext.Provider value={{user, setUser}}> 
         <SnackbarContext.Provider value={{snackbarOpen, toggleSnackbar, snackbarObj ,raiseSnackbarMessage}}>
           <ScreenWidthContext.Provider value={width}> 
-            {user ? appFlow : (<Login />)}
+            {
+              user ? 
+                user.profile && user.profile.profileName ? appFlow : <UpdateProfileName /> 
+                : (<Login />)
+            }
           </ScreenWidthContext.Provider>
           <SnackBar />
         </SnackbarContext.Provider>

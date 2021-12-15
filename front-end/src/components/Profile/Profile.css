@@ -39,6 +39,14 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-bottom: 0;
+    padding: 0 0.5rem;
+}
+
+.Profile-profile-name {
+    margin: 0;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .Profile-image-wrapper {
@@ -121,6 +129,6 @@
     overflow: hidden;
 }
 
-.Profile.mobile> .Profile-details-wrapper > .Profile-info-wrapper > .Profile-name {
+.Profile.mobile> .Profile-details-wrapper > .Profile-info-wrapper > .Profile-info-name-wrapper > .Profile-name {
     -webkit-line-clamp: 2;
 }

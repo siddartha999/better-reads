@@ -1,0 +1,114 @@
+.UpdateProfileName {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.UpdateProfileName-header-title-wrapper > p {
+    padding: 0 1rem;
+}
+
+.UpdateProfileName-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    width: 50%;
+    height: 80%;
+    transition: 0.3s;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+    background: #161B21;
+    color: #F4A950;
+}
+
+.UpdateProfileName-header {
+    width: 100%;
+    height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.UpdateProfileName-body-wrapper {
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: baseline;
+    width: 100%;
+    overflow: auto;
+}
+
+.UpdateProfileName-body-save-wrapper {
+    padding: 0 2rem;
+}
+
+.UpdateProfileName-body-input-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.UpdateProfileName-body-input > .MuiFormControl-root.MuiTextField-root > label.MuiInputLabel-root.MuiInputLabel-formControl {
+    color: #F4A950;
+}
+
+.UpdateProfileName-body-input > .MuiFormControl-root.MuiTextField-root > div.MuiInput-root.MuiInput-underline {
+    border-bottom: 2px solid #F4A950;
+    color: #F4A950;
+}
+
+.UpdateProfileName-body-input > .MuiFormControl-root.MuiTextField-root > div.MuiInput-root.MuiInput-underline::after {
+    border-bottom: unset;
+}
+
+.UpdateProfileName-body-loading-spinner {
+    position: absolute;
+    right: 10%;
+}
+
+.UpdateProfileName-header-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: left;
+    color: chartreuse;
+    padding: 1rem;
+}
+
+.UpdateProfileName-header-rule.invalid {
+    color: orangered;
+}
+
+.UpdateProfileName-header-rule > svg {
+    width: 10%;
+}
+.UpdateProfileName-header-rule > p {
+    width: calc(90% - 4rem);
+    padding: 0 1rem;
+    margin: 0;
+}
+
+.UpdateProfileName-body-input-message {
+    text-align: left;
+}
+
+.UpdateProfileName-body-input-message.error {
+    color: orangered;
+}
+
+.UpdateProfileName-body-input-message.success {
+    color: chartreuse;
+}
+
+
+
+/* -------------------- Mobile Specific -------------------------------- */
+.UpdateProfileName.mobile1000 > .UpdateProfileName-wrapper {
+    width: 90%;
+    height: 90%;
+}

@@ -7,6 +7,12 @@ const modelObj = {
         type: String,
         required: true
     },
+    profileName: {
+        type: String
+    },
+    profileNameLower: {
+        type: String
+    },
     email: {
         type: String,
         required: true
@@ -26,5 +32,10 @@ const modelObj = {
 };
 
 const userSchema = mongoose.Schema(modelObj);
+
+userSchema.index({
+    name: 'text',
+    profileNameLower: 'text'
+});
 
 module.exports = mongoose.model('User', userSchema); 

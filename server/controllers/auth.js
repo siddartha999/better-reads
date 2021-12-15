@@ -19,10 +19,10 @@ const googleAuthController = (req, res) => {
                     if(user) { //The User already exists in the DB.
                         //Create a JWT token & return that.
                         const token = jwt.sign({_id: user._id, name: user.name}, process.env.JWT_SIGNIN_KEY, {expiresIn: '7d'});
-                        const {_id, name, email, profilePicUrl} = user;
+                        const {_id, name, email, profilePicUrl, profileName} = user;
                         res.json({
                             token,
-                            user: {_id, name, email, profilePicUrl}
+                            user: {_id, name, email, profilePicUrl, profileName: profileName}
                         });
                     }
                     else { // User is new, need to create an entry in the DB.
@@ -36,10 +36,10 @@ const googleAuthController = (req, res) => {
                             else {
                                 //Create a JWT token & return that.
                                 const token = jwt.sign({_id: data._id, name: data.name}, process.env.JWT_SIGNIN_KEY, {expiresIn: '7d'});
-                                const {_id, name, email, profilePicUrl} = newUser;
+                                const {_id, name, email, profilePicUrl, profileName} = newUser;
                                 res.json({
                                     token,
-                                    user: {_id, name, email, profilePicUrl}
+                                    user: {_id, name, email, profilePicUrl, profileName: profileName}
                                 });
                             }
                         });
