@@ -52,14 +52,14 @@ function App() {
       <div className={`App-body-wrapper ${width < 600 ? 'mobile' : ''}`}>
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/profile/:profileId' element={<Profile />} />
+            <Route path='/profile/:profileName' element={<Profile />} />
             <Route path='/bookresults' element={<BookResults />} />
             <Route path='/book/:bookId' element={<Book />} />
             <Route path='/author/:authorId' element={<Author />} />
             <Route path='/mybooks' element={<MyBooks />} />
             <Route path='/mybooks/:status' element={<MyBooksDetails />} />
-            <Route path='/:profileId/:status' element={<MyBooksDetails />} />
-            <Route path="/:profileId/reviews" element={<ProfileReviews />} />
+            <Route path='/:profileName/:status' element={<MyBooksDetails />} />
+            <Route path="/:profileName/reviews" element={<ProfileReviews />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/communities" element={<Communities />} />
             <Route path="*" element={<NotFound />} />

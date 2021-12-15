@@ -5,9 +5,9 @@ const UserActivity = require('../models/UserActivity');
  * Controller to retrieve the Profile of the given User.
  */
 const retrieveUserProfile = async (req, res) => {
-    const profileId = req.params.profileId;
+    const profileName = req.params.profileName;
     try {
-        const userProfile = await User.findById(profileId).exec();
+        const userProfile = await User.findOne({profileNameLower: profileName.toLowerCase()}).exec();
         return res.status(200).json({
             name: userProfile?.name,
             profileName: userProfile?.profileName,
@@ -26,10 +26,13 @@ const retrieveUserProfile = async (req, res) => {
  * Controller to retrieve the user profile's books based on the type: {currently-reading, want-to-read, read, rated}.
  */
 const retrieveUserProfileBooksByType = async (req, res) => {
-    const profileId = req.params.profileId;
+    const profileName = req.params.profileName;
     const type = req.params.type;
     try {
-        const profileActivity = await UserActivity.findOne({_id: profileId}).exec();
+        //Retrieve the Profile's Id from the User collection.
+        const user = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
+        //Retrieve the Profile's activities.
+        const profileActivity = await UserActivity.findById(user._id).exec();
         const resObj = {};
         resObj[type] = profileActivity[type];
         return res.status(200).json(resObj);

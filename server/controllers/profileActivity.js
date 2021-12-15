@@ -1,3 +1,4 @@
+const User = require('../models/User');
 const UserActivity = require('../models/UserActivity');
 const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ, 
     BOOK_STATUS_CONSTANTS_CURRENTLY_READING, BOOK_STATUS_CONSTANTS_READ} = require('../util/BookStatusConstants');
@@ -5,13 +6,18 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
  * Controller to retrieve Activities by the profile.
  */
 const retrieveProfileActivities = async (req, res) => {
-    const profileId = req.params.profileId;
+    const profileName = req.params.profileName;
     try{
+        //Retrieve the Profile's Id.
+        const user = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
+        
         const sliceObj = {};
         sliceObj[BOOK_STATUS_CONSTANTS_WANT_TO_READ] = {$slice: [0, 3]};
         sliceObj[BOOK_STATUS_CONSTANTS_CURRENTLY_READING] = {$slice: [0, 3]};
         sliceObj[BOOK_STATUS_CONSTANTS_READ] = {$slice: [0, 3]};
-        const profileActivity = await UserActivity.findById(profileId, sliceObj).select("reviews ratingMap rated").exec();
+
+        //Retrieve the Profile's Activities.
+        const profileActivity = await UserActivity.findById(user._id, sliceObj).select("reviews ratingMap rated").exec();
         const resObj = {};
         if(profileActivity) {
             resObj.ratingMap = profileActivity.ratingMap;
@@ -37,10 +43,12 @@ const retrieveProfileActivities = async (req, res) => {
  */
 
 const retrieveProfileReviews = async (req, res) => {
-    const profileId = req.params.profileId;
+    const profileName = req.params.profileName;
     try{
+        //Retrieve the profile's ID.
+        const user = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
         //Retrieve just the reviews object.
-        const profileActivity = await UserActivity.findById(profileId).select("reviews").exec();
+        const profileActivity = await UserActivity.findById(user._id).select("reviews").exec();
         return res.status(200).json({
             reviews: profileActivity?.reviews
         });

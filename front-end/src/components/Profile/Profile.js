@@ -14,7 +14,7 @@ import BookShelf from '../BookShelf/BookShelf';
 const Profile = () => {
     const {user, setUser} = useContext(UserContext);
     const history = useLocation();
-    const profileId = history.pathname.split('/').pop();
+    const profileName = history.pathname.split('/').pop();
     const [profile, setProfile] = useState(null);
     const width = useContext(ScreenWidthContext);
     const [rating, setMyRating] = useState(null);
@@ -45,7 +45,7 @@ const Profile = () => {
     useEffect(async () => {
 
         //Current User's profile, required profile info is already present.
-        if(profileId === user?.profile?._id) {
+        if(profileName === user?.profile?.profileName) {
             setProfile({
                 name: user.profile?.name,
                 profileName: user.profile?.profileName,
@@ -56,7 +56,7 @@ const Profile = () => {
 
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileId,
+            url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -81,7 +81,7 @@ const Profile = () => {
     useEffect(async () => {
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileId,
+            url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileName,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -118,7 +118,7 @@ const Profile = () => {
     useEffect(async () => {
         const response = await axios({
             method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profileActions/' + profileId,
+            url: process.env.REACT_APP_SERVER_URL + '/api/profileActions/' + profileName,
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -140,14 +140,14 @@ const Profile = () => {
      * Handler to navigate to the user rated books page.
      */
      const handleRatedPageNavigation = (event) => {
-        navigate('/' + profileId + '/rated', {state: {profileId: profileId}});
+        navigate('/' + profileName + '/rated', {state: {profileName: profileName}});
     };
 
     /**
      * Handler to navigate to the user's reviews page.
      */
     const handleUserReviewsNavigation = () => {
-        navigate('/' + profileId + '/reviews');
+        navigate('/' + profileName + '/reviews');
     };
 
     /*
@@ -162,7 +162,7 @@ const Profile = () => {
      * Handler to navigate the user to current profile's marked books.
      */
       const handleProfileBooksNavigation = (type) => {
-        navigate('/' + profileId + '/' + type, {state: {profileId: profileId}});
+        navigate('/' + profileName + '/' + type, {state: {profileName: profileName}});
     };
 
     return (

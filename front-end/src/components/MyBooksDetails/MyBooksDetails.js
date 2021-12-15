@@ -21,7 +21,7 @@ const MyBookDetails = (props) => {
     const state = useLocation();
     const splitPath = decodeURI(state.pathname).split('/'); 
     const type = splitPath.pop();
-    const profileId = splitPath.pop();
+    const profileName = splitPath.pop();
     const {user, setUser} = useContext(UserContext);
     const [data, setData] = useState([]);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
@@ -77,8 +77,8 @@ const MyBookDetails = (props) => {
         }
 
         let url = process.env.REACT_APP_SERVER_URL + '/api/mybooks/' + type;
-        if(profileId && profileId !== 'mybooks') {
-            url = process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileId + '/' + type;
+        if(profileName && profileName !== 'mybooks') {
+            url = process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/' + type;
         }
 
         const response = await axios({

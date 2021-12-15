@@ -86,9 +86,12 @@ const retrieveUserActions = async (req, res) => {
  * Controller to retrieve a profile's actions.
  */
 const retrieveProfileActions = async (req, res) => {
-    const profileId = req.params.profileId;
+    const profileName = req.params.profileName;
     try {
-        const profileActions = await UserActions.findById(profileId).exec();
+        //Retrieve the Profile's ID.
+        const user = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
+        //Retrieve the Profile's actions.
+        const profileActions = await UserActions.findById(user._id).exec();
         return res.status(200).json({
             profileActions: profileActions?.actions
         });

@@ -14,7 +14,7 @@ const ALT_IMAGE_PATH = process.env.PUBLIC_URL + "/ImgNotAvailable.jpg";
 const ProfileReviews = (props) => {
     const {user, setUser} = useContext(UserContext);
     const splitPath = useLocation().pathname.split('/');
-    const profileId = splitPath[splitPath.length - 2];
+    const profileName = splitPath[splitPath.length - 2];
     const [reviews, setReviews] = useState(null);
     const width = useContext(ScreenWidthContext);
     const {raiseSnackbarMessage} = useContext(SnackbarContext);
@@ -33,10 +33,10 @@ const ProfileReviews = (props) => {
             setUser(null);
         }
 
-        else {//If the reviews hasn't been supplied from the props, make the corresponding API call to retrieve them. 
+        else {
             const response = await axios({
                 method: 'GET',
-                url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileId + '/reviews',
+                url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileName + '/reviews',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 const { retrieveUserProfile, retrieveUserProfileBooksByType, updateUserProfileName, validateUserProfileName } = require('../controllers/userProfile');
 
 //Get the requested profile.
-router.get('/:profileId', auth, retrieveUserProfile);
+router.get('/:profileName', auth, retrieveUserProfile);
 
 //Validate the User's profileName
 router.get('/profileName/:profileName', auth, validateUserProfileName);
@@ -15,7 +15,7 @@ router.get('/profileName/:profileName', auth, validateUserProfileName);
 router.patch('/profileName/:profileName', auth, updateUserProfileName);
 
 //Get the requested profiles books. 
-router.get('/:profileId/:type', auth, retrieveUserProfileBooksByType);
+router.get('/:profileName/:type', auth, retrieveUserProfileBooksByType);
 
 
 module.exports = router;

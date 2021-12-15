@@ -5,6 +5,6 @@ const auth = require('../middleware/auth');
 const { retrieveUserActions, retrieveProfileActions } = require('../controllers/profileActions');
 
 //Router to retrieve all the actions of the current-user.
-router.get('/:profileId', auth, retrieveProfileActions);
+router.get('/:profileName', auth, retrieveProfileActions);
 
 module.exports = router;
