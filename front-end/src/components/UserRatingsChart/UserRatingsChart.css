@@ -7,3 +7,30 @@
     position: relative;
     left: 35%;
 }
+
+.UserRatingsChart-charts-wrapper {
+    display: flex;
+    height: 60vh;
+    flex-wrap: wrap;
+}
+
+.UserRatingsChart-chart-wrapper {
+    width: 100%;
+    height: 50%;
+    position: relative;
+}
+
+.UserRatingsChart-chart-wrapper > .Bar, .UserRatingsChart-chart-wrapper > .Pie {
+    width: 10rem;
+    height: 10rem;
+    position: relative;
+    left: 20%;
+}
+
+.UserRatingsChart-title {
+    text-align: center;
+    margin: 0;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

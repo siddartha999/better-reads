@@ -212,7 +212,9 @@ const Profile = () => {
                         : null
                     }
                     <Button className="Profile-sign-out" variant="outlined" color="error" onClick={signOutUser}>Sign Out</Button>
-                    <UserRatingsChart data={rating?.ratingMap} open={openReviewChart} setOpenReviewChart={setOpenReviewChart} />
+                    <UserRatingsChart data={rating?.ratingMap} open={openReviewChart} setOpenReviewChart={setOpenReviewChart} 
+                        profileName={user?.profile?.profileName}
+                    />
                 </div>
             </div>
 

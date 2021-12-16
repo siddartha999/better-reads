@@ -314,6 +314,22 @@
     height: 25vh;
 }
 
+.Book-stats-details-wrapper {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.Book-stats-details-wrapper > p {
+    width: 100%;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
 
 /* -------------------- Mobile Specific ------------------------------------ */
 

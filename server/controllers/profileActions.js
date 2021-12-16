@@ -13,6 +13,10 @@ const insertUserAction = async (data) => {
         const userName = user.name;
         const profilePicUrl = user.profilePicUrl;
         let action = generateUserAction(data, userName);
+        if(!action || action.length === 0) {//Avoid inserting an action if it doesn't satisfy any criteria.
+            return;
+        }
+
         let actionObj = {
             bookId: data.bookId,
             cover: data.cover,
@@ -28,6 +32,11 @@ const insertUserAction = async (data) => {
         let newUserActions = userActions;
         if(newUserActions) {//UserId already exists.
             newUserActions.actions.unshift(actionObj);
+            
+            //Maintain only 100 actions per profile.
+            while(newUserActions.actions.length > 100) {
+                newUserActions.actions.pop();
+            }
         }
         else {//This is the first action inserted for the user.
             newUserActions = new UserActions({_id: userId, actions: [actionObj]});

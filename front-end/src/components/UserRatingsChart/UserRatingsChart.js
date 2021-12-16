@@ -65,14 +65,21 @@ const UserRatingsChart = (props) => {
     return (
         <div className="UserRatingsChart">
            <Dialog onClose={handleClose} open={props.open}>
-                <DialogTitle>Rating distribution</DialogTitle>
-                <Switch checked={barChart} onChange={handleChange} inputProps={{ 'aria-label': 'controlled' }} />
-                {
-                    barChart ? 
-                        <Bar data={chartData} height={200} width={200} options={options}/> 
-                        :
-                        <Pie data={chartData} height={200} width={200} options={{ plugins: { legend: { display: false }} }}/> 
-                }
+                <DialogTitle>
+                    <p className='UserRatingsChart-title'>{props.profileName}'s Ratings</p>
+                </DialogTitle>
+                <div className='UserRatingsChart-charts-wrapper'>
+                    <div className='UserRatingsChart-chart-wrapper'>
+                        <div className='Bar'>
+                            <Bar data={chartData} height={200} width={200} options={options}/>         
+                        </div>
+                    </div>
+                    <div className='UserRatingsChart-chart-wrapper'>
+                        <div className='Pie'>
+                            <Pie data={chartData} height={200} width={200} options={{ plugins: { legend: { display: false }} }}/> 
+                        </div>
+                    </div>
+                </div>
            </Dialog>
         </div>
     );

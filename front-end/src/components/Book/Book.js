@@ -13,8 +13,7 @@ import UserBookRating from '../UserBookRating/UserBookRating';
 import BookReviews from '../BookReviews/BookReviews';
 import UserBookContext from '../../contexts/UserBookContext';
 import ProgressBar from 'react-customizable-progressbar';
-import { Doughnut, Pie } from 'react-chartjs-2';
-import USER_BOOK_STATUS_CONSTANTS from '../../utils/userBookStatusConstants';
+import { abbreviateNumber } from '../../utils/numbersUtils';
 
 const BOOK_SEARCH_URL_PREFIX = "https://openlibrary.org/works/";
 const AUTHOR_INFO_URL_PREFIX = "https://openlibrary.org";
@@ -45,25 +44,6 @@ const Book = () => {
     const [currentUserReview, setCurrentUserReview] = useState(null);
     const [bookStats, setBookStats] = useState(null);
     const [averageRating, setAverageRating] = useState(0);
-    let chartData;
-    if(bookStats && (bookStats.wantToReadCount || bookStats.readCount || bookStats.currentlyReadingCount) ) {
-        chartData = {
-            labels: [USER_BOOK_STATUS_CONSTANTS.CURRENTLY_READING, USER_BOOK_STATUS_CONSTANTS.WANT_TO_READ, USER_BOOK_STATUS_CONSTANTS.READ],
-            datasets: [{
-                data: [bookStats.currentlyReadingCount, bookStats.wantToReadCount, bookStats.readCount],
-                backgroundColor: [
-                    "9A1750",
-                    '#5CD895',
-                    "#E3E2DF",
-                    '#AA96DA',
-                    'rgb(255, 205, 86)',
-                    'rgb(54, 162, 235)',
-                    '#5CD895',
-                    "#950740",
-                  ]
-            }]
-        };
-    }
 
     //Fetch the book data from the provided ID in the initial-run.
     useEffect(async () => {
@@ -211,12 +191,28 @@ const Book = () => {
                                     : null
                             }
                             {
-                                chartData ?
-                                    <div className="Book-stats-chart-wrapper">
-                                        <div className="Book-stats-chart">
-                                            <Pie data={chartData} height={200} width={200}
-                                            options={{ plugins: { legend: { display: false }} }}/>
-                                        </div> 
+                                bookStats && (bookStats.wantToReadCount || bookStats.readCount || bookStats.currentlyReadingCount) ?
+                                    <div className="Book-stats-details-wrapper">
+                                        { 
+                                            bookStats.wantToReadCount ?
+                                                <p>{abbreviateNumber(bookStats.wantToReadCount)} 
+                                                    {bookStats.wantToReadCount > 1 ? ' users Want ' : ' user Wants '} 
+                                                    to Read</p>
+                                                : null
+                                        }
+                                        { 
+                                            bookStats.currentlyReadingCount ?
+                                                <p>{abbreviateNumber(bookStats.currentlyReadingCount)}
+                                                    {bookStats.currentlyReadingCount > 1 ? ' users are ' : ' user is '} 
+                                                    Currently Reading</p>
+                                                : null
+                                        }
+                                        {
+                                            bookStats.readCount ?
+                                                <p>Read by {abbreviateNumber(bookStats.readCount)} 
+                                                {bookStats.readCount > 1 ? ' users' : ' user'} </p>
+                                                : null
+                                        }
                                     </div>
                                     : null
                             }
