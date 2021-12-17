@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const SearchBar = (props) => {
     const className = props.setClassName || "";
     const placeholder = props.setPlaceHolder || "Better Reads search...";
-    const [inputValue, setInputValue] = useState(null);
+    const [inputValue, setInputValue] = useState('');
 
     /**
      * Function to call the parent's search submit function with the value entered in the search field.

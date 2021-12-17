@@ -17,6 +17,10 @@ const modelObj = {
         type: String,
         required: true
     },
+    bio: {
+        type: String,
+        required: false
+    },
     profilePicUrl: {
         type: String,
         required: false
@@ -28,6 +32,14 @@ const modelObj = {
     following: {
         type: Array,
         default: []
+    },
+    followersMap: {
+        type: Map,
+        of: String
+    },
+    followingMap: {
+        type: Map,
+        of: String
     }
 };
 

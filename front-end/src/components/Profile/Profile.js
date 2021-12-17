@@ -24,6 +24,7 @@ const Profile = () => {
     const [openReviewChart, setOpenReviewChart] = useState(false);
     const profileBooks = useRef(null);
     const navigate = useNavigate();
+    const [retrieveProfileInfo, setRetrieveProfileInfo] = useState(1);
 
     const token = user?.token;
         if(!token) {
@@ -43,16 +44,6 @@ const Profile = () => {
      * Retrieve profile info in the initial-run.
      */
     useEffect(async () => {
-
-        //Current User's profile, required profile info is already present.
-        if(profileName === user?.profile?.profileName) {
-            setProfile({
-                name: user.profile?.name,
-                profileName: user.profile?.profileName,
-                profilePicUrl: user.profile?.profilePicUrl
-            });
-            return;
-        }
 
         const response = await axios({
             method: 'GET',
@@ -74,8 +65,7 @@ const Profile = () => {
         }
 
         setProfile(response.data);
-
-    }, []);
+    }, [retrieveProfileInfo, profileName]);
 
     //Retrieve the profile specific info in the initial-run.
     useEffect(async () => {
@@ -110,7 +100,7 @@ const Profile = () => {
         profileBooks.current = response.data.profileBooks
         setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating, ratingMap: response.data.ratingMap});
         setReviewsCount(response.data.reviewsCount);
-    }, []);
+    }, [profileName]);
 
     /**
      * Retrieve the profile's actions in the initial run.
@@ -134,7 +124,7 @@ const Profile = () => {
             return;
         }
         setProfileActions(response.data);
-    }, []);
+    }, [profileName]);
 
     /**
      * Handler to navigate to the user rated books page.
@@ -165,12 +155,69 @@ const Profile = () => {
         navigate('/' + profileName + '/' + type, {state: {profileName: profileName}});
     };
 
+
+    /**
+     * Handler to follow/unFollow a user profile by the current User.
+     */
+    const handleUserProfileFollow = async (event) => {
+        const type = event.target.getAttribute('attr');
+        const operation = (type === 'follow' || type === 'unFollow') ? type : null;
+        if(!operation) {//Not a Valid operation type
+            return;
+        }
+
+        try{
+            const response = await axios({
+                method: "PATCH",
+                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/' + operation,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response);
+            if(response.status === 200) {
+               setRetrieveProfileInfo(retrieveProfileInfo === 1 ? 2 : 1);
+               raiseSnackbarMessage(response.data.message, 'success');
+            }
+        }
+        catch(err) {
+            if(err.response.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
+            }
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
+        }
+    };
+
     return (
         <div className={`Profile  ${width < 1400 ? 'mobile' : ''}`}>
             <div className={`Profile-details-wrapper`}>
-                <div className="Profile-image-wrapper">
-                    <img src={profile?.profilePicUrl}
-                    className="Profile-user-pic" />
+                <div className='Profile-details-header-wrapper'>
+                    <div className="Profile-image-wrapper">
+                        <img src={profile?.profilePicUrl}
+                        className="Profile-user-pic" />
+                    </div>
+                    <div className={`Profile-details-header-content-wrapper`}>
+                        {
+                            profileName !== user?.profile?.profileName ?
+                                <div className={`Profile-follow-wrapper`} onClick={handleUserProfileFollow}>
+                                    {
+                                        profile?.isFollowedByCurrentUser === "true" ?
+                                            <p attr='unFollow'>UnFollow</p>
+                                            : 
+                                            <p attr='follow'>Follow</p>
+                                    }
+                                    
+                                </div>
+                                :
+                                <div className={'Profile-edit-wrapper'}>
+                                    <p>Edit profile</p>
+                                </div>
+                        }
+                    </div>
                 </div>
                 <div className="Profile-info-wrapper">
                     <div className="Profile-info-name-wrapper">
@@ -181,37 +228,52 @@ const Profile = () => {
                                 : null
                         }
                     </div>
-                    {rating ?
-                        <div className="Profile-rating-wrapper">
-                            {
-                                rating.ratingCount ?
-                                    <>
-                                        <span className="Profile-rating-count" onClick={handleRatedPageNavigation}>
-                                            {abbreviateNumber(rating.ratingCount)} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
-                                        </span>
-                                     </>
-                                    : null
-                            }
-                            {
-                                rating.averageRating > 0 ?
-                                    <span className="Profile-average-rating" onClick={handleOpenReviewChart}>
-                                        ({rating.averageRating} average)
+                    <div className='Profile-info-follow-details-wrapper'>
+                        <div className='Profile-info-following-wrapper'>
+                            <p>{abbreviateNumber(profile?.following?.length)} Following</p>
+                        </div>
+                        <div className='Profile-info-followers-wrapper'>
+                            <p>{abbreviateNumber(profile?.followers?.length)} Followers</p>
+                        </div>
+                    </div>
+                    <div className='Profile-info-extras-wrapper'>
+                        {
+                            rating ?
+                                <div className="Profile-rating-wrapper">
+                                    {
+                                        rating.ratingCount ?
+                                            <>
+                                                <span className="Profile-rating-count" onClick={handleRatedPageNavigation}>
+                                                    {abbreviateNumber(rating.ratingCount)} {rating.ratingCount > 1 ? 'ratings' : 'rating'}
+                                                </span>
+                                            </>
+                                            : null
+                                    }
+                                    {
+                                        rating.averageRating > 0 ?
+                                            <span className="Profile-average-rating" onClick={handleOpenReviewChart}>
+                                                ({rating.averageRating} average)
+                                            </span>
+                                            : null
+                                    }
+                                </div>
+                                : null
+                        }
+                        {
+                            reviewsCount && reviewsCount > 0 ?
+                                <div className="Profile-review-wrapper">
+                                    <span className="Profile-review-count" onClick={handleUserReviewsNavigation}>
+                                        {reviewsCount} {reviewsCount > 1 ? 'reviews' : 'review'}
                                     </span>
-                                    : null
-                            }
-                        </div>
-                        : null
-                    }
-                    {
-                        reviewsCount && reviewsCount > 0 ?
-                        <div className="Profile-review-wrapper">
-                            <span className="Profile-review-count" onClick={handleUserReviewsNavigation}>
-                                {reviewsCount} {reviewsCount > 1 ? 'reviews' : 'review'}
-                            </span>
-                        </div>
-                        : null
-                    }
-                    <Button className="Profile-sign-out" variant="outlined" color="error" onClick={signOutUser}>Sign Out</Button>
+                                </div>
+                                : null
+                        }
+                        {
+                            profileName === user?.profile?.profileName ?
+                                <Button className="Profile-sign-out" variant="outlined" color="error" onClick={signOutUser}>Sign Out</Button>
+                                : null
+                        }
+                    </div>
                     <UserRatingsChart data={rating?.ratingMap} open={openReviewChart} setOpenReviewChart={setOpenReviewChart} 
                         profileName={user?.profile?.profileName}
                     />
