@@ -46,7 +46,7 @@ const modelObj = {
 const userSchema = mongoose.Schema(modelObj);
 
 userSchema.index({
-    name: 'text',
+    _id: 'text',
     profileNameLower: 'text'
 });
 

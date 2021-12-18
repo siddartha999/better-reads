@@ -10,6 +10,7 @@ import { abbreviateNumber } from '../../utils/numbersUtils';
 import ProfileActions from '../ProfileActions/ProfileActions';
 import UserRatingsChart from '../UserRatingsChart/UserRatingsChart';
 import BookShelf from '../BookShelf/BookShelf';
+import EditProfileDialog from '../EditProfileDialog/EditProfileDialog';
 
 const Profile = () => {
     const {user, setUser} = useContext(UserContext);
@@ -25,6 +26,7 @@ const Profile = () => {
     const profileBooks = useRef(null);
     const navigate = useNavigate();
     const [retrieveProfileInfo, setRetrieveProfileInfo] = useState(1);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const token = user?.token;
         if(!token) {
@@ -192,6 +194,13 @@ const Profile = () => {
         }
     };
 
+    /**
+     * Handler to open the UserBookExtrasDialog.
+    */
+    const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
+
     return (
         <div className={`Profile  ${width < 1400 ? 'mobile' : ''}`}>
             <div className={`Profile-details-wrapper`}>
@@ -213,7 +222,7 @@ const Profile = () => {
                                     
                                 </div>
                                 :
-                                <div className={'Profile-edit-wrapper'}>
+                                <div className={'Profile-edit-wrapper'} onClick={handleDialogOpen}>
                                     <p>Edit profile</p>
                                 </div>
                         }
@@ -228,6 +237,15 @@ const Profile = () => {
                                 : null
                         }
                     </div>
+                    {
+                        profile && profile.bio ?
+                            <div className='Profile-info-bio-wrapper'>
+                                <p>{profile.bio}</p>
+                            </div>
+                            :
+                            null
+
+                    }
                     <div className='Profile-info-follow-details-wrapper'>
                         <div className='Profile-info-following-wrapper'>
                             <p>{abbreviateNumber(profile?.following?.length)} Following</p>
@@ -285,8 +303,11 @@ const Profile = () => {
             </div>
 
             <div className="Profile-profile-actions-wrapper">
-                <ProfileActions data={profileActions?.profileActions} />
+                <ProfileActions data={profileActions?.profileActions} name={profile?.name} />
             </div>
+
+            <EditProfileDialog name={profile?.name} bio={profile?.bio} setOpen={dialogOpen} 
+                setDialogOpen={setDialogOpen} setRetrieveProfileInfo={setRetrieveProfileInfo} retrieveProfileInfo={retrieveProfileInfo} />
         </div>
     );
 };

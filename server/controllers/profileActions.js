@@ -9,10 +9,7 @@ const {BOOK_STATUS_CONSTANTS_NONE, BOOK_STATUS_CONSTANTS_WANT_TO_READ,
 const insertUserAction = async (data) => {
     try {
         const userId = data.userId;
-        const user = await User.findById(userId).exec();
-        const userName = user.name;
-        const profilePicUrl = user.profilePicUrl;
-        let action = generateUserAction(data, userName);
+        let action = generateUserAction(data);
         if(!action || action.length === 0) {//Avoid inserting an action if it doesn't satisfy any criteria.
             return;
         }
@@ -21,8 +18,6 @@ const insertUserAction = async (data) => {
             bookId: data.bookId,
             cover: data.cover,
             bookName: data.bookName,
-            userName: userName,
-            profilePicUrl: profilePicUrl,
             rating: data.rating,
             timestamp: Date.now(),
             reviewContent: data.reviewContent,
@@ -51,24 +46,24 @@ const insertUserAction = async (data) => {
 /**
  * Function to generate the user-action.
  */
-const generateUserAction = (data, userName) => {
+const generateUserAction = (data) => {
     let action = "";
     if(data.rating) {
-        action = `${userName} rated a book`;
+        action = ` rated a book`;
     }
     else if(data .currentStatus) {
         if(data.currentStatus === BOOK_STATUS_CONSTANTS_WANT_TO_READ) {
-            action = `${userName} wants to read`;
+            action = ` wants to read`;
         }
         else if(data.currentStatus === BOOK_STATUS_CONSTANTS_READ) {
-            action = `${userName} finished reading`;
+            action = ` finished reading`;
         }
         else if(data.currentStatus === BOOK_STATUS_CONSTANTS_CURRENTLY_READING) {
-            action = `${userName} is currently reading`;
+            action = ` is currently reading`;
         }
     }
     else if(data.reviewContent) {
-        action = `${userName} has left a review for`;
+        action = ` has left a review for`;
     }
     return action;
 };

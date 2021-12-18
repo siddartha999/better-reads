@@ -1,0 +1,37 @@
+.MuiTypography-root.MuiTypography-h6.MuiDialogTitle-root#draggable-dialog-title {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+}
+
+.EditProfileDialog-title {
+    bottom: 0.25rem;
+    margin: 0;
+    position: relative;
+}
+
+.EditProfileDialog-content-user-name-wrapper {
+    width: 100%;
+}
+
+.EditProfileDialog-content-user-name-wrapper > div.MuiFormControl-root.MuiTextField-root {
+    width: 100%;
+}
+
+.EditProfileDialog-content-user-name-wrapper.true > .MuiFormControl-root.MuiTextField-root > label{
+    color: red;
+}
+
+.EditProfileDialog-content-user-name-wrapper.true > .MuiFormControl-root.MuiTextField-root > .MuiOutlinedInput-root.MuiInputBase-root 
+ > fieldset {
+     border-color: red;
+ }
+
+.EditProfileDialog-content-bio-wrapper{
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.EditProfileDialog-content-bio-wrapper > div.MuiFormControl-root.MuiTextField-root {
+    width: 100%;
+}

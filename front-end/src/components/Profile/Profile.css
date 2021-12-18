@@ -7,7 +7,6 @@
 
 .Profile-details-wrapper {
     width: 80%;
-    height: 40vh;
     transition: 0.3s;
     border-radius: 1rem;
     box-shadow: 0 12px 20px 0 rgb(0 0 0 / 20%);
@@ -21,20 +20,20 @@
 
 .Profile-details-header-wrapper {
     width: 100%;
-    height: 30%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .Profile-user-pic {
-    height: 90%;
+    height: 5rem;
     object-fit: contain;
     border-width: 1px;
     border-color: rgba(0, 0, 0, 0.04);
     outline-style: none;
     box-shadow: rgb(0 0 0 / 2%) 0px 0px 2px inset;
     position: relative;
-    left: 0.75rem;
+    left: 0.5rem;
     top: 0.5rem;
     border-radius: 10rem;
 }
@@ -62,7 +61,6 @@
 
 .Profile-image-wrapper {
     width: 25%;
-    height: 100%;
     display: flex;
 }
 
@@ -79,7 +77,6 @@
 
 .Profile-info-wrapper {
     width: 100%;
-    height: 70%;
 }
 
 .Profile-info-extras-wrapper {
@@ -87,6 +84,7 @@
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    padding-bottom: 1rem;
 }
 
 .Profile-info-extras-wrapper > .Profile-sign-out {
@@ -133,29 +131,20 @@
     border-radius: 2rem;
     background: #F4A950;
     color: #161B21;
-    width: 6rem;
-    height: 2rem;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.Profile-edit-wrapper {
     width: 8rem;
     position: relative;
     right: 0.5rem;
+    height: 2rem;
+    cursor: pointer;
 }
 
-.Profile-edit-wrapper:hover {
+.Profile-edit-wrapper:hover, .Profile-follow-wrapper:hover {
     background: coral;
 }
 
 .Profile-follow-wrapper > p, .Profile-edit-wrapper > p {
     line-height: 2rem;
     margin: 0;
-}
-
-.Profile-follow-wrapper > p:hover {
-    text-shadow: 1px 1px aliceblue;
 }
 
 .Profile-info-follow-details-wrapper {
@@ -177,6 +166,17 @@
     color: coral;
 }
 
+.Profile-info-bio-wrapper {
+    width: 100%;
+    text-align: left;
+}
+
+.Profile-info-bio-wrapper > p {
+    margin: 0;
+    margin-bottom: 0;
+    padding: 0.5rem 1rem;
+    white-space: pre-wrap;
+}
 
 
 /*  ---------------------   Mobile Specific -------------------------------------- */
@@ -184,22 +184,12 @@
 .Profile.mobile > .Profile-details-wrapper {
     width: 90%;
     display: block;
-    height: 60vh;
 }
 
-.Profile.mobile > .Profile-details-wrapper > .Profile-details-header-wrapper {
-    height: 25%;
-}
-
-.Profile.mobile > .Profile-details-wrapper > .Profile-details-header-wrapper > .Profile-image-wrapper > img {
-    height: 70%;
-}
 
 .Profile.mobile> .Profile-details-wrapper > .Profile-info-wrapper {
-    height: 75% !important;
     width: 100%;
     text-align: center;
-    height: 60%;
     overflow: hidden;
 }
 

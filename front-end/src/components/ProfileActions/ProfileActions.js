@@ -47,7 +47,7 @@ const ProfileActions = (props) => {
                             </div>
                             <div className="ProfileActions-details-wrapper">
                                 <div className="ProfileActions-action-wrapper">
-                                    <p>{action.action}</p>
+                                    <p>{props.name} {action.action}</p>
                                 </div>
                                 <div className="ProfileActions-book-name-wrapper">
                                     <span className="ProfileActions-book-name">{action.bookName}</span>

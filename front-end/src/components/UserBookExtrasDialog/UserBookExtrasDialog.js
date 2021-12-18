@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import './UserBookExtrasDialog.css';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -24,15 +23,6 @@ import { ScreenWidthContext } from '../../contexts/ScreenWidthContext';
 import UserBookContext from '../../contexts/UserBookContext';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-  }));
-
 const DialogHeader = (props) => {
     const { children, onClose, ...other } = props;
 
@@ -52,9 +42,9 @@ const DialogHeader = (props) => {
                 >
                 <CloseIcon />
             </IconButton>
-            </DialogTitle>
-        );
-    };
+        </DialogTitle>
+    );
+};
 
 DialogHeader.propTypes = {
     children: PropTypes.node,
@@ -71,7 +61,7 @@ const PaperComponent = (props) => {
         <Paper {...props} />
       </Draggable>
     );
-  }
+}
 
 
 
@@ -110,7 +100,7 @@ const UserBookExtrasDialog = (props) => {
         setStartDate(props.startDate || null);
         setEndDate(props.endDate || null);
         setTargetDate(props.targetDate || null);
-        setReviewContent(props.reviewContent); console.log('In UseEffect', bookId, props.reviewContent);
+        setReviewContent(props.reviewContent);
     }, [props.startDate, props.endDate, props.setTargetDate, props.reviewContent, bookId]);
 
 

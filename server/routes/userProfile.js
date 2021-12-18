@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 
 const { retrieveUserProfile, retrieveUserProfileBooksByType, updateUserProfileName, 
-    validateUserProfileName, followUserProfile,unFollowUserProfile } = require('../controllers/userProfile');
+    validateUserProfileName, followUserProfile,unFollowUserProfile, updateUserProfileDetails } = require('../controllers/userProfile');
 
 //Get the requested profile.
 router.get('/:profileName', auth, retrieveUserProfile);
@@ -16,7 +16,7 @@ router.get('/profileName/:profileName', auth, validateUserProfileName);
 router.patch('/profileName/:profileName', auth, updateUserProfileName);
 
 //Update profile details.
-router.patch('/', auth);
+router.patch('/details', auth, updateUserProfileDetails);
 
 //Get the requested profiles books. 
 router.get('/:profileName/:type', auth, retrieveUserProfileBooksByType);

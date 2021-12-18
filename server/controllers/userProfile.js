@@ -12,6 +12,7 @@ const retrieveUserProfile = async (req, res) => {
         return res.status(200).json({
             name: userProfile?.name,
             profileName: userProfile?.profileName,
+            bio: userProfile?.bio,
             profilePicUrl: userProfile?.profilePicUrl,
             followers: userProfile?.followers,
             following: userProfile?.following,
@@ -304,9 +305,41 @@ const unFollowUserProfile = async (req, res) => {
 };
 
 
+/**
+ * Controller to update the User profile details such as name, Bio.
+ * name -> maxLen: 50
+ * bio -> maxLen: 160
+ */
+const updateUserProfileDetails = async (req, res) => {
+    const userId = req.userId;
+    const name = req.body.profileDetails?.name?.slice(0, 50);
+    const bio = req.body.profileDetails?.bio?.slice(0, 160);
+    
+    try {
+        await User.findByIdAndUpdate(userId, {
+            $set: {
+                name: name,
+                bio: bio
+            }
+        });
+
+        return res.status(200).json({
+            message: `Your profile has been updated successfully`
+        });
+    }
+    catch(err) {
+        console.log(`Unable to update the user profile`, err);
+        return res.status(500).json({
+            message: `Unable to update your profile. Please try again`
+        });
+    }
+};
+
+
 module.exports.retrieveUserProfile = retrieveUserProfile;
 module.exports.retrieveUserProfileBooksByType = retrieveUserProfileBooksByType;
 module.exports.updateUserProfileName = updateUserProfileName;
 module.exports.validateUserProfileName = validateUserProfileName;
 module.exports.followUserProfile = followUserProfile;
 module.exports.unFollowUserProfile = unFollowUserProfile;
+module.exports.updateUserProfileDetails = updateUserProfileDetails;
