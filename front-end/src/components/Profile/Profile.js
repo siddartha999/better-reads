@@ -241,7 +241,17 @@ const Profile = () => {
                         <p className="Profile-name" title={profile?.name}>{profile?.name}</p>
                         {
                             profile && profile.profileName ?
-                                <p className='Profile-profile-name' title={profile?.name}>@{profile.profileName}</p>
+                                <div className='Profile-profile-name-wrapper'>
+                                    <p className={`Profile-profile-name ${profile && profile.isCurrentUserFollowed ? true : null}`} 
+                                        title={profile?.name}>
+                                        @{profile.profileName}
+                                    </p>
+                                    {
+                                        profile && profile.isCurrentUserFollowed === true ?
+                                            <p className='Profile-isCurrentUserFollowed'>Follows you</p>
+                                            : null
+                                    }
+                                </div>
                                 : null
                         }
                     </div>

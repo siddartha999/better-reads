@@ -170,7 +170,14 @@ const ProfileSocial = (props) => {
                                 </div>
                                 <div className='ProfileSocial-profile-name-wrapper'>
                                     <p className='name' title={obj.name}>{obj.name}</p>
-                                    <p className='profileName' title={obj.profileName}>@{obj.profileName}</p>
+                                    <div className='ProfileSocial-profile-profileName-wrapper'>
+                                        <p className={`profileName ${obj.isCurrentUserFollowed}`} title={obj.profileName}>@{obj.profileName}</p>
+                                        {
+                                            obj.isCurrentUserFollowed === true ?
+                                                <p className='isCurrentUserFollowed'>Follows you</p>
+                                                : null
+                                        }
+                                    </div>
                                 </div>
                                 {
                                     obj.profileName !== user.profile?.profileName ?

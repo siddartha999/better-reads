@@ -87,7 +87,7 @@
 .ProfileSocial-profile-name-wrapper {
     padding-left: 0.5rem;
     text-align: left;
-    width: calc(100% - 9.5rem);
+    width: calc(100% - 9rem);
 }
 
 .ProfileSocial-profile-name-wrapper > p {
@@ -96,6 +96,31 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.ProfileSocial-profile-profileName-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.ProfileSocial-profile-profileName-wrapper > .profileName {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ProfileSocial-profile-profileName-wrapper > .profileName.true {
+    max-width: calc(100% - 7rem);
+}
+
+.ProfileSocial-profile-profileName-wrapper > .isCurrentUserFollowed {
+    margin: 0 0.5rem;
+    width: 6rem;
+    background: darkgray;
+    color: aliceblue;
+    text-align: center;
 }
 
 .ProfileSocial-profile-bio-wrapper {
@@ -141,6 +166,11 @@
 }
 
 .ProfileSocial.mobile800 > .ProfileSocial-content > .ProfileSocial-profile-wrapper > .ProfileSocial-profile-header-wrapper
+ > .ProfileSocial-profile-name-wrapper > .ProfileSocial-profile-profileName-wrapper > p {
+    font-size: 15px;
+}
+
+ .ProfileSocial.mobile800 > .ProfileSocial-content > .ProfileSocial-profile-wrapper > .ProfileSocial-profile-header-wrapper
  > .ProfileSocial-profile-user-follow-wrapper > p {
      font-size: 15px;
  }

@@ -16,7 +16,8 @@ const retrieveUserProfile = async (req, res) => {
             profilePicUrl: userProfile?.profilePicUrl,
             followers: userProfile?.followers,
             following: userProfile?.following,
-            isFollowedByCurrentUser: userProfile?.followersMap?.get(userId)
+            isFollowedByCurrentUser: userProfile?.followersMap?.get(userId),
+            isCurrentUserFollowed: userProfile?.followingMap?.get(userId)
         });
     }
     catch(err) {
@@ -302,11 +303,12 @@ const retrieveProfileFollowers = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
     const skip = req.query?.skip - 0 || 0;
-    const $sliceObj = {
-        followers: {
-            $slice: [skip, 10]
-        }
+
+    const $sliceObj = {};
+    $sliceObj.followers = {
+        $slice: skip === 0 ? (-1 * skip) - 10 : [(-1 * skip) - 10, -skip - 10 + 10]
     };
+    
     try {
         //Retrieve the current User's followingMap.
         const currentUser = await User.findById(userId).select("followingMap").exec();
@@ -328,13 +330,14 @@ const retrieveProfileFollowers = async (req, res) => {
         //Retrieve the info of each follower profile & whether that profile is followed by the current User.
         const followers = [];
         for await (const followerId of profile.followers) {
-            const follower = await User.findById(followerId).select("name bio profileName profilePicUrl").exec();
+            const follower = await User.findById(followerId).select("name bio profileName profilePicUrl followingMap").exec();
             if(follower) {
                 const obj = {
                     name: follower.name,
                     profileName: follower.profileName,
                     bio: follower.bio,
-                    profilePicUrl: follower.profilePicUrl
+                    profilePicUrl: follower.profilePicUrl,
+                    isCurrentUserFollowed: follower.followingMap?.get(userId)
                 };
                 if(currentUser.followingMap && currentUser.followingMap.get && currentUser.followingMap.get(followerId))
                 {
@@ -348,7 +351,7 @@ const retrieveProfileFollowers = async (req, res) => {
         }
 
         return res.status(200).json({
-            data: followers,
+            data: followers.reverse(),
             count: profile.followersCount
         });
     }
@@ -367,10 +370,10 @@ const retrieveProfileFollowing = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
     const skip = req.query?.skip - 0 || 0;
-    const $sliceObj = {
-        following: {
-            $slice: [skip, 10]
-        }
+
+    const $sliceObj = {};
+    $sliceObj.following = {
+        $slice: skip === 0 ? (- 1 * skip) - 10 : [(-1 * skip) - 10, -skip - 10 + 10]
     };
 
     try {
@@ -394,13 +397,14 @@ const retrieveProfileFollowing = async (req, res) => {
         //Retrieve the info of each following profile & whether that profile is followed by the current User.
         const following = [];
         for await(const followingId of profile.following) {
-            const followingProfile = await User.findById(followingId).select("name bio profileName profilePicUrl").exec();
+            const followingProfile = await User.findById(followingId).select("name bio profileName profilePicUrl followingMap").exec();
             if(followingProfile) {
                 const obj = {
                     name: followingProfile.name,
                     profileName: followingProfile.profileName,
                     bio: followingProfile.bio,
-                    profilePicUrl: followingProfile.profilePicUrl
+                    profilePicUrl: followingProfile.profilePicUrl,
+                    isCurrentUserFollowed: followingProfile.followingMap?.get(userId)
                 };
                 if(currentUser.followingMap && currentUser.followingMap.get && currentUser.followingMap.get(followingId))
                 {
@@ -414,7 +418,7 @@ const retrieveProfileFollowing = async (req, res) => {
         }
 
         return res.status(200).json({
-            data: following,
+            data: following.reverse(),
             count: profile.followingCount
         });
     }
