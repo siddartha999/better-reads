@@ -40,6 +40,14 @@ const modelObj = {
     followingMap: {
         type: Map,
         of: Boolean
+    },
+    followersCount: {
+        type: Number,
+        default: 0
+    },
+    followingCount: {
+        type: Number,
+        default: 0
     }
 };
 

@@ -29,11 +29,11 @@ const Profile = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const token = user?.token;
-        if(!token) {
-            raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
-        }
+    if(!token) {
+        raiseSnackbarMessage('Unable to Authenticate the User. Please login again', 'error');
+        localStorage.setItem("betterreadsuserinfo", null);
+        setUser(null);
+    }
 
     /**
      * Handler to display the Review chart.
@@ -160,7 +160,7 @@ const Profile = () => {
 
     /**
      * Handler to follow/unFollow a user profile by the current User.
-     */
+    */
     const handleUserProfileFollow = async (event) => {
         try{
             const response = await axios({
@@ -199,49 +199,14 @@ const Profile = () => {
      * Handler to navigate to the followers component.
      */
     const handleFollowersClicked = async () => {
-        try {
-            const response = await axios({
-                method: "GET",
-                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/followers',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            console.log(response);
-        }
-        catch(err) {
-            if(err.response && err.response.status === 401) {
-                raiseSnackbarMessage(err.response.data.message, 'error');
-                localStorage.setItem("betterreadsuserinfo", null);
-                setUser(null);
-            }
-            else {
-                raiseSnackbarMessage(err.response.data.message, 'error');
-            }
-        }
+        navigate(`/${profileName}/followers`);
     };
 
+    /**
+     * Handler to navigate the User to following view.
+     */
     const handleFollowingClicked = async () => {
-        try {
-            const response = await axios({
-                method: "GET",
-                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/following',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            console.log(response);
-        }
-        catch(err) {
-            if(err.response && err.response.status === 401) {
-                raiseSnackbarMessage(err.response.data.message, 'error');
-                localStorage.setItem("betterreadsuserinfo", null);
-                setUser(null);
-            }
-            else {
-                raiseSnackbarMessage(err.response.data.message, 'error');
-            }
-        }
+        navigate(`/${profileName}/following`);
     };
 
     return (
@@ -255,12 +220,12 @@ const Profile = () => {
                     <div className={`Profile-details-header-content-wrapper`}>
                         {
                             profileName !== user?.profile?.profileName ?
-                                <div className={`Profile-follow-wrapper`} onClick={handleUserProfileFollow}>
+                                <div className={`Profile-follow-wrapper ${profile?.isFollowedByCurrentUser}`} onClick={handleUserProfileFollow}>
                                     {
                                         profile?.isFollowedByCurrentUser === true ?
-                                            <p attr='unFollow'>UnFollow</p>
+                                            <p attr='Following' className='Following'>Following</p>
                                             : 
-                                            <p attr='follow'>Follow</p>
+                                            <p attr='Follow' className='Follow'>Follow</p>
                                     }
                                     
                                 </div>

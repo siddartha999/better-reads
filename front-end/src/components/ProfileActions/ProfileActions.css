@@ -3,7 +3,7 @@
     overflow: hidden;
     transition: 0.3s;
     border-radius: 1rem;
-    box-shadow: 0 12px 20px 0 rgb(0 0 0 / 20%);
+    box-shadow: 0 12px 20px 2px rgb(0 0 0 / 20%);
     position: relative;
     left: 5%;
     margin-top: 1rem;

@@ -147,6 +147,15 @@
     margin: 0;
 }
 
+.Profile-follow-wrapper.true:hover > .Following {
+    display: none;
+} 
+
+.Profile-follow-wrapper.true:hover::before {
+    content: 'Unfollow';
+    line-height: 2rem;
+}
+
 .Profile-info-follow-details-wrapper {
     display: flex;
     flex-wrap: wrap;

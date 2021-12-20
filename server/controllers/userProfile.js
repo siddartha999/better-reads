@@ -26,7 +26,6 @@ const retrieveUserProfile = async (req, res) => {
     }
 };
 
-
 /**
  * Controller to retrieve the user profile's books based on the type: {currently-reading, want-to-read, read, rated}.
  */
@@ -186,7 +185,7 @@ const toggleFollowUserProfile = async (req, res) => {
     const profileName = req.params.profileName;
     try {
         //Retrieve the Profile's Id from the User collection.
-        const followingUser = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id followersMap").exec();
+        const followingUser = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id followersMap followersCount").exec();
 
         if(!followingUser) {
             return res.status(403).json({
@@ -195,7 +194,7 @@ const toggleFollowUserProfile = async (req, res) => {
         }
 
         //Retrieve the current User's details.
-        const user = await User.findById(userId).select("followingMap").exec();
+        const user = await User.findById(userId).select("followingMap followingCount").exec();
         if(!user) {
             return res.status(403).json({
                 message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
@@ -217,6 +216,8 @@ const toggleFollowUserProfile = async (req, res) => {
             operation = "unFollow";
             user.followingMap.delete(followingUser._id);
             followingUser.followersMap.delete(userId);
+            user.followingCount = user.followingMap.size;
+            followingUser.followersCount = followingUser.followersMap.size;
             await User.findByIdAndUpdate(userId, {
                 $pull: {
                     following: followingUser._id
@@ -234,6 +235,8 @@ const toggleFollowUserProfile = async (req, res) => {
             operation = "Follow";
             user.followingMap.set(followingUser._id, true);
             followingUser.followersMap.set(userId, true);
+            user.followingCount = user.followingMap.size;
+            followingUser.followersCount = followingUser.followersMap.size;
             await User.findByIdAndUpdate(userId, {
                 $push: {
                     following: followingUser._id
@@ -298,7 +301,7 @@ const updateUserProfileDetails = async (req, res) => {
 const retrieveProfileFollowers = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
-    const skip = req.params.skip || 0;
+    const skip = req.query?.skip - 0 || 0;
     const $sliceObj = {
         followers: {
             $slice: [skip, 10]
@@ -314,7 +317,7 @@ const retrieveProfileFollowers = async (req, res) => {
         }
 
         //Retrieve the Profile's Id & followers based on skip(offset) & limit by default is 10, from the User collection.
-        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id").exec();
+        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id followersCount").exec();
 
         if(!profile) {//Profile doesn't exist case.
             return res.status(403).json({
@@ -325,7 +328,7 @@ const retrieveProfileFollowers = async (req, res) => {
         //Retrieve the info of each follower profile & whether that profile is followed by the current User.
         const followers = [];
         for await (const followerId of profile.followers) {
-            const follower = await User.findById(followerId).select("name bio profileName profilePicUrl followingMap").exec();
+            const follower = await User.findById(followerId).select("name bio profileName profilePicUrl").exec();
             if(follower) {
                 const obj = {
                     name: follower.name,
@@ -345,7 +348,8 @@ const retrieveProfileFollowers = async (req, res) => {
         }
 
         return res.status(200).json({
-            followers: followers
+            data: followers,
+            count: profile.followersCount
         });
     }
     catch(err) {
@@ -362,7 +366,7 @@ const retrieveProfileFollowers = async (req, res) => {
 const retrieveProfileFollowing = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
-    const skip = req.params.skip || 0;
+    const skip = req.query?.skip - 0 || 0;
     const $sliceObj = {
         following: {
             $slice: [skip, 10]
@@ -379,7 +383,7 @@ const retrieveProfileFollowing = async (req, res) => {
         }
 
         //Retrieve the Profile's Id & following based on skip(offset) & limit by default is 10, from the User collection.
-        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id").exec();
+        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id followingCount").exec();
 
         if(!profile) {//Profile doesn't exist case.
            return res.status(403).json({
@@ -390,7 +394,7 @@ const retrieveProfileFollowing = async (req, res) => {
         //Retrieve the info of each following profile & whether that profile is followed by the current User.
         const following = [];
         for await(const followingId of profile.following) {
-            const followingProfile = await User.findById(followingId).select("name bio profileName profilePicUrl followingMap").exec();
+            const followingProfile = await User.findById(followingId).select("name bio profileName profilePicUrl").exec();
             if(followingProfile) {
                 const obj = {
                     name: followingProfile.name,
@@ -410,7 +414,8 @@ const retrieveProfileFollowing = async (req, res) => {
         }
 
         return res.status(200).json({
-            following: following
+            data: following,
+            count: profile.followingCount
         });
     }
     catch(err) {
