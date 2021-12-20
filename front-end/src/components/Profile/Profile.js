@@ -162,21 +162,14 @@ const Profile = () => {
      * Handler to follow/unFollow a user profile by the current User.
      */
     const handleUserProfileFollow = async (event) => {
-        const type = event.target.getAttribute('attr');
-        const operation = (type === 'follow' || type === 'unFollow') ? type : null;
-        if(!operation) {//Not a Valid operation type
-            return;
-        }
-
         try{
             const response = await axios({
                 method: "PATCH",
-                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/' + operation,
+                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/follow',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(response);
             if(response.status === 200) {
                setRetrieveProfileInfo(retrieveProfileInfo === 1 ? 2 : 1);
                raiseSnackbarMessage(response.data.message, 'success');
@@ -201,6 +194,56 @@ const Profile = () => {
         setDialogOpen(true);
     };
 
+
+    /**
+     * Handler to navigate to the followers component.
+     */
+    const handleFollowersClicked = async () => {
+        try {
+            const response = await axios({
+                method: "GET",
+                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/followers',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response);
+        }
+        catch(err) {
+            if(err.response && err.response.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
+            }
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
+        }
+    };
+
+    const handleFollowingClicked = async () => {
+        try {
+            const response = await axios({
+                method: "GET",
+                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName + '/following',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response);
+        }
+        catch(err) {
+            if(err.response && err.response.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
+            }
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
+        }
+    };
+
     return (
         <div className={`Profile  ${width < 1400 ? 'mobile' : ''}`}>
             <div className={`Profile-details-wrapper`}>
@@ -214,7 +257,7 @@ const Profile = () => {
                             profileName !== user?.profile?.profileName ?
                                 <div className={`Profile-follow-wrapper`} onClick={handleUserProfileFollow}>
                                     {
-                                        profile?.isFollowedByCurrentUser === "true" ?
+                                        profile?.isFollowedByCurrentUser === true ?
                                             <p attr='unFollow'>UnFollow</p>
                                             : 
                                             <p attr='follow'>Follow</p>
@@ -248,10 +291,10 @@ const Profile = () => {
                     }
                     <div className='Profile-info-follow-details-wrapper'>
                         <div className='Profile-info-following-wrapper'>
-                            <p>{abbreviateNumber(profile?.following?.length)} Following</p>
+                            <p onClick={handleFollowingClicked}>{abbreviateNumber(profile?.following?.length)} Following</p>
                         </div>
                         <div className='Profile-info-followers-wrapper'>
-                            <p>{abbreviateNumber(profile?.followers?.length)} Followers</p>
+                            <p onClick={handleFollowersClicked}>{abbreviateNumber(profile?.followers?.length)} Followers</p>
                         </div>
                     </div>
                     <div className='Profile-info-extras-wrapper'>

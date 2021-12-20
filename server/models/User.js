@@ -35,11 +35,11 @@ const modelObj = {
     },
     followersMap: {
         type: Map,
-        of: String
+        of: Boolean
     },
     followingMap: {
         type: Map,
-        of: String
+        of: Boolean
     }
 };
 

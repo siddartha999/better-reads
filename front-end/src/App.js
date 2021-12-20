@@ -19,6 +19,7 @@ import Friends from './components/Friends/Friends';
 import Communities from './components/Communities/Communities';
 import NotFound from './components/NotFound/NotFound';
 import UpdateProfileName from './components/UpdateProfileName/UpdateProfileName';
+import ProfileSocial from './components/ProfileSocial/ProfileSocial';
 
 function App() {
   const userObj = JSON.parse(localStorage.getItem("betterreadsuserinfo"));
@@ -52,7 +53,7 @@ function App() {
       <div className={`App-body-wrapper ${width < 600 ? 'mobile' : ''}`}>
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/profile/:profileName' element={<Profile />} />
+            <Route path='/:profileName' element={<Profile />} />
             <Route path='/bookresults' element={<BookResults />} />
             <Route path='/book/:bookId' element={<Book />} />
             <Route path='/author/:authorId' element={<Author />} />
@@ -60,7 +61,8 @@ function App() {
             <Route path='/mybooks/:status' element={<MyBooksDetails />} />
             <Route path='/:profileName/:status' element={<MyBooksDetails />} />
             <Route path="/:profileName/reviews" element={<ProfileReviews />} />
-            <Route path="/friends" element={<Friends />} />
+            <Route path="/:profileName/following" element={<ProfileSocial />} />
+            <Route path="/:profileName/followers" element={<ProfileSocial />} />
             <Route path="/communities" element={<Communities />} />
             <Route path="*" element={<NotFound />} />
         </Routes>

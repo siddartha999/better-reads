@@ -57,7 +57,6 @@ const retrieveUserProfileBooksByType = async (req, res) => {
 const validateUserProfileName = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
-    console.log('Profile Name received: ', profileName);
     try {
         //Pre-checks.
         if(!profileName || profileName.length < 5 || profileName.length > 15 || hasSpecialCharacters(profileName) 
@@ -180,14 +179,14 @@ const hasSpecialCharacters = (profileName) => {
 
 
 /**
- * Controller to follow a profile by the current User.
+ * Controller to follow/unFollow a profile by the current User.
 */
-const followUserProfile = async (req, res) => {
+const toggleFollowUserProfile = async (req, res) => {
     const userId = req.userId;
     const profileName = req.params.profileName;
     try {
         //Retrieve the Profile's Id from the User collection.
-        const followingUser = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
+        const followingUser = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id followersMap").exec();
 
         if(!followingUser) {
             return res.status(403).json({
@@ -195,111 +194,68 @@ const followUserProfile = async (req, res) => {
             });
         }
 
-        //Push the followingUser's ID on to the User's following list.
+        //Retrieve the current User's details.
+        const user = await User.findById(userId).select("followingMap").exec();
+        if(!user) {
+            return res.status(403).json({
+                message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
+            });
+        }
 
-        //#Duplicate case: Pull out
-        await User.findByIdAndUpdate(userId, {
-            $pull: {
-                following: followingUser._id
-            }
-        }).exec();
         
-        await User.findByIdAndUpdate(userId, {
-            $push: {
-                following: followingUser._id
-            },
-            $set: {
-                followingMap: {
-                    [followingUser._id]: true
-                }
-            }
-        }).exec();
-
-
-        //Push the current User's ID on to the followingUser's followers list.
-
-        //#Duplicate case: Pull out
-        await User.findByIdAndUpdate(followingUser._id, {
-            $pull: {
-                followers: userId
-            }
-        }).exec();
-
-
-        await User.findByIdAndUpdate(followingUser._id, {
-            $push: {
-                followers: userId
-            },
-            $set: {
-                followersMap: {
-                    [userId]: true
-                }
-            }
-        }).exec();
-
-        res.status(200).json({
-            message: `You're following ${profileName}`
-        });
-    }
-    catch(err) {
-        console.log(`Unable to follow ${profileName}. `, err);
-        res.status(500).json({
-            message: `Unable to follow ${profileName}. Please try again.`
-        });
-    }
-};
-
-
-
-/**
- * Controller to UnFollow a profile by the current User.
- */
-
-const unFollowUserProfile = async (req, res) => {
-    const userId = req.userId;
-    const profileName = req.params.profileName;
-    try {
-        //Retrieve the Profile's Id from the User collection.
-        const followingUser = await User.findOne({profileNameLower: profileName.toLowerCase()}).select("_id").exec();
-
-        if(!followingUser) {
-            return res.status(403).json({
-                message: `Unable to retrieve ${profileName}'s profile. Please try again later.`
-            });
+        if(!user.followingMap) {
+            user.followingMap = new Map();
+        }
+        if(!followingUser.followersMap) {
+            followingUser.followersMap = new Map();
         }
 
-        //Pull out the followingUser's ID from the following-list of the current User.
-        await User.findByIdAndUpdate(userId, {
-            $pull: {
-                following: followingUser._id
-            },
-            $set: {
-                followingMap: {
-                    [followingUser._id]: false
+        let operation = "";
+        //If the current profile is already being followed by the current User, unFollow it.
+        //Else, Follow the current profile.
+        if(user.followingMap.get(followingUser._id) === true) {
+            operation = "unFollow";
+            user.followingMap.delete(followingUser._id);
+            followingUser.followersMap.delete(userId);
+            await User.findByIdAndUpdate(userId, {
+                $pull: {
+                    following: followingUser._id
                 }
-            }
-        }).exec();
-
-        //Pull out the User's ID from the followers-list of the following User.
-        await User.findByIdAndUpdate(followingUser._id, {
-            $pull: {
-                followers: userId
-            },
-            $set: {
-                followersMap: {
-                    [userId]: false
+            }).exec();
+            await User.findByIdAndUpdate(followingUser._id, {
+                $pull: {
+                    followers: userId
                 }
-            }
-        }).exec();
+            }).exec();
+            await user.save();
+            await followingUser.save();
+        }
+        else {
+            operation = "Follow";
+            user.followingMap.set(followingUser._id, true);
+            followingUser.followersMap.set(userId, true);
+            await User.findByIdAndUpdate(userId, {
+                $push: {
+                    following: followingUser._id
+                }
+            }).exec();
+            await User.findByIdAndUpdate(followingUser._id, {
+                $push: {
+                    followers: userId
+                }
+            }).exec();
+            await user.save();
+            await followingUser.save();
+        }
 
         res.status(200).json({
-            message: `You've Unfollowed ${profileName}`
+            message: operation === 'Follow' ?  `You're following ${profileName}` : `You've unfollowed ${profileName}`
         });
     }
     catch(err) {
-        console.log(`Unable to Unfollow ${profileName}. `, err);
+        console.log(`Unable to ${operation} ${profileName}. `, err);
         res.status(500).json({
-            message: `Unable to Unfollow ${profileName}. Please try again.`
+            message: `Unable to ${operation} ${profileName}. Please try again.`
         });
     }
 };
@@ -324,7 +280,7 @@ const updateUserProfileDetails = async (req, res) => {
         });
 
         return res.status(200).json({
-            message: `Your profile has been updated successfully`
+            message: `Your profile has been successfully updated`
         });
     }
     catch(err) {
@@ -336,10 +292,141 @@ const updateUserProfileDetails = async (req, res) => {
 };
 
 
+/**
+ *  Controller to retrieve followers of a given user Profile. 
+*/
+const retrieveProfileFollowers = async (req, res) => {
+    const userId = req.userId;
+    const profileName = req.params.profileName;
+    const skip = req.params.skip || 0;
+    const $sliceObj = {
+        followers: {
+            $slice: [skip, 10]
+        }
+    };
+    try {
+        //Retrieve the current User's followingMap.
+        const currentUser = await User.findById(userId).select("followingMap").exec();
+        if(!currentUser) {
+            return res.status(403).json({
+                message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
+            });
+        }
+
+        //Retrieve the Profile's Id & followers based on skip(offset) & limit by default is 10, from the User collection.
+        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id").exec();
+
+        if(!profile) {//Profile doesn't exist case.
+            return res.status(403).json({
+                message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
+            });
+        }
+
+        //Retrieve the info of each follower profile & whether that profile is followed by the current User.
+        const followers = [];
+        for await (const followerId of profile.followers) {
+            const follower = await User.findById(followerId).select("name bio profileName profilePicUrl followingMap").exec();
+            if(follower) {
+                const obj = {
+                    name: follower.name,
+                    profileName: follower.profileName,
+                    bio: follower.bio,
+                    profilePicUrl: follower.profilePicUrl
+                };
+                if(currentUser.followingMap && currentUser.followingMap.get && currentUser.followingMap.get(followerId))
+                {
+                    obj.isFollowedByCurrentUser = true;
+                }
+                else {
+                    obj.isFollowedByCurrentUser = false;
+                }
+                followers.push(obj);
+            }
+        }
+
+        return res.status(200).json({
+            followers: followers
+        });
+    }
+    catch(err) {
+        console.log(`Unable to retrieve the followers of ${profileName}`, err);
+        return res.status(500).json({
+            message: `Unable to retrieve the followers of ${profileName}. Please try again`
+        });
+    }
+};
+
+/**
+ * Controller to retrieve the profiles followed by the current Profile.
+*/
+const retrieveProfileFollowing = async (req, res) => {
+    const userId = req.userId;
+    const profileName = req.params.profileName;
+    const skip = req.params.skip || 0;
+    const $sliceObj = {
+        following: {
+            $slice: [skip, 10]
+        }
+    };
+
+    try {
+        //Retrieve the current User's followingMap.
+        const currentUser = await User.findById(userId).select("followingMap").exec();
+        if(!currentUser) {
+            return res.status(403).json({
+                message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
+            });
+        }
+
+        //Retrieve the Profile's Id & following based on skip(offset) & limit by default is 10, from the User collection.
+        const profile = await User.findOne({profileNameLower: profileName.toLowerCase()}, $sliceObj).select("_id").exec();
+
+        if(!profile) {//Profile doesn't exist case.
+           return res.status(403).json({
+               message: `Unable to retrieve ${profileName}'s followers. Please try again later.`
+           });
+        }
+
+        //Retrieve the info of each following profile & whether that profile is followed by the current User.
+        const following = [];
+        for await(const followingId of profile.following) {
+            const followingProfile = await User.findById(followingId).select("name bio profileName profilePicUrl followingMap").exec();
+            if(followingProfile) {
+                const obj = {
+                    name: followingProfile.name,
+                    profileName: followingProfile.profileName,
+                    bio: followingProfile.bio,
+                    profilePicUrl: followingProfile.profilePicUrl
+                };
+                if(currentUser.followingMap && currentUser.followingMap.get && currentUser.followingMap.get(followingId))
+                {
+                    obj.isFollowedByCurrentUser = true;
+                }
+                else {
+                    obj.isFollowedByCurrentUser = false;
+                }
+                following.push(obj);
+            }
+        }
+
+        return res.status(200).json({
+            following: following
+        });
+    }
+    catch(err) {
+        console.log(`Unable to retrieve the profiles followed by ${profileName}`, err);
+        return res.status(500).json({
+            message: `Unable to retrieve the profiles followed by ${profileName}. Please try again`
+        });
+    }
+};
+
+
 module.exports.retrieveUserProfile = retrieveUserProfile;
 module.exports.retrieveUserProfileBooksByType = retrieveUserProfileBooksByType;
 module.exports.updateUserProfileName = updateUserProfileName;
 module.exports.validateUserProfileName = validateUserProfileName;
-module.exports.followUserProfile = followUserProfile;
-module.exports.unFollowUserProfile = unFollowUserProfile;
+module.exports.toggleFollowUserProfile = toggleFollowUserProfile;
 module.exports.updateUserProfileDetails = updateUserProfileDetails;
+module.exports.retrieveProfileFollowers = retrieveProfileFollowers;
+module.exports.retrieveProfileFollowing = retrieveProfileFollowing;

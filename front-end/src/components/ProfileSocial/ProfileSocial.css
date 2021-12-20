@@ -1,0 +1,33 @@
+.ProfileSocial {
+    width: 80%;
+    position: relative;
+    left: 10%;
+    transition: 0.3s;
+    border-radius: 1rem;
+    box-shadow: 0px 12px 20px 0px rgb(0 0 0 / 20%);
+    margin-top: 1rem;
+    min-height: 50vh;
+}
+
+.ProfileSocial-profile-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.ProfileSocial-profile-name-wrapper {
+    padding: 0 1rem;
+}
+
+.ProfileSocial-profile-name-wrapper > p {
+    margin: 0;
+}
+
+.Profile-social-back-wrapper {
+    cursor: pointer;
+}
+
+.Profile-social-back-wrapper> svg:hover {
+    border-radius: 50%;
+    opacity: 0.5;
+    background: lightslategray;
+}
