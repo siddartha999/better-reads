@@ -66,7 +66,7 @@ const UserRatingsChart = (props) => {
         <div className="UserRatingsChart">
            <Dialog onClose={handleClose} open={props.open}>
                 <DialogTitle>
-                    <p className='UserRatingsChart-title'>{props.profileName}'s Ratings</p>
+                    <p className='UserRatingsChart-title'>@{props.profileName}'s Ratings</p>
                 </DialogTitle>
                 <div className='UserRatingsChart-charts-wrapper'>
                     <div className='UserRatingsChart-chart-wrapper'>

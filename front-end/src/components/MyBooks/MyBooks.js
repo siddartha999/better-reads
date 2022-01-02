@@ -23,26 +23,26 @@ const MyBooks = () => {
             setUser(null);
         }
 
-        const response = await axios({
-            method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/mybooks',
-            headers: {
-                'Authorization': `Bearer ${token}`
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: process.env.REACT_APP_SERVER_URL + '/api/mybooks',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setMyBooks(response.data);
+        }
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err.response?.data?.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
             }
-        });
-
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+            else {
+                raiseSnackbarMessage(err?.response?.data?.message, 'error');
+            }
         }
-
-        if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            return;
-        }
-        setMyBooks(response.data);
-
     }, []);
 
     /**

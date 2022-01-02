@@ -30,15 +30,16 @@ const AuthorWorks = (props) => {
      * Retrive the Author's works in the initial-run.
      */
     useEffect(async () => {
-            const response = await axios({
-            method: "GET",
-            url: AUTHOR_WORKS_URL_PREFIX + authorId + "/works.json?limit=" + limit,
-        });
-        if(!response || !response.data || response.status !== 200) {
-            raiseSnackbarMessage('Unable to retrieve the works of Author', 'error');
-            return;
-        }
-        setWorks(response.data.entries);
+            try {
+                const response = await axios({
+                    method: "GET",
+                    url: AUTHOR_WORKS_URL_PREFIX + authorId + "/works.json?limit=" + limit,
+                });
+                setWorks(response.data.entries);
+            }
+            catch(err) {
+                raiseSnackbarMessage('Unable to retrieve the works of Author', 'error');
+            }
     }, [props.id]);
 
     const noResultsJSX = (

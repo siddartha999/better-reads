@@ -14,7 +14,7 @@ const Home = () => {
        <div className="Home"> 
             <div className={`Home-count-down-wrapper ${width < 1200 ? 'mobile1200' : null}`}>
                 <p>Home tab feature development is in progress. Keep an eye out</p>
-                <CountdownClock targetDate={"Dec 22, 2021 00:00:00"} />
+                <CountdownClock targetDate={"Jan 6, 2022 00:00:00"} />
             </div>
        </div>
     );

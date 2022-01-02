@@ -22,30 +22,32 @@ const UserBookRating = (props) => {
         }
         
         setRating(value);
-
-        const response = await axios({
-            method: "PATCH",
-            url: process.env.REACT_APP_SERVER_URL + `/api/book/${props.bookId}`,
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            data: {
-                rating: {
-                    prev: rating,
-                    current: value
+        try {
+            const response = await axios({
+                method: "PATCH",
+                url: process.env.REACT_APP_SERVER_URL + `/api/book/${props.bookId}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 },
-                cover : props.cover,
-                name: props.name
-            }
-        });
-
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+                data: {
+                    rating: {
+                        prev: rating,
+                        current: value
+                    },
+                    cover : props.cover,
+                    name: props.name
+                }
+            });
         }
-        else if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err.response?.data?.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
+            }
+            else {
+                raiseSnackbarMessage(err.response?.data?.message, 'error');
+            }
         }
     };
 

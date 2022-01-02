@@ -117,49 +117,50 @@ const UserBookExtrasDialog = (props) => {
             setUser(null);
         }
 
-        const response = await axios({
-            method: "PATCH",
-            url: process.env.REACT_APP_SERVER_URL + `/api/book/${bookId}`,
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-            data: {
-                extras: {
-                    userName: user.profile?.name,
-                    profilePicUrl: user.profile?.profilePicUrl,
-                    rating: props.rating,
-                    startDate: startDate,
-                    endDate: endDate,
-                    targetDate: targetDate,
-                    status: props.status,
-                    prevReview: prevReviewContent.current,
-                    reviewContent: currentReviewContent
+        try {
+            const response = await axios({
+                method: "PATCH",
+                url: process.env.REACT_APP_SERVER_URL + `/api/book/${bookId}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 },
-                cover : props.bookCover,
-                name: props.bookName
-            }
-        });
-    
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
-        }
-        if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            return;
-        }
-
-        if(prevReviewContent.current !== currentReviewContent) {
-            setCurrentUserReview({
-                reviewContent: currentReviewContent, 
-                reviewTimeStamp: Date.now()
+                data: {
+                    extras: {
+                        userName: user.profile?.name,
+                        profilePicUrl: user.profile?.profilePicUrl,
+                        rating: props.rating,
+                        startDate: startDate,
+                        endDate: endDate,
+                        targetDate: targetDate,
+                        status: props.status,
+                        prevReview: prevReviewContent.current,
+                        reviewContent: currentReviewContent
+                    },
+                    cover : props.bookCover,
+                    name: props.bookName
+                }
             });
+            if(prevReviewContent.current !== currentReviewContent) {
+                setCurrentUserReview({
+                    reviewContent: currentReviewContent, 
+                    reviewTimeStamp: Date.now()
+                });
+            }
+    
+            //Storing the currentReviewContent as prevReviewContent in-case the User sticks to the same screen & edits his
+            //review
+            prevReviewContent.current = currentReviewContent;
         }
-
-        //Storing the currentReviewContent as prevReviewContent in-case the User sticks to the same screen & edits his
-        //review
-        prevReviewContent.current = currentReviewContent;
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err?.response?.data?.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
+            }
+            else {
+                raiseSnackbarMessage(err?.response?.data?.message, 'error');
+            }
+        }
     };
 
     return (

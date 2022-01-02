@@ -118,13 +118,13 @@ const EditProfileDialog = (props) => {
             }
         }
         catch(err) {
-            if(err.response.status === 401) {
+            if(err?.response?.status === 401) {
                 raiseSnackbarMessage(err.response.data.message, 'error');
                 localStorage.setItem("betterreadsuserinfo", null);
                 setUser(null);
             }
             else {
-                raiseSnackbarMessage(err.response.data.message, 'error');
+                raiseSnackbarMessage(err?.response?.data?.message, 'error');
             }
         }
     };

@@ -23,17 +23,17 @@ const Author = (props) => {
      * Fetch the author details in the initiaal-setup.
      */
     useEffect(async () => {
-        const response = await axios({
-            method: "GET",
-            url: AUHTOR_INFO_URL_PREFIX + authorId + ".json"
-        });
-
-        if(!response || !response.data || response.status !== 200) {
+        try {
+            const response = await axios({
+                method: "GET",
+                url: AUHTOR_INFO_URL_PREFIX + authorId + ".json"
+            });
+            setAuthor(response.data);
+        }
+        catch(err) {
             raiseSnackbarMessage('Unable to retrieve the Author info. Please try again.', 'error');
             return;
         }
-        console.log(response.data);
-        setAuthor(response.data);
     }, []);
 
     const noResultsJSX = (

@@ -106,26 +106,6 @@ const ResponsiveDrawer = (props) => {
                 <ListItemText primary="My Books" />
             </ListItem>
         </NavLink>
-        
-
-        <NavLink to="/friends" className="NavSideBar-item" onClick={handleDrawerToggle}>
-            <ListItem button key="Friends"> 
-                <ListItemIcon>
-                    <GroupIcon />
-                </ListItemIcon>
-                <ListItemText primary="Friends" />
-            </ListItem>
-        </NavLink>
-
-        <NavLink to="/communities" className="NavSideBar-item" onClick={handleDrawerToggle}>
-            <ListItem button key="Communities"> 
-                <ListItemIcon>
-                    <GroupsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Communities" />
-            </ListItem>
-        </NavLink>
-
       </List>
     </div>
   );

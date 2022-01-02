@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './CountdownClock.css';
 
 const CountdownClock = (props) => {
-    const countDownDate = new Date(props.targetDate || "Dec 22, 2021 00:00:00").getTime();
+    const countDownDate = new Date(props.targetDate || "Jan 06, 2022 00:00:00").getTime();
     let [countDownValue, setCountDownValue] = useState("");
     const interval = setInterval(function() {
         // Get today's date and time

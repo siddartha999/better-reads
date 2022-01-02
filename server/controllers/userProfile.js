@@ -430,7 +430,6 @@ const retrieveProfileFollowing = async (req, res) => {
     }
 };
 
-
 module.exports.retrieveUserProfile = retrieveUserProfile;
 module.exports.retrieveUserProfileBooksByType = retrieveUserProfileBooksByType;
 module.exports.updateUserProfileName = updateUserProfileName;

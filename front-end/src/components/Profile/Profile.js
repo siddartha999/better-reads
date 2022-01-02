@@ -46,86 +46,88 @@ const Profile = () => {
      * Retrieve profile info in the initial-run.
      */
     useEffect(async () => {
-
-        const response = await axios({
-            method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName,
-            headers: {
-                'Authorization': `Bearer ${token}`
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: process.env.REACT_APP_SERVER_URL + '/api/profile/' + profileName,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setProfile(response.data);
+        }
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
             }
-        });
-
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
         }
-
-        if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            return;
-        }
-
-        setProfile(response.data);
     }, [retrieveProfileInfo, profileName]);
 
     //Retrieve the profile specific info in the initial-run.
     useEffect(async () => {
-        const response = await axios({
-            method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileName,
-            headers: {
-                'Authorization': `Bearer ${token}`
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: process.env.REACT_APP_SERVER_URL + '/api/profileActivity/' + profileName,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            let averageRating = 0;
+            if(response.data && response.data.ratingMap && response.data.ratingCount) {
+                let sum = 0;
+                for(let key in response.data.ratingMap) {
+                    //sum  += key * response.data.ratingMap[key];
+                    averageRating += (key * response.data.ratingMap[key]) / response.data.ratingCount;
+                }
+                //averageRating = sum / response.data.ratingCount;
+                averageRating = averageRating.toFixed(2);
             }
-        });
-
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+            profileBooks.current = response.data.profileBooks
+            setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating, ratingMap: response.data.ratingMap});
+            setReviewsCount(response.data.reviewsCount);
         }
-
-        if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            return;
-        }
-        let averageRating = 0;
-        if(response.data && response.data.ratingMap && response.data.ratingCount) {
-            let sum = 0;
-            for(let key in response.data.ratingMap) {
-                //sum  += key * response.data.ratingMap[key];
-                averageRating += (key * response.data.ratingMap[key]) / response.data.ratingCount;
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
             }
-            //averageRating = sum / response.data.ratingCount;
-            averageRating = averageRating.toFixed(2);
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
         }
-        profileBooks.current = response.data.profileBooks
-        setMyRating({ratingCount: response.data.ratingCount, averageRating: averageRating, ratingMap: response.data.ratingMap});
-        setReviewsCount(response.data.reviewsCount);
     }, [profileName]);
 
     /**
      * Retrieve the profile's actions in the initial run.
      */
     useEffect(async () => {
-        const response = await axios({
-            method: 'GET',
-            url: process.env.REACT_APP_SERVER_URL + '/api/profileActions/' + profileName,
-            headers: {
-                'Authorization': `Bearer ${token}`
+        try {
+            const response = await axios({
+                method: 'GET',
+                url: process.env.REACT_APP_SERVER_URL + '/api/profileActions/' + profileName,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setProfileActions(response.data);
+        }
+        catch(err) {
+            if(err?.response?.status === 401) {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+                localStorage.setItem("betterreadsuserinfo", null);
+                setUser(null);
             }
-        });
-        if(response.status === 401) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            localStorage.setItem("betterreadsuserinfo", null);
-            setUser(null);
+            else {
+                raiseSnackbarMessage(err.response.data.message, 'error');
+            }
         }
-
-        if(response.status !== 200) {
-            raiseSnackbarMessage(response.data.message, 'error');
-            return;
-        }
-        setProfileActions(response.data);
     }, [profileName]);
 
     /**
@@ -311,7 +313,7 @@ const Profile = () => {
                         }
                     </div>
                     <UserRatingsChart data={rating?.ratingMap} open={openReviewChart} setOpenReviewChart={setOpenReviewChart} 
-                        profileName={user?.profile?.profileName}
+                        profileName={profile?.profileName}
                     />
                 </div>
             </div>

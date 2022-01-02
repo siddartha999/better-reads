@@ -9,6 +9,7 @@
 
 .NavSideBar-item > .MuiButtonBase-root {
     color: #F4A950;
+    margin-bottom: 5rem;
 }
 
 .NavSideBar-item > .MuiButtonBase-root > .MuiListItemIcon-root > svg {
