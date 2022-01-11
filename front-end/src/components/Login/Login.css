@@ -5,6 +5,9 @@
     align-items: center;
     justify-content: center;
     background: #161B21;
+    background-size: contain;
+    background-position: center;
+    background-repeat: repeat;
 }
 
 .Login-wrapper {

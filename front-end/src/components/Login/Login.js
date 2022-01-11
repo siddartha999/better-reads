@@ -4,6 +4,8 @@ import { GoogleLogin } from 'react-google-login';
 import axios from 'axios';
 import { UserContext } from '../../contexts/UserContext';
 
+const bgImg = process.env.PUBLIC_URL + "/wp.jpg";
+
 function Login() {
     const {user, setUser} = useContext(UserContext);
     const responseGoogle = (res) => {
@@ -32,7 +34,7 @@ function Login() {
     };
 
     return(
-       <div className="Login">
+       <div className="Login" style={{backgroundImage: `url(${bgImg})`}}>
            <div className="Login-wrapper">
                 <div className="Login-header">
                     <div className="Login-header-title-wrapper">
