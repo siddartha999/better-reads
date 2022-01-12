@@ -1,5 +1,9 @@
 Better-Reads
+
+
 Live: https://better-reads-ebd1c.web.app/
+
+
 Better-Reads is a social network for Bookworms, Built using MERN stack, Material-UI and others.
 
 Attaching few snippets from the application:
@@ -52,6 +56,15 @@ Profile Component:
 
 
 ![](https://user-images.githubusercontent.com/37662337/149180653-32c2ef81-7358-460e-b652-1d990fdf66c0.png)
+
+
+![](https://user-images.githubusercontent.com/37662337/149181470-331998d1-5719-4a3c-abfe-a1bd50b1980f.png)
+
+
+![](https://user-images.githubusercontent.com/37662337/149181537-8f6e1c52-e047-4e47-b480-1d33b5f3dbff.png)
+
+
+![](https://user-images.githubusercontent.com/37662337/149181663-a8e17fc9-1cdb-413a-be40-2bdbee79fdfe.png)
 
 
 BookShelf Component:
